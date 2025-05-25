@@ -10,6 +10,7 @@ require_once("controller/SongController.php");
 require_once("controller/TourController.php");
 require_once("controller/LoginController.php");
 require_once("controller/RegisterController.php");
+require_once ("controller/LobbyController.php");
 
 require_once("model/GroupModel.php");
 require_once("model/SongModel.php");
@@ -67,6 +68,10 @@ class Configuration
     public function getRegisterController(){
         return new RegisterController
             (new RegisterModel($this->getDatabase()), $this->getViewer());
+    }
+
+    public function getLobbyController(){
+        return new LobbyController($this->getViewer());
     }
 
     public function getGroupController()
