@@ -24,11 +24,4 @@ class LoginModel
     }
 
 
-    public function add($nombre, $intrumento)
-    {
-        $sql = "INSERT INTO usuario (nombre) values ('$nombre', '$intrumento')";
-        $this->database->execute($sql);
-    }
-
-
 }

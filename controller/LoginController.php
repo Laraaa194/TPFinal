@@ -27,7 +27,7 @@ class LoginController
             if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
                 $_SESSION['usuario'] = $usuarioEncontrado['nombre'];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
-                $this->redirectTo("/TPFinal/Home/show");
+                $this->redirectTo("/TPFinal/Lobby/show");
                 exit;
             } else {
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
@@ -53,12 +53,16 @@ class LoginController
 
         $data = [];
 
+
+
         if (isset($_SESSION['error'])) {
+
             $data['error'] = $_SESSION['error'];
             unset($_SESSION['error']);  // Lo borramos para que no persista
         }
 
         if (isset($_SESSION['success'])) {
+
             $data['success'] = $_SESSION['success'];
             unset($_SESSION['success']);
         }
