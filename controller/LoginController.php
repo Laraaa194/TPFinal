@@ -14,7 +14,7 @@ class LoginController
 
     public function login()
     {
-        $this->validarSesion();
+        $this->iniciarSesion();
 
 
 
@@ -38,7 +38,7 @@ class LoginController
 
     }
 
-    private function validarSesion()
+    private function iniciarSesion()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -48,7 +48,7 @@ class LoginController
     public function show()
     {
 
-        $this->validarSesion();
+        $this->iniciarSesion();
 
 
         $data = [];
@@ -56,13 +56,11 @@ class LoginController
 
 
         if (isset($_SESSION['error'])) {
-
             $data['error'] = $_SESSION['error'];
             unset($_SESSION['error']);  // Lo borramos para que no persista
         }
 
         if (isset($_SESSION['success'])) {
-
             $data['success'] = $_SESSION['success'];
             unset($_SESSION['success']);
         }
