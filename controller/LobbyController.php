@@ -12,7 +12,8 @@ class LobbyController
     public function show()
     {
         $this->requiereLogin();
-        $this->view->render("Lobby");
+        $nombreUsuarioLogueado = $_SESSION['usuario'];
+        $this->view->render("Lobby", ['usuario' => $nombreUsuarioLogueado]);
     }
 
     private function requiereLogin()
