@@ -127,7 +127,7 @@
 <body>
 
 <div class="container registration-container">
-    <form method="POST" action="/TPFinal/Register/add">
+    <form method="POST" action="/TPFinal/Register/add" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-6">
             <img src="" alt="logo">
@@ -160,13 +160,13 @@
                     <label class="form-label">Sexo</label>
                     <div>
                         <div class="btn-group" role="group" aria-label="Selector de sexo">
-                            <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" />
+                            <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" value="Femenino"/>
                             <label class="btn btn-sexo" for="sexoF">F</label>
 
-                            <input type="radio" class="btn-check" name="sexo" id="sexoM" autocomplete="off" />
+                            <input type="radio" class="btn-check" name="sexo" id="sexoM" autocomplete="off" value="Masculino"/>
                             <label class="btn btn-sexo ms-2" for="sexoM">M</label>
 
-                            <input type="radio" class="btn-check" name="sexo" id="sexoNC" autocomplete="off" />
+                            <input type="radio" class="btn-check" name="sexo" id="sexoNC" autocomplete="off"  value="No contestar"/>
                             <label class="btn btn-sexo ms-2" for="sexoNC">No contesta</label>
                         </div>
                     </div>
@@ -207,7 +207,15 @@
             <div class="mb-auto">
                 <label class="form-label">Foto de perfil</label>
                 <div class="upload-icon-wrapper">
-                    <i class="bi bi-upload"></i>
+
+                    <!-- Ícono como botón, vinculado al input -->
+                    <label for="imagen" style="cursor: pointer;">
+                        <i class="bi bi-upload fs-2"></i>
+                    </label>
+
+                    <!-- Input oculto -->
+                    <input class="form-control d-none" type="file" id="imagen" name="imagen" accept="image/*" required>
+
                 </div>
             </div>
 

@@ -26,6 +26,24 @@ class RegisterModel
         return $result->fetch_assoc();
     }
 
+    public function getIdSexos($sexo)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT id_sexo FROM sexo WHERE descripcion = ?");
+        if (!$stmt) {
+            die("Error en prepare: " . $conn->error);
+        }
+        $stmt->bind_param("s", $sexo);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        if ($row) {
+            return $row['id_sexo'];
+        }
+        return null;
+    }
+
     public function getCorreoUsuario($correo)
     {
         $conn = $this->connect();

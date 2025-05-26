@@ -28,14 +28,15 @@ class RegisterController
             $nombre = $_POST["nombre"];
             $apellido = $_POST["apellido"];
             $anoNacimiento = $_POST["anoNacimiento"];
-            $sexo = null;
+            $sexo = $_POST["sexo"];
             $email = $_POST["correo"];
             $password = $_POST["contrasena"];
             $repetirContrasena = $_POST["repetirContrasena"];
             $nombreUsuario = $_POST["nombreUsuario"];
-            $foto = null;
+            $imagen = $_FILES['imagen']['name'];
             $pais = null;
             $ciudad = null;
+
 
 
             // Verificar si el usuario ya existe
@@ -49,21 +50,43 @@ class RegisterController
                 $_SESSION['error'] = 'Ya existe un usuario con ese correo';
                 $this->redirectTo("/TPFinal/Register/show");
 
-            }else if($this->validarContrasenia($password, $repetirContrasena)){
+            } else if ($this->validarContrasenia($password, $repetirContrasena)) {
 
                 $hash = password_hash($password, PASSWORD_DEFAULT);
 
                 $_SESSION['success'] = '¡Te registraste correctamente!';
-                $this->model->add($nombre, $apellido, $anoNacimiento,$sexo,$email,$hash,$nombreUsuario,$foto,$pais,$ciudad);
+                $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
+                $this->model->add($nombre, $apellido, $anoNacimiento, $this->getIdSexo($sexo), $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
                 $this->redirectTo("/TPFinal/Login/show");
-            }else{
+            } else {
                 $_SESSION['error'] = 'La contraseña no coincide';
                 $this->redirectTo("/TPFinal/Register/show");
             }
         }
-
-
     }
+
+    public function getIdSexo($sexo)
+    {
+        return $this->model->getIdSexos($sexo);
+    }
+    public function agregarImagen($imagen, $nombreUsuario)
+    {
+        $error = [];
+        $imagen = $_FILES['imagen']['name'];
+        $imagen_tmp = $_FILES['imagen']['tmp_name'];
+        $extension = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
+
+        $imagen_nombre = strtolower($nombreUsuario) . "." . $extension;
+        $ruta_destino = "./public/imagenesUsuarios/" . $imagen_nombre;
+
+        if (!move_uploaded_file($imagen_tmp, $ruta_destino)) {
+            $error = "Error: No se pudo subir el archivo.";
+            $this->redirectTo("/TPFinal/Register/show");
+            exit();
+        }
+            return $imagen_nombre;
+    }
+
 
     public function validarContrasenia($password, $contraseniaRepetida){
         if($password == $contraseniaRepetida) {
