@@ -12,13 +12,13 @@
     <style>
         body{
             background-image: url('../public/img/Fondo.png');
-            background-size: cover;       /* Ajusta la imagen al tamaño de la pantalla */
-            background-repeat: no-repeat; /* No repite la imagen */
-            background-position: center;  /* Centra la imagen */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             min-height: 100vh;
             display: flex;
-            justify-content: center;  /* centra horizontal */
-            align-items: center;      /* centra vertical */
+            justify-content: center;
+            align-items: center;
             font-family: 'Montserrat', sans-serif;
         }
 
@@ -26,12 +26,12 @@
             background-color: #2a34bf;
             color: #ffffff;
             border-radius: 2rem;
-            padding: 1.5rem;          /* menos padding */
+            padding: 1.5rem;
             margin: 3vh auto;
-            max-width: 900px;         /* más estrecho */
+            max-width: 900px;
             width: 90vw;
 
-            /* Sin max-height para que no limite */
+
             height: auto;
 
             display: flex;
@@ -39,7 +39,7 @@
             justify-content: center;
             box-sizing: border-box;
 
-            font-size: 0.85rem;      /* reduce tamaño de letra */
+            font-size: 0.85rem;
         }
 
         .form-control, .form-select {
@@ -62,7 +62,7 @@
             color: #a9aedb;
         }
 
-        /* Estilo para el texto blanco en el select */
+
         .form-select {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
         }
@@ -72,8 +72,8 @@
         }
 
         .btn-sexo {
-            background-color: #ffffff;  /* blanco */
-            color: #2a34bf;             /* azul oscuro */
+            background-color: #ffffff;
+            color: #2a34bf;
             border: none;
             transition: background-color 0.3s, color 0.3s;
         }
@@ -120,7 +120,7 @@
 
         .map-image {
             width: 100%;
-            filter: brightness(0) invert(1); /* Para hacer el mapa negro en fondo transparente */
+            filter: brightness(0) invert(1);
         }
     </style>
 </head>
@@ -208,7 +208,7 @@
                 <label class="form-label">Foto de perfil</label>
                 <div class="upload-icon-wrapper">
 
-                    <!-- Ícono como botón, vinculado al input -->
+
                     <label for="imagen" style="cursor: pointer;">
                         <i class="bi bi-upload fs-2"></i>
                     </label>
