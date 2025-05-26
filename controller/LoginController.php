@@ -14,7 +14,7 @@ class LoginController
 
     public function login()
     {
-        $this->validarSesion();
+        $this->iniciarSesion();
 
 
 
@@ -27,7 +27,7 @@ class LoginController
             if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
                 $_SESSION['usuario'] = $usuarioEncontrado['nombre'];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
-                $this->redirectTo("/TPFinal/Home/show");
+                $this->redirectTo("/TPFinal/Lobby/show");
                 exit;
             } else {
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
@@ -38,7 +38,7 @@ class LoginController
 
     }
 
-    private function validarSesion()
+    private function iniciarSesion()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -48,10 +48,12 @@ class LoginController
     public function show()
     {
 
-        $this->validarSesion();
+        $this->iniciarSesion();
 
 
         $data = [];
+
+
 
         if (isset($_SESSION['error'])) {
             $data['error'] = $_SESSION['error'];

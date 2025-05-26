@@ -1,0 +1,14 @@
+.idea/
+vendor/
+.env
+*.log
+node_modules/
+*.sqlite
+*.bak
+.idea/
+vendor/
+.env
+*.log
+node_modules/
+*.sqlite
+*.bak

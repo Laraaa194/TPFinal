@@ -19,6 +19,7 @@
             display: flex;
             justify-content: center;  /* centra horizontal */
             align-items: center;      /* centra vertical */
+            font-family: 'Montserrat', sans-serif;
         }
 
         .registration-container {
@@ -124,16 +125,23 @@
     </style>
 </head>
 <body>
+
 <div class="container registration-container">
+    <form method="POST" action="/TPFinal/Register/add" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-6">
             <img src="" alt="logo">
             <h4 class="fw-light mb-3">REGÍSTRATE</h4>
 
-            <form>
+
                 <div class="mb-3">
-                    <label for="nombreCompleto" class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" id="nombreCompleto" />
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" name="apellido" />
                 </div>
 
                 <div class="mb-3">
@@ -152,13 +160,13 @@
                     <label class="form-label">Sexo</label>
                     <div>
                         <div class="btn-group" role="group" aria-label="Selector de sexo">
-                            <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" />
+                            <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" value="Femenino"/>
                             <label class="btn btn-sexo" for="sexoF">F</label>
 
-                            <input type="radio" class="btn-check" name="sexo" id="sexoM" autocomplete="off" />
+                            <input type="radio" class="btn-check" name="sexo" id="sexoM" autocomplete="off" value="Masculino"/>
                             <label class="btn btn-sexo ms-2" for="sexoM">M</label>
 
-                            <input type="radio" class="btn-check" name="sexo" id="sexoNC" autocomplete="off" />
+                            <input type="radio" class="btn-check" name="sexo" id="sexoNC" autocomplete="off"  value="No contestar"/>
                             <label class="btn btn-sexo ms-2" for="sexoNC">No contesta</label>
                         </div>
                     </div>
@@ -166,19 +174,19 @@
 
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="correo" />
+                    <input type="email" class="form-control" name="correo" />
                 </div>
 
                 <div class="mb-3">
                     <label for="contrasena" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="contrasena" />
+                    <input type="password" class="form-control" name="contrasena" />
                 </div>
 
                 <div class="mb-3">
                     <label for="repetirContrasena" class="form-label">Repetir contraseña</label>
-                    <input type="password" class="form-control" id="repetirContrasena" />
+                    <input type="password" class="form-control" name="repetirContrasena" />
                 </div>
-            </form>
+
         </div>
 
         <div class="col-lg-6 d-flex flex-column">
@@ -193,13 +201,21 @@
 
             <div class="mb-3">
                 <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-control" id="nombreUsuario" />
+                <input type="text" class="form-control" name="nombreUsuario" />
             </div>
 
             <div class="mb-auto">
                 <label class="form-label">Foto de perfil</label>
                 <div class="upload-icon-wrapper">
-                    <i class="bi bi-upload"></i>
+
+                    <!-- Ícono como botón, vinculado al input -->
+                    <label for="imagen" style="cursor: pointer;">
+                        <i class="bi bi-upload fs-2"></i>
+                    </label>
+
+                    <!-- Input oculto -->
+                    <input class="form-control d-none" type="file" id="imagen" name="imagen" accept="image/*" required>
+
                 </div>
             </div>
 
@@ -208,6 +224,8 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
+
 </body>
 </html>
