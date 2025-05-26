@@ -11,12 +11,14 @@ require_once("controller/TourController.php");
 require_once("controller/LoginController.php");
 require_once("controller/RegisterController.php");
 require_once ("controller/LobbyController.php");
+require_once("controller/PerfilController.php");
 
 require_once("model/GroupModel.php");
 require_once("model/SongModel.php");
 require_once("model/TourModel.php");
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
+require_once("model/PerfilModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -63,6 +65,12 @@ class Configuration
     public function getLoginController(){
         return new LoginController
         (new LoginModel($this->getDatabase()), $this->getViewer());
+    }
+
+    public function getPerfilController()
+    {
+        return new PerfilController
+        (new PerfilModel($this->getDatabase()), $this->getViewer());
     }
 
     public function getRegisterController(){

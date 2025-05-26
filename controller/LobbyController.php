@@ -2,18 +2,29 @@
 
 class LobbyController
 {
-
-    //private $model;
     private $view;
 
     public function __construct($view)
     {
-
         $this->view = $view;
     }
 
-    public function show (){
+    public function show()
+    {
+        $this->requiereLogin();
         $this->view->render("Lobby");
     }
 
+    private function requiereLogin()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['usuario'])) {
+            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
+            header("Location: /TPFinal/Login/show");
+            exit;
+        }
+    }
 }
