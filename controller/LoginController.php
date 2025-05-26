@@ -16,8 +16,6 @@ class LoginController
     {
         $this->iniciarSesion();
 
-
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = $_POST['usuario'] ?? '';
             $contrasenia = $_POST['contrasenia'] ?? '';
@@ -25,7 +23,7 @@ class LoginController
             $usuarioEncontrado = $this->model->getUsuario($usuario);
 
             if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
-                $_SESSION['usuario'] = $usuarioEncontrado['nombre'];
+                $_SESSION['usuario'] = $usuarioEncontrado['nombre_usuario'];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
                 $this->redirectTo("/TPFinal/Lobby/show");
                 exit;
@@ -72,6 +70,13 @@ class LoginController
     {
         header("Location: " . $str);
         exit();
+    }
+
+    public function logOut(){
+        session_start();
+        session_unset();
+        session_destroy();
+        $this->redirectTo("/TPFinal/home/show");
     }
 
 
