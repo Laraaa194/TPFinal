@@ -79,7 +79,8 @@ class Configuration
     }
 
     public function getLobbyController(){
-        return new LobbyController($this->getViewer());
+        return new LobbyController
+        ($this->getViewer());
     }
 
     public function getGroupController()
