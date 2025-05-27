@@ -1,118 +1,61 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil Jugador</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #e8f5d3;
-        }
-        .qr-section {
-            background-color: #c9ddc7;
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        .qr-label {
-            border: 2px solid green;
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 8px;
-            font-weight: bold;
-            background-color: white;
-            margin-bottom: 1rem;
-        }
-        .qr-code {
-            width: 200px;
-            height: 200px;
-            object-fit: contain;
-        }
-        .form-label {
-            font-weight: bold;
-            color: #0b8f3e;
-        }
-        .form-line {
-            border: none;
-            border-bottom: 2px solid #0b8f3e;
-            width: 100%;
-            background: transparent;
-            outline: none;
-            margin-bottom: 1.2rem;
-            padding: 0.3rem 0;
-        }
-        .form-line:focus {
-            outline: none;
-            box-shadow: none;
-        }
-        .world-map {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-        }
-    </style>
-</head>
 
-<body>
+<main>
 
-<header>
-    <!-- NAVBAR HORIZONTAL -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/TPFinal/Lobby/show">
-                <img src="tu-logo.png" alt="Logo">
-            </a>
-        </div>
-    </nav>
-</header>
+    <div class="container mt-2">
+        <div class="row align-items-center">
 
-<div class="container mt-5">
-    <div class="row align-items-center">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                {{#usuario}}
+                    <div style="width: 13em; height: 13em;">
+                        <form method="POST" action="/TPFinal/Perfil/cambiarFoto" enctype="multipart/form-data">
+                            <div style="width: 13em; height: 13em; position: relative;">
+                                <img src="../public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil del jugador"
+                                     class="rounded-circle shadow border"
+                                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
 
-        <div class="col-md-4 d-flex justify-content-center align-items-center">
-            {{#usuario}}
-                <div style="width: 13em; height: 13em;">
-                    <img src="../public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil del jugador"
-                         class="rounded-circle shadow border"
-                         style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                </div>
-            {{/usuario}}
-        </div>
+                                <!-- Ícono flotante -->
+                                <label for="nuevaFoto" class="cambiarFoto ">
+                                    <i class="bi bi-camera-fill"></i>
+                                </label>
 
-        <div class="col-md-8">
-            {{#usuario}}
-                <div class="mb-3">
-                    <label class="form-label">Nombre</label>
-                    <p class="form-line">{{nombre}}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Apellido</label>
-                    <p class="form-line">{{apellido}}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Usuario</label>
-                    <p class="form-line">{{nombre_usuario}}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <p class="form-line">{{email}}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Año de nacimiento</label>
-                    <p class="form-line">{{anio_nacimiento}}</p>
-                </div>
-                <div class="text-end">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/World_map_blank_black.svg/1200px-World_map_blank_black.svg.png" alt="Mapa del mundo" class="world-map">
-                </div>
-            {{/usuario}}
+                                <!-- Input oculto -->
+                                <input id="nuevaFoto" class="d-none" type="file" name="imagen" accept="image/*" onchange="this.form.submit()">
+                            </div>
+                        </form>
+
+
+                    </div>
+                {{/usuario}}
+            </div>
+
+            <div class="col-md-8">
+                {{#usuario}}
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <p class="form-line">{{nombre}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellido</label>
+                        <p class="form-line">{{apellido}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Usuario</label>
+                        <p class="form-line">{{nombre_usuario}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <p class="form-line">{{email}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Año de nacimiento</label>
+                        <p class="form-line">{{anio_nacimiento}}</p>
+                    </div>
+                    <div class="text-end">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/World_map_blank_black.svg/1200px-World_map_blank_black.svg.png" alt="Mapa del mundo" class="world-map">
+                    </div>
+                {{/usuario}}
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+</main>

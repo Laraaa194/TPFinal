@@ -108,6 +108,8 @@ class RegisterController
             $dataRegister['success'] = $_SESSION['success'];
             unset($_SESSION['success']);
         }
+        $dataRegister['pagina'] = 'register';
+        $dataRegister['rutaLogo']= '/TPFinal/Home/show';
         $this->view->render("Register", $dataRegister);
     }
 

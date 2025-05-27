@@ -13,7 +13,10 @@ class LobbyController
     {
         $this->requiereLogin();
         $nombreUsuarioLogueado = $_SESSION['usuario'];
-        $this->view->render("Lobby", ['usuario' => $nombreUsuarioLogueado]);
+        $this->view->render("Lobby",
+            ['usuario' => $nombreUsuarioLogueado,
+            'pagina' => 'lobby',
+            'rutaLogo' => '/TPFinal/Lobby/show' ]);
     }
 
     private function requiereLogin()

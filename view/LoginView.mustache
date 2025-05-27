@@ -1,96 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body{
-            background-image: url('../public/img/Fondo.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .login-box {
-            background-color: #2a34bf;
-            color: white;
-            border-radius: 20px;
-            max-width: 400px;
-            width: 70vw;
-            padding: 40px 30px;
-            margin: 0 auto;
-        }
-        .form-control::placeholder {
-            color: #ccc;
-        }
-        .form-label {
-            margin-top: 15px;
-        }
-        .login-btn {
-            border: 1px solid white;
-            color: white;
-        }
-        .login-btn:hover {
-            background-color: white;
-            color: #2a34bf;
-        }
-        .text-link {
-            font-size: 0.8rem;
-        }
-        .input-underline {
-            background-color: transparent;
-            border: none;
-            border-bottom: 1px solid white;
-            border-radius: 0;
-            color: white;
-        }
-        .input-underline:focus {
-            outline: none;
-            box-shadow: none;
-            border-bottom: 2px solid #ffffff;
-            background-color: transparent;
-        }
 
-    </style>
-</head>
-<body class="d-flex align-items-center justify-content-center min-vh-100">
 
-<div class="login-box text-center">
-    <h1 class="mb-4 fw-bold">Logo</h1>
-    <h5 class="mb-4">INICIO SESIÓN</h5>
+<main>
+    <div class="login-box text-center estiloLogin">
+        <h2 class="mb-4 fw-bold">Logo</h2>
+        <h5 class="mb-2">INICIO SESIÓN</h5>
 
-    <form method="POST" action="/TPFinal/Login/login">
-        <div class="mb-3 text-start">
-            <label class="form-label">Usuario</label>
-            <input name="usuario" type="text" class="form-control input-underline" style="color:white" >
-        </div>
-        <div class="mb-1 text-start position-relative">
-            <label class="form-label">Contraseña</label>
-            <input name="contrasenia" type="password" class="form-control input-underline" style="color:white">
+        <form method="POST" action="/TPFinal/Login/login">
+            <div class="mb-3 text-start">
+                <label class="form-label">Usuario</label>
+                <input name="usuario" type="text" class="form-control input-underline" style="color:white" >
+            </div>
+            <div class="mb-1 text-start position-relative">
+                <label class="form-label">Contraseña</label>
+                <input name="contrasenia" type="password" class="form-control input-underline" style="color:white">
 
-      </span>
-        </div>
-        <div class="text-end text-link mb-3">
-            <a href="#" class="text-white text-decoration-none">¿Olvidaste tu contraseña?</a>
-        </div>
-        <button type="submit" class="btn login-btn w-100 mb-3 p-3">INICIAR SESIÓN</button>
-        <div class="text-link">
-            ¿No tienes cuenta? <a href="/TPFinal/Register/show" class="fw-bold text-white text-decoration-none">Regístrate</a>
-        </div>
-    </form>
-</div>
+          </span>
+            </div>
+            <div class="text-end text-link mb-3">
+                <a href="#" class="text-white text-decoration-none">¿Olvidaste tu contraseña?</a>
+            </div>
+            <button type="submit" class="btn login-btn w-100 mb-3 p-3">INICIAR SESIÓN</button>
+            <div class="text-link">
+                ¿No tienes cuenta? <a href="/TPFinal/Register/show" class="fw-bold text-white text-decoration-none">Regístrate</a>
+            </div>
+        </form>
+    </div>
+</main>
 
-</body>
-</html>

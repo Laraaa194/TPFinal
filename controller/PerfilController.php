@@ -28,6 +28,9 @@ class PerfilController
             }
         }
 
+        $usuarioVista['pagina'] = 'perfil';
+        $usuarioVista['rutaLogo']= '/TPFinal/Lobby/show';
+
         $this->view->render("Perfil", $usuarioVista);
     }
     private function requiereLogin()
