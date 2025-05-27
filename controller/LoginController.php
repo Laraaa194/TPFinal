@@ -52,7 +52,6 @@ class LoginController
         $data = [];
 
 
-
         if (isset($_SESSION['error'])) {
             $data['error'] = $_SESSION['error'];
             unset($_SESSION['error']);  // Lo borramos para que no persista
