@@ -1,9 +1,19 @@
 
 
 <main>
-    <div class="login-box text-center estiloLogin">
+    <div class="login-box text-center estiloLogin ">
         <h2 class="mb-4 fw-bold">Logo</h2>
         <h5 class="mb-2">INICIO SESIÓN</h5>
+
+
+        {{#error}}
+            <div class="alert alert-danger d-flex align-items-center justify-content-between shadow-sm rounded-3 p-3 mt-3" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+                    <span class="fw-semibold">{{error}}</span>
+                </div>
+            </div>
+        {{/error}}
 
         <form method="POST" action="/TPFinal/Login/login">
             <div class="mb-3 text-start">

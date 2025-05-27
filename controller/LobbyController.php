@@ -11,12 +11,18 @@ class LobbyController
 
     public function show()
     {
+        $data = [];
         $this->requiereLogin();
-        $nombreUsuarioLogueado = $_SESSION['usuario'];
-        $this->view->render("Lobby",
-            ['usuario' => $nombreUsuarioLogueado,
-            'pagina' => 'lobby',
-            'rutaLogo' => '/TPFinal/Lobby/show' ]);
+        if (isset($_SESSION['success'])) {
+            $data['success'] = $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
+
+        $data['usuario'] = $_SESSION['usuario'];
+        $data['pagina'] = 'lobby';
+        $data['rutaLogo'] = '/TPFinal/Lobby/show';
+
+        $this->view->render("Lobby", $data);
     }
 
     private function requiereLogin()

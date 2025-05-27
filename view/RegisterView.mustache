@@ -1,5 +1,6 @@
 <main>
     <div class="container registration-container ">
+
         <form method="POST" action="/TPFinal/Register/add" enctype="multipart/form-data">
         <div class="row">
 
@@ -48,6 +49,9 @@
                     <div class="mb-2">
                         <label for="correo" class="form-label fw-bold mb-1">Correo electrónico</label>
                         <input type="email" class="form-control" name="correo" />
+                        {{#errors.correo}}
+                            <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.correo}}</div>
+                        {{/errors.correo}}
                     </div>
 
                     <div class="mb-2">
@@ -58,6 +62,9 @@
                     <div class="mb-2">
                         <label for="repetirContrasena" class="form-label fw-bold mb-1">Repetir contraseña</label>
                         <input type="password" class="form-control" name="repetirContrasena" />
+                        {{#errors.contrasena}}
+                            <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.contrasena}}</div>
+                        {{/errors.contrasena}}
                     </div>
 
             </div>
@@ -75,6 +82,9 @@
                 <div class="mb-2">
                     <label for="nombreUsuario" class="form-label fw-bold mb-1">Nombre de usuario</label>
                     <input type="text" class="form-control" name="nombreUsuario" />
+                    {{#errors.nombreUsuario}}
+                        <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.nombreUsuario}}</div>
+                    {{/errors.nombreUsuario}}
                 </div>
 
                 <div class="mb-auto">
@@ -86,7 +96,7 @@
                             <i class="bi bi-upload fs-2"></i>
                         </label>
 
-                        <input class="form-control d-none" type="file" id="imagen" name="imagen" accept="image/*" required>
+                        <input class="form-control d-none" type="file" id="imagen" name="imagen" accept="image/*">
 
                     </div>
                 </div>

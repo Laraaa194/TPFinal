@@ -20,7 +20,12 @@ class RegisterController
 
     public function add()
     {
+        $dataRegister['errors'] = [
+            'nombreUsuario',
+            'correo',
+            'contrasena',
 
+        ];
         $this->iniciarSesion();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -38,30 +43,27 @@ class RegisterController
             $ciudad = null;
 
 
-
-            // Verificar si el usuario ya existe
-
             if ($this->model->getUsuario($nombreUsuario) !== null) {
-                $_SESSION['error'] = 'Ya existe un usuario con ese nombre';
-                $this->redirectTo("/TPFinal/Register/show");
+                $_SESSION['errors']['nombreUsuario'] = 'Ya existe un usuario con ese nombre';
             }
 
             if ($this->model->getCorreoUsuario($email) !== null) {
-                $_SESSION['error'] = 'Ya existe un usuario con ese correo';
-                $this->redirectTo("/TPFinal/Register/show");
+                $_SESSION['errors']['correo'] = 'Ya existe un usuario con ese correo';
+            }
 
-            } else if ($this->validarContrasenia($password, $repetirContrasena)) {
+            if (!$this->validarContrasenia($password, $repetirContrasena)) {
+                $_SESSION['errors']['contrasena'] = 'La contraseña no coincide';
+            }
 
-                $hash = password_hash($password, PASSWORD_DEFAULT);
-
-                $_SESSION['success'] = '¡Te registraste correctamente!';
-                $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
-                $this->model->add($nombre, $apellido, $anoNacimiento, $this->getIdSexo($sexo), $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
-                $this->redirectTo("/TPFinal/Login/show");
-            } else {
-                $_SESSION['error'] = 'La contraseña no coincide';
+            if (!empty($_SESSION['errors'])) {
                 $this->redirectTo("/TPFinal/Register/show");
             }
+
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $_SESSION['success'] = '¡Te registraste correctamente!';
+            $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
+            $this->model->add($nombre, $apellido, $anoNacimiento, $this->getIdSexo($sexo), $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
+            $this->redirectTo("/TPFinal/Login/show");
         }
     }
 
@@ -100,10 +102,11 @@ class RegisterController
         $this->iniciarSesion();
         $dataRegister = [];
 
-        if (isset($_SESSION['error'])) {
-            $dataRegister['error'] = $_SESSION['error'];
-            unset($_SESSION['error']);
+        if (isset($_SESSION['errors'])) {
+            $dataRegister['errors'] = $_SESSION['errors'];
+            unset($_SESSION['errors']);
         }
+
         if (isset($_SESSION['success'])) {
             $dataRegister['success'] = $_SESSION['success'];
             unset($_SESSION['success']);

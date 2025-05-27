@@ -31,8 +31,8 @@
             background-repeat: no-repeat;
             background-position: center;
             min-height: 100vh;
-
-
+            padding: 0; /* Evita espacio extra */
+            margin: 0;
         }
         .lobby, .perfil {
             background-color: #e6f5c9;
@@ -42,6 +42,7 @@
             flex-direction: column;
             justify-content: center;
             color: #009246;
+
         }
         .estiloLogin{
             display: flex;
@@ -242,7 +243,7 @@
             transform: translateY(-1px);
             box-shadow: 0 6px 14px rgba(255, 77, 77, 0.4);
         }
-        .form-label {
+        .form-label-perfil {
             font-weight: bold;
             color: #0b8f3e;
         }
@@ -280,6 +281,32 @@
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
             border: 2px solid white;
+        }
+        .custom-alert {
+            position: relative;
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+            padding: 1rem 2.5rem 1rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 128, 0, 0.1);
+        }
+
+        .alert-text {
+            display: inline-block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.8rem;
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            color: #0f5132;
+            cursor: pointer;
         }
     </style>
 </head>

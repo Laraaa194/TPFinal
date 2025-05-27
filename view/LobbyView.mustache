@@ -8,6 +8,13 @@
 
     <div class="container text-center mt-4">
 
+        {{#success}}
+
+            <div class="custom-alert">
+                <span class="alert-text">✔️ {{success}}</span>
+                <button class="close-btn" onclick="this.parentElement.style.display='none';">✕</button>
+            </div>
+        {{/success}}
         <div class="d-flex justify-content-center align-items-center mb-2">
             <a href="/TPFinal/Perfil/show" style="text-decoration: none">
                 <h1 class="fw-bold text-primary">{{usuario}}</h1>
