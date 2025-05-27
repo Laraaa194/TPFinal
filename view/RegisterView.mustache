@@ -1,230 +1,111 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Registro</title>
+<main>
+    <div class="container registration-container ">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <form method="POST" action="/TPFinal/Register/add" enctype="multipart/form-data">
+        <div class="row">
 
-    <style>
-        body{
-            background-image: url('../public/img/Fondo.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .registration-container {
-            background-color: #2a34bf;
-            color: #ffffff;
-            border-radius: 2rem;
-            padding: 1.5rem;
-            margin: 3vh auto;
-            max-width: 900px;
-            width: 90vw;
+            <div class="col-lg-6">
+                <h5 class="fw-normal">REGÍSTRATE</h5>
 
 
-            height: auto;
+                    <div class="mb-2">
+                        <label for="nombre" class="form-label fw-bold mb-1">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" />
+                    </div>
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-sizing: border-box;
+                    <div class="mb-2">
+                        <label for="apellido" class="form-label fw-bold mb-1">Apellido</label>
+                        <input type="text" class="form-control" name="apellido" />
+                    </div>
 
-            font-size: 0.85rem;
-        }
+                    <div class="mb-2">
+                        <label for="anoNacimiento" class="form-label fw-bold mb-1">Año de nacimiento</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="anoNacimiento"
+                                name="anoNacimiento"
+                                pattern="\d{4}"
+                                maxlength="4"
+                        />
+                    </div>
 
-        .form-control, .form-select {
-            background-color: transparent;
-            border: none;
-            border-bottom: 1px solid #ffffff;
-            border-radius: 0;
-            color: #ffffff;
-            padding: 1px;
-        }
+                    <div class="mb-2">
+                        <label class="form-label fw-bold mb-1">Sexo</label>
+                        <div>
+                            <div class="btn-group" role="group" aria-label="Selector de sexo">
+                                <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" value="Femenino"/>
+                                <label class="btn btn-sexo" for="sexoF">F</label>
 
-        .form-control:focus, .form-select:focus {
-            background-color: transparent;
-            box-shadow: none;
-            border-color: #a9aedb;
-            color: #ffffff;
-        }
+                                <input type="radio" class="btn-check" name="sexo" id="sexoM" autocomplete="off" value="Masculino"/>
+                                <label class="btn btn-sexo ms-2" for="sexoM">M</label>
 
-        .form-control::placeholder {
-            color: #a9aedb;
-        }
+                                <input type="radio" class="btn-check" name="sexo" id="sexoNC" autocomplete="off"  value="No contestar"/>
+                                <label class="btn btn-sexo ms-2" for="sexoNC">No contesta</label>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="mb-2">
+                        <label for="correo" class="form-label fw-bold mb-1">Correo electrónico</label>
+                        <input type="email" class="form-control" name="correo" />
+                        {{#errors.correo}}
+                            <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.correo}}</div>
+                        {{/errors.correo}}
+                    </div>
 
-        .form-select {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-        }
+                    <div class="mb-2">
+                        <label for="contrasena" class="form-label fw-bold mb-1">Contraseña</label>
+                        <input type="password" class="form-control" name="contrasena" />
+                    </div>
 
-        .form-select option {
-            color: #000000;
-        }
+                    <div class="mb-2">
+                        <label for="repetirContrasena" class="form-label fw-bold mb-1">Repetir contraseña</label>
+                        <input type="password" class="form-control" name="repetirContrasena" />
+                        {{#errors.contrasena}}
+                            <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.contrasena}}</div>
+                        {{/errors.contrasena}}
+                    </div>
 
-        .btn-sexo {
-            background-color: #ffffff;
-            color: #2a34bf;
-            border: none;
-            transition: background-color 0.3s, color 0.3s;
-        }
+            </div>
 
-
-        .btn-check:checked + .btn-sexo {
-            background-color: #717cdb;
-            color: #2a34bf;
-        }
-
-        .upload-icon-wrapper {
-            width: 100px;
-            height: 100px;
-            background-color: #ffffff;
-            color: #2a34bf;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .upload-icon-wrapper:hover {
-            background-color: #e2e6ea;
-        }
-
-        .upload-icon-wrapper i {
-            font-size: 3rem;
-        }
-
-        .btn-registrarse {
-            background-color: transparent;
-            border: 1px solid #ffffff;
-            color: #ffffff;
-            padding: 0.5rem 2rem;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .btn-registrarse:hover {
-            background-color: #ffffff;
-            color: #2a34bf;
-        }
-
-        .map-image {
-            width: 100%;
-            filter: brightness(0) invert(1);
-        }
-    </style>
-</head>
-<body>
-
-<div class="container registration-container">
-    <form method="POST" action="/TPFinal/Register/add" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-lg-6">
-            <img src="" alt="logo">
-            <h4 class="fw-light mb-3">REGÍSTRATE</h4>
-
-
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" name="apellido" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="anoNacimiento" class="form-label">Año de nacimiento</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="anoNacimiento"
-                            name="anoNacimiento"
-                            pattern="\d{4}"
-                            maxlength="4"
+            <div class="col-lg-6 d-flex flex-column">
+                <div class="mb-2 mt-5">
+                    <label class="form-label fw-bold mb-2 d-block" >País y ciudad</label>
+                    <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/World_map_ISO_3166-1_alpha-2_black.svg/1280px-World_map_ISO_3166-1_alpha-2_black.svg.png"
+                            alt="Mapa del mundo"
+                            class="map-image"
                     />
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Sexo</label>
-                    <div>
-                        <div class="btn-group" role="group" aria-label="Selector de sexo">
-                            <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" value="Femenino"/>
-                            <label class="btn btn-sexo" for="sexoF">F</label>
+                <div class="mb-2">
+                    <label for="nombreUsuario" class="form-label fw-bold mb-1">Nombre de usuario</label>
+                    <input type="text" class="form-control" name="nombreUsuario" />
+                    {{#errors.nombreUsuario}}
+                        <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.nombreUsuario}}</div>
+                    {{/errors.nombreUsuario}}
+                </div>
 
-                            <input type="radio" class="btn-check" name="sexo" id="sexoM" autocomplete="off" value="Masculino"/>
-                            <label class="btn btn-sexo ms-2" for="sexoM">M</label>
+                <div class="mb-auto">
+                    <label class="form-label fw-bold mb-3">Foto de perfil</label>
+                    <div class="upload-icon-wrapper">
 
-                            <input type="radio" class="btn-check" name="sexo" id="sexoNC" autocomplete="off"  value="No contestar"/>
-                            <label class="btn btn-sexo ms-2" for="sexoNC">No contesta</label>
-                        </div>
+
+                        <label for="imagen" style="cursor: pointer;">
+                            <i class="bi bi-upload fs-2"></i>
+                        </label>
+
+                        <input class="form-control d-none" type="file" id="imagen" name="imagen" accept="image/*">
+
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="correo" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" name="correo" />
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-registrarse fw-bold">REGISTRARSE</button>
                 </div>
-
-                <div class="mb-3">
-                    <label for="contrasena" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" name="contrasena" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="repetirContrasena" class="form-label">Repetir contraseña</label>
-                    <input type="password" class="form-control" name="repetirContrasena" />
-                </div>
-
-        </div>
-
-        <div class="col-lg-6 d-flex flex-column">
-            <div class="mb-3">
-                <label class="form-label">País y ciudad</label>
-                <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/World_map_ISO_3166-1_alpha-2_black.svg/1280px-World_map_ISO_3166-1_alpha-2_black.svg.png"
-                        alt="Mapa del mundo"
-                        class="map-image"
-                />
-            </div>
-
-            <div class="mb-3">
-                <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-control" name="nombreUsuario" />
-            </div>
-
-            <div class="mb-auto">
-                <label class="form-label">Foto de perfil</label>
-                <div class="upload-icon-wrapper">
-
-
-                    <label for="imagen" style="cursor: pointer;">
-                        <i class="bi bi-upload fs-2"></i>
-                    </label>
-
-                    <input class="form-control d-none" type="file" id="imagen" name="imagen" accept="image/*" required>
-
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-end mt-4">
-                <button type="submit" class="btn btn-registrarse fw-bold">REGISTRARSE</button>
             </div>
         </div>
+        </form>
     </div>
-    </form>
-</div>
-
-</body>
-</html>
+</main>

@@ -62,7 +62,11 @@ class LoginController
             unset($_SESSION['success']);
         }
 
-        $this->view->render("Login", $data);
+        $data['pagina'] = 'login';
+        $data['rutaLogo']= '/TPFinal/Home/show';
+
+        $this->view->render("Login",
+            $data);
 
     }
     private function redirectTo($str)

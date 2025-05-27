@@ -1,53 +1,324 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<title>W3.CSS Template</title>-->
-<!--<meta charset="UTF-8">-->
-<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">-->
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
-
-<!--<body>-->
-
-<!--&lt;!&ndash; Navbar &ndash;&gt;-->
-<!--<div class="w3-top">-->
-<!--    <div class="w3-bar w3-black w3-card">-->
-<!--        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>-->
-<!--        <a href="/TPFinal/" class="w3-bar-item w3-button w3-padding-large">La banda</a>-->
-<!--        <a href="/TPFinal/song/listar" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Canciones</a>-->
-<!--        <a href="/TPFinal/tour/listar" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Presentaciones</a>-->
-<!--        <a href="/TPFinal/group/request" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Sumarme</a>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Page content &ndash;&gt;-->
-<!--<div class="w3-content" style="max-width:2000px;margin-top:46px">-->
 
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TpFinal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .navbar {
+            background-color: transparent !important;
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+        }
+        .home, .login, .register{
+            background-image: url('/TPFinal/public/img/Fondo.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            padding: 0; /* Evita espacio extra */
+            margin: 0;
+        }
+        .lobby, .perfil {
+            background-color: #e6f5c9;
+        }
+        .estiloPagInicio {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #009246;
+
+        }
+        .estiloLogin{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .login-box {
+            background-color: #2a34bf;
+            color: white;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 70vw;
+            padding: 30px;
+            margin: 0 auto;
+        }
+        .form-control::placeholder {
+            color: #ccc;
+        }
+        .form-label {
+            margin-top: 15px;
+        }
+        .login-btn {
+            border: 1px solid white;
+            color: white;
+        }
+        .login-btn:hover {
+            background-color: white;
+            color: #2a34bf;
+        }
+        .text-link {
+            font-size: 0.8rem;
+        }
+        .input-underline {
+
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid white;
+            border-radius: 0;
+            color: white;
+        }
+        .input-underline:focus {
+            outline: none;
+            box-shadow: none;
+            border-bottom: 2px solid #ffffff;
+            background-color: transparent;
+        }
+        .registration-container {
+            background-color: #2a34bf;
+            color: #ffffff;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin: 3vh auto;
+            max-width: 900px;
+            width: 90vw;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
+            font-size: 0.80rem;
+        }
+
+        .form-control {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #ffffff;
+            border-radius: 0;
+            color: #ffffff;
+            padding: 1px;
+            width: 95%;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: transparent;
+            box-shadow: none;
+            border-color: #a9aedb;
+            color: #ffffff;
+        }
+
+        .form-control::placeholder {
+            color: #a9aedb;
+        }
 
 
-<!--<!DOCTYPE html>-->
-<!--<html lang="es">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8" />-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1" />-->
-<!--    <title>Navbar solo con imagen</title>-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />-->
-<!--    <style>-->
-<!--        .navbar {-->
-<!--            background-color: transparent !important;-->
-<!--        }-->
-<!--        .navbar-brand imagenesUsuarios {-->
-<!--            height: 50px;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
+        .form-select option {
+            color: #000000;
+        }
 
-<!--<nav class="navbar">-->
-<!--    <div class="container-fluid">-->
-<!--        <a class="navbar-brand" href="#">-->
-<!--            <imagenesUsuarios src="tu-logo.png" alt="Logo">-->
-<!--        </a>-->
-<!--    </div>-->
-<!--</nav>-->
+        .btn-sexo {
+            background-color: #ffffff;
+            color: #2a34bf;
+            border: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+
+        .btn-check:checked + .btn-sexo {
+            background-color: #717cdb;
+            color: #2a34bf;
+        }
+
+        .upload-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            background-color: #ffffff;
+            color: #2a34bf;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .upload-icon-wrapper:hover {
+            background-color: #e2e6ea;
+        }
+
+        .upload-icon-wrapper i {
+            font-size: 3rem;
+        }
+
+        .btn-registrarse {
+            background-color: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 0.5rem 2rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-registrarse:hover {
+            background-color: #ffffff;
+            color: #2a34bf;
+        }
+
+        .map-image {
+            width: 100%;
+            filter: brightness(0) invert(1);
+        }
+
+
+        .score-circle {
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px gray;
+            margin-left: 10px;
+        }
+        .game-box {
+            background-color: #b2d8b2;
+            border: 2px solid green;
+            border-radius: 10px;
+            height: 50px;
+        }
+        .rounded-btn {
+
+            background: linear-gradient(145deg, #2a34bf, #3c45d1);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease-in-out;
+        }
+        .rounded-btn:hover{
+            background: linear-gradient(145deg, #3c45d1, #2a34bf);
+            box-shadow: 0 6px 14px rgba(42, 52, 191, 0.6);
+            transform: scale(1.05);
+
+        }
+
+        .logout-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 999;
+
+        }
+        .logout-btn {
+            background: rgba(255, 77, 77, 0.15); /* rojo claro transparente */
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            backdrop-filter: blur(6px); /* efecto glass */
+            transition: all 0.3s ease;
+        }
+        .logout-btn:hover{
+            background-color: #ff4d4d;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(255, 77, 77, 0.4);
+        }
+        .form-label-perfil {
+            font-weight: bold;
+            color: #0b8f3e;
+        }
+        .form-line {
+            border: none;
+            border-bottom: 2px solid #0b8f3e;
+            width: 100%;
+            background: transparent;
+            outline: none;
+            margin-bottom: 1.2rem;
+            padding: 0.3rem 0;
+        }
+        .form-line:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        .world-map {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+        .cambiarFoto{
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #0b8f3e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            border: 2px solid white;
+        }
+        .custom-alert {
+            position: relative;
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+            padding: 1rem 2.5rem 1rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 128, 0, 0.1);
+        }
+
+        .alert-text {
+            display: inline-block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.8rem;
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            color: #0f5132;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="{{pagina}}">
+
+<header>
+
+    <nav class="navbar navbar-expand-lg mb-1">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{rutaLogo}}">
+                <img src="tu-logo.png" alt="Logo">
+            </a>
+        </div>
+    </nav>
+</header>
