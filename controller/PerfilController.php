@@ -19,10 +19,15 @@ class PerfilController
         if (isset($_SESSION['usuario'])) {
             $nombreUsuarioLogueado = $_SESSION['usuario'];
             $datosUsuario = $this->model->getUsuario($nombreUsuarioLogueado);
+
             if ($datosUsuario) {
+                if (empty($datosUsuario['foto_perfil'])) {
+                    $datosUsuario['foto_perfil'] = 'default.png';
+                }
                 $usuarioVista['usuario'] = $datosUsuario;
             }
         }
+
         $this->view->render("Perfil", $usuarioVista);
     }
     private function requiereLogin()
