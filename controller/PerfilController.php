@@ -4,7 +4,8 @@ class PerfilController
 {
     private $view;
     private $model;
-    public function __construct($model,$view)
+
+    public function __construct($model, $view)
     {
         $this->model = $model;
         $this->view = $view;
@@ -21,18 +22,22 @@ class PerfilController
             $datosUsuario = $this->model->getUsuario($nombreUsuarioLogueado);
 
             if ($datosUsuario) {
-                if (empty($datosUsuario['foto_perfil'])) {
+                $nombreImagen = $datosUsuario['foto_perfil'];
+
+                if ($nombreImagen == null || !file_exists('./public/imagenesUsuarios/' . $nombreImagen)) {
                     $datosUsuario['foto_perfil'] = 'default.png';
                 }
+
                 $usuarioVista['usuario'] = $datosUsuario;
             }
+
+            $usuarioVista['pagina'] = 'perfil';
+            $usuarioVista['rutaLogo'] = '/TPFinal/Lobby/show';
+
+            $this->view->render("Perfil", $usuarioVista);
         }
-
-        $usuarioVista['pagina'] = 'perfil';
-        $usuarioVista['rutaLogo']= '/TPFinal/Lobby/show';
-
-        $this->view->render("Perfil", $usuarioVista);
     }
+
     private function requiereLogin()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -45,17 +50,19 @@ class PerfilController
             exit;
         }
     }
-    public function cambiarFoto(){
+
+    public function cambiarFoto()
+    {
         $this->requiereLogin();
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(!empty($_FILES["imagen"]["name"])){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!empty($_FILES["imagen"]["name"])) {
 
                 $this->model->borrarImagenPerfil($_SESSION['usuario']);
 
                 $nueva_imagen = $_FILES['imagen']['name'];
                 $imagen_tmp = $_FILES['imagen']['tmp_name'];
                 $extension = strtolower(pathinfo($nueva_imagen, PATHINFO_EXTENSION));
-                $imagen_nombre = strtolower( $_SESSION['usuario']) . "." . $extension;
+                $imagen_nombre = strtolower($_SESSION['usuario']) . "_" . time() . "." . $extension;
 
                 $ruta_destino = "./public/imagenesUsuarios/" . $imagen_nombre;
                 if (move_uploaded_file($imagen_tmp, $ruta_destino)) {
