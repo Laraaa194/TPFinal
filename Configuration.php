@@ -5,20 +5,17 @@ require_once("core/MustachePresenter.php");
 require_once("core/Router.php");
 
 require_once("controller/HomeController.php");
-require_once("controller/GroupController.php");
-require_once("controller/SongController.php");
-require_once("controller/TourController.php");
 require_once("controller/LoginController.php");
 require_once("controller/RegisterController.php");
 require_once ("controller/LobbyController.php");
 require_once("controller/PerfilController.php");
+require_once("controller/PartidaController.php");
+require_once("controller/PreguntaController.php");
 
-require_once("model/GroupModel.php");
-require_once("model/SongModel.php");
-require_once("model/TourModel.php");
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
 require_once("model/PerfilModel.php");
+require_once("model/PreguntaModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -39,22 +36,6 @@ class Configuration
     public function getIniConfig()
     {
         return parse_ini_file("configuration/config.ini", true);
-    }
-
-    public function getSongController()
-    {
-        return new SongController(
-            new SongModel($this->getDatabase()),
-            $this->getViewer()
-        );
-    }
-
-    public function getTourController()
-    {
-        return new TourController(
-            new TourModel($this->getDatabase()),
-            $this->getViewer()
-        );
     }
 
     public function getHomeController()
@@ -79,14 +60,20 @@ class Configuration
     }
 
     public function getLobbyController(){
-        return new LobbyController($this->getViewer());
+        return new LobbyController
+        ($this->getViewer());
     }
 
-    public function getGroupController()
-    {
-        return new GroupController
-        (new GroupModel($this->getDatabase()), $this->getViewer());
+    public function getPartidaController(){
+        return new PartidaController
+        ($this->getViewer());
     }
+
+    public function getPreguntaController(){
+        return new PreguntaController
+        (new PreguntaModel($this->getDatabase()), $this->getViewer());
+    }
+
 
     public function getRouter()
     {

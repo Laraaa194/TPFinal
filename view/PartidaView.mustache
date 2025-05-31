@@ -1,0 +1,52 @@
+<main>
+    <div class="user-info">
+        <h4>{{usuario}}</h4>
+        <div class="d-flex justify-content-around mt-2">
+            <span><strong>Preguntas:</strong></span>
+            <span><strong>Puntos:</strong></span>
+        </div>
+    </div>
+
+    <div class="category-container">
+        <div class="category-btn cat1" id="cat1">
+            <img src="/TPFinal/public/img/ciencia.png" style="width: 70px">
+        </div>
+        <div class="category-btn cat2" id="cat2">
+            <img src="/TPFinal/public/img/deporte.png" style="width: 70px">
+        </div>
+        <div class="category-btn cat3" id="cat3">
+            <img src="/TPFinal/public/img/geografia.png" style="width: 70px">
+        </div>
+        <div class="category-btn cat4" id="cat4">
+            <img src="/TPFinal/public/img/arte.png" style="width: 70px">
+        </div>
+        <div class="category-btn cat5" id="cat5">
+            <img src="/TPFinal/public/img/historia.png" style="width: 80px">
+        </div>
+        <div class="category-btn cat6" id="cat6">
+            <img src="/TPFinal/public/img/entretenimiento.png" style="width: 70px">
+        </div>
+        <button id="play-btn" class="play-btn center-play-btn">Jugar</button>
+    </div>
+
+    <button class="exit-btn" id="btnSalir">Salir</button>
+
+
+</main>
+<div class="modal fade" id="confirmSalirModal" tabindex="-1" aria-labelledby="confirmSalirLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSalirLabel">Vas a salir de la partida. ¿Querés continuar? </h5>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <a href="/TPFinal/Lobby/show" class="btn btn-danger">Sí, salir</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="categoria-data" data-categoria="{{categoria_elegida}}"></div>
+<script src="/TPFinal/public/Js/ruleta.js"></script>

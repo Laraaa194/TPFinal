@@ -27,7 +27,11 @@ class LoginController
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
                 $this->redirectTo("/TPFinal/Lobby/show");
                 exit;
-            } else {
+            } else if(empty($usuario) || empty($contrasenia)) {
+                $_SESSION['error'] = 'Completa los campos para continuar';
+                $this->redirectTo("/TPFinal/Login/show");
+                exit;
+            }else{
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
                 $this->redirectTo("/TPFinal/Login/show");
                 exit;
@@ -62,7 +66,11 @@ class LoginController
             unset($_SESSION['success']);
         }
 
-        $this->view->render("Login", $data);
+        $data['pagina'] = 'login';
+        $data['rutaLogo']= '/TPFinal/Home/show';
+
+        $this->view->render("Login",
+            $data);
 
     }
     private function redirectTo($str)
