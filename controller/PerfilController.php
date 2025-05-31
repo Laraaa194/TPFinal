@@ -45,4 +45,32 @@ class PerfilController
             exit;
         }
     }
+    public function cambiarFoto(){
+        $this->requiereLogin();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(!empty($_FILES["imagen"]["name"])){
+
+                $this->model->borrarImagenPerfil($_SESSION['usuario']);
+
+                $nueva_imagen = $_FILES['imagen']['name'];
+                $imagen_tmp = $_FILES['imagen']['tmp_name'];
+                $extension = strtolower(pathinfo($nueva_imagen, PATHINFO_EXTENSION));
+                $imagen_nombre = strtolower( $_SESSION['usuario']) . "." . $extension;
+
+                $ruta_destino = "./public/imagenesUsuarios/" . $imagen_nombre;
+                if (move_uploaded_file($imagen_tmp, $ruta_destino)) {
+
+                    // Actualizar en la base de datos con el nuevo nombre
+                    $this->model->cambiarImagenPerfil($_SESSION['usuario'], $imagen_nombre);
+
+                    header("Location: /TPFinal/Perfil/show");
+                    exit();
+
+                } else {
+                    die("Error al subir la imagen.");
+                }
+
+            }
+        }
+    }
 }

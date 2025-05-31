@@ -31,11 +31,21 @@
             background-repeat: no-repeat;
             background-position: center;
             min-height: 100vh;
-            padding: 0; /* Evita espacio extra */
+            padding: 0;
             margin: 0;
         }
         .lobby, .perfil {
             background-color: #e6f5c9;
+        }
+        .partida{
+            background-image: url('/TPFinal/public/img/FondoPartida.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            text-align: center;
         }
         .estiloPagInicio {
             display: flex;
@@ -307,6 +317,101 @@
             font-size: 1.2rem;
             color: #0f5132;
             cursor: pointer;
+        }
+
+        .user-info {
+            background-color: #e0f2db;
+            border: 2px solid #a0d49c;
+            border-radius: 20px;
+            padding: 15px;
+            margin: 5px auto 20px;
+            max-width: 600px;
+            text-align: center;
+        }
+        .user-info h4 {
+            color: #3b3bb0;
+            font-weight: bold;
+        }
+        .user-info span{
+            color: #178a2c;
+        }
+        .category-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 40px auto;
+        }
+
+        .category-btn {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+        }
+
+        .cat1 { background-color: #178a2c; bottom: 220px; left: 100px; }           /* Arriba */
+        .cat2 { background-color: #ff5500; top: 40px; left: 210px;}           /* Derecha arriba */
+        .cat3 { background-color: #2626c2; bottom: 40px; left: 210px; }        /* Derecha abajo */
+        .cat4 { background-color: #c92e2e; top: 220px; left: 100px; }        /* Abajo */
+        .cat5 { background-color: #ffcc4d; bottom: 40px; right: 210px; }         /* Izquierda abajo */
+        .cat6 { background-color: #c43e93; top: 40px; right: 210px; }            /* Izquierda arriba */
+
+        .play-btn {
+            background: linear-gradient(135deg, #009246, #caffa9);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 25px auto;
+        }
+        .play-btn:hover {
+            background: linear-gradient(135deg, #caffa9, #009246);
+
+
+        }
+
+        .exit-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(255, 77, 77, 0.15); /* rojo claro transparente */
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+            padding: 8px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(6px); /* efecto glass */
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .exit-btn:hover{
+            background-color: #ff4d4d;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(255, 77, 77, 0.4);
+        }
+        .center-play-btn {
+            position: absolute;
+            top: 125px;
+            left: 150px;
+            transform: translate(-50%, -50%);
+
+        }
+
+        .category-btn.active {
+            box-shadow: 0 0 15px 5px rgba(23, 138, 44, 0.37);
+            transform: scale(1.1);
         }
     </style>
 </head>

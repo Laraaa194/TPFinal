@@ -12,6 +12,7 @@ require_once("controller/LoginController.php");
 require_once("controller/RegisterController.php");
 require_once ("controller/LobbyController.php");
 require_once("controller/PerfilController.php");
+require_once("controller/PartidaController.php");
 
 require_once("model/GroupModel.php");
 require_once("model/SongModel.php");
@@ -80,6 +81,11 @@ class Configuration
 
     public function getLobbyController(){
         return new LobbyController
+        ($this->getViewer());
+    }
+
+    public function getPartidaController(){
+        return new PartidaController
         ($this->getViewer());
     }
 
