@@ -1,6 +1,6 @@
 <?php
 
-class SongController
+class PreguntaController
 {
     private $model;
     private $view;
@@ -11,9 +11,4 @@ class SongController
         $this->view = $view;
     }
 
-    public function listar()
-    {
-        $data["canciones"] = $this->model->getSongs();
-        $this->view->render("songs", $data);
-    }
 }
