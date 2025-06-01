@@ -15,6 +15,8 @@ class PreguntaModel
 
     public function getPregunta($id_categoria)
     {
+
+
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id_categoria = ?");
         if (!$stmt) {
@@ -31,7 +33,6 @@ class PreguntaModel
             $preguntas[] = $row;
         }
 
-        // Elegir una pregunta aleatoria
         if (count($preguntas) > 0) {
             return $preguntas[array_rand($preguntas)];
         } else {
@@ -49,9 +50,9 @@ class PreguntaModel
         $stmt->execute();
 
         $result = $stmt->get_result();
-        $respuestas = []; // Inicializa un array vacío para almacenar todas las respuestas
+        $respuestas = [];
         while ($row = $result->fetch_assoc()) {
-            $respuestas[] = $row; // Agrega cada fila (respuesta) al array
+            $respuestas[] = $row;
         }
         return $respuestas;
     }
@@ -66,6 +67,17 @@ class PreguntaModel
 
         $result = $stmt->get_result();
         return $result->fetch_assoc();
-
     }
+
+    public function esRespuestaCorrecta($idPregunta, $idRespuesta){
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT es_correcta FROM respuesta WHERE id = ? AND id_pregunta = ?");
+        $stmt->bind_param("ii", $idRespuesta, $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        return $row && $row['es_correcta'] == 1;
+    }
+
 }

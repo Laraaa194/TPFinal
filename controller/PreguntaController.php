@@ -21,6 +21,11 @@ class PreguntaController
         return $this->model->getRespuestas($id_pregunta);
     }
 
+    public function esRespuestaCorrecta($idPregunta, $idRespuesta)
+    {
+    return $this->model->esRespuestaCorrecta($idPregunta,$idRespuesta);
+    }
+
 
     public function getCategoria($id_categoria)
     {

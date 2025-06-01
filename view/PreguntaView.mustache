@@ -13,14 +13,17 @@
 
 
                 </div>
-                <div class="p-3">
-                   <ul>
+               <form action="/TPFinal/Partida/verificarRespuesta" method="POST">
+                   <div class="list-group">
                        {{#respuestas}}
-                            <li>{{texto}}</li>
+                           <button type="submit" name="respuestaId" value="{{id}}" class="list-group-item list-group-item-action">
+                               {{texto}}
+                           </button>
                        {{/respuestas}}
-                    </ul>
+                   </div>
 
-                </div>
+                   <input type="hidden" name="preguntaId" value="{{id_pregunta}}">
+               </form>
 
            </div>
        </div>

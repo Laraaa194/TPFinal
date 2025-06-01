@@ -97,11 +97,36 @@ class PartidaController
             'color_fondo' => $categorias[$categoriaNombre]['color'],
             'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
             'pregunta' => $pregunta['enunciado'],
-            'respuestas' => $respuestas
+            'respuestas' => $respuestas,
+            'id_pregunta' => $idPregunta
         ];
 
-
-
         $this->view->render("Pregunta", $data);
+    }
+
+    public function verificarRespuesta()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
+            $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
+
+            $esCorrecta=$this->preguntaController->esRespuestaCorrecta($preguntaId,$respuestaId);
+
+            if ($esCorrecta) {
+             //   header("Location: /TPFinal/Partida/show");
+                $this->show();
+                exit;
+            } else {
+        //        $_SESSION['error'] = 'Respuesta incorrecta.';
+         //      header("Location: /TPFinal/Partida/partidaPerdida");
+                $this->partidaPerdida();
+                exit();
+            }
+        }
+    }
+
+    public function partidaPerdida()
+    {
+        $this->view->render("PartidaPerdida");
     }
 }
