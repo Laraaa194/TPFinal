@@ -3,13 +3,17 @@
 class PartidaController
 {
     private $view;
+    private $preguntaController;
 
 
-    public function __construct($view){
+    public function __construct($view, $preguntaController)
+    {
         $this->view = $view;
+        $this->preguntaController = $preguntaController;
     }
 
-    public function show() {
+    public function show()
+    {
         $this->requiereLogin();
 
         $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
@@ -38,9 +42,43 @@ class PartidaController
             exit;
         }
     }
-    public function pregunta() {
-        $this->requiereLogin();
 
+    public function pregunta()
+    {
+        $this->requiereLogin();
+        $mapaCategorias = [
+            'ciencia' => 1,
+            'deporte' => 2,
+            'geografia' => 3,
+            'arte' => 4,
+            'historia' => 5,
+            'entretenimiento' => 6
+        ];
+
+        $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
+        if (!isset($mapaCategorias[$categoriaNombre])) {
+            $_SESSION['error'] = 'Categoría inválida.';
+            header("Location: /TPFinal/Partida/show");
+            exit;
+        }
+
+        $id_categoria = $mapaCategorias[$categoriaNombre];
+        $pregunta = $this->preguntaController->getPregunta($id_categoria);
+
+        if (!$pregunta) {
+            $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
+            header("Location: /TPFinal/Partida/show");
+            exit;
+        }
+
+        $_SESSION['pregunta'] = $pregunta['enunciado'];
+        $idPregunta = $pregunta['id'];
+
+        $respuestas = $this->preguntaController->getRespuestas($idPregunta);
+        $_SESSION['respuestas'] = $respuestas;
+
+
+        // Categorías
         $categorias = [
             'ciencia' => ['nombre' => 'Ciencia', 'color' => '#e1fae4', 'color_pregunta' => '#178a2c'],
             'deporte' => ['nombre' => 'Deportes', 'color' => '#fbded3', 'color_pregunta' => '#ff5500'],
@@ -50,22 +88,45 @@ class PartidaController
             'entretenimiento' => ['nombre' => 'Entretenimiento', 'color' => '#fadfec', 'color_pregunta' => '#c43e93'],
         ];
 
-        $cat = $_SESSION['categoria_elegida'] ?? null;
 
-        if (!array_key_exists($cat, $categorias)) {
-            $_SESSION['error'] = 'Categoría inválida.';
-            header("Location: /TPFinal/Partida/show");
-            exit;
-        }
-
+        // Prepara datos para la vista
         $data = [
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
-            'categoria' => $categorias[$cat]['nombre'],
-            'color_fondo' => $categorias[$cat]['color'],
-            'color_pregunta' => $categorias[$cat]['color_pregunta'],
+            'categoria' => $categorias[$categoriaNombre]['nombre'],
+            'color_fondo' => $categorias[$categoriaNombre]['color'],
+            'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
+            'pregunta' => $pregunta['enunciado'],
+            'respuestas' => $respuestas,
+            'id_pregunta' => $idPregunta
         ];
 
         $this->view->render("Pregunta", $data);
+    }
+
+    public function verificarRespuesta()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
+            $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
+
+            $esCorrecta=$this->preguntaController->esRespuestaCorrecta($preguntaId,$respuestaId);
+
+            if ($esCorrecta) {
+             //   header("Location: /TPFinal/Partida/show");
+                $this->show();
+                exit;
+            } else {
+        //        $_SESSION['error'] = 'Respuesta incorrecta.';
+         //      header("Location: /TPFinal/Partida/partidaPerdida");
+                $this->partidaPerdida();
+                exit();
+            }
+        }
+    }
+
+    public function partidaPerdida()
+    {
+        $this->view->render("PartidaPerdida");
     }
 }

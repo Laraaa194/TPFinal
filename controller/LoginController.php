@@ -23,7 +23,12 @@ class LoginController
             $usuarioEncontrado = $this->model->getUsuario($usuario);
 
             if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
-                $_SESSION['usuario'] = $usuarioEncontrado['nombre_usuario'];
+            //    $_SESSION['usuario'] = $usuarioEncontrado['nombre_usuario'];
+                $_SESSION['usuario'] = [
+                    'id' => $usuarioEncontrado['id'],
+                    'nombre' => $usuarioEncontrado['nombre_usuario'],
+                    'puntaje' =>0
+                ];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
                 $this->redirectTo("/TPFinal/Lobby/show");
                 exit;
