@@ -106,6 +106,7 @@ class PartidaController
 
     public function verificarRespuesta()
     {
+        $this->requiereLogin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
             $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
@@ -113,12 +114,20 @@ class PartidaController
             $esCorrecta=$this->preguntaController->esRespuestaCorrecta($preguntaId,$respuestaId);
 
             if ($esCorrecta) {
-             //   header("Location: /TPFinal/Partida/show");
-                $this->show();
+                $_SESSION['usuario']['puntaje']+=5;
+                header("Location: /TPFinal/Partida/show");
                 exit;
             } else {
         //        $_SESSION['error'] = 'Respuesta incorrecta.';
          //      header("Location: /TPFinal/Partida/partidaPerdida");
+                $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
+                $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
+/*
+                // este metodo capaz que va en el modelo de la partida y no de la pregunta
+                $this->preguntaController->guardarPuntajeDeLaPartida($idUsuario,$puntaje /*$id_partida ); */
+
+                $_SESSION['usuario']['puntaje']=0;
+
                 $this->partidaPerdida();
                 exit();
             }
