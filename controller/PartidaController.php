@@ -3,13 +3,17 @@
 class PartidaController
 {
     private $view;
+    private $preguntaController;
 
 
-    public function __construct($view){
+    public function __construct($view, $preguntaController)
+    {
         $this->view = $view;
+        $this->preguntaController = $preguntaController;
     }
 
-    public function show() {
+    public function show()
+    {
         $this->requiereLogin();
 
         $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
@@ -38,9 +42,23 @@ class PartidaController
             exit;
         }
     }
-    public function pregunta() {
+
+    public function pregunta()
+    {
         $this->requiereLogin();
 
+        $pregunta = $this->preguntaController->getPregunta();
+        $_SESSION['pregunta'] = $pregunta['enunciado'];
+        $idPregunta = $pregunta['id'];
+
+
+        // Obtén todas las respuestas (es un array de arrays)
+        $respuestas = $this->preguntaController->getRespuestas($idPregunta);
+        var_dump($respuestas);
+        die();
+        $_SESSION['respuestas'] = $respuestas;
+
+        // Categorías
         $categorias = [
             'ciencia' => ['nombre' => 'Ciencia', 'color' => '#e1fae4', 'color_pregunta' => '#178a2c'],
             'deporte' => ['nombre' => 'Deportes', 'color' => '#fbded3', 'color_pregunta' => '#ff5500'],
@@ -58,12 +76,15 @@ class PartidaController
             exit;
         }
 
+        // Prepara datos para la vista
         $data = [
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
             'categoria' => $categorias[$cat]['nombre'],
             'color_fondo' => $categorias[$cat]['color'],
             'color_pregunta' => $categorias[$cat]['color_pregunta'],
+            'pregunta' => $pregunta['enunciado'],
+            'respuestas' => $respuestas // ¡todas las respuestas!
         ];
 
         $this->view->render("Pregunta", $data);

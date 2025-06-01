@@ -7,13 +7,17 @@
         <div class="container" style="max-width: 500px;">
             <div class="pregunta-card bg-white">
                 <div class="pregunta-header" style="background-color: {{color_pregunta}}">
-                    <h5 class="mb-0">Pregunta</h5>
+
+                    <h5 class="mb-0">{{pregunta}}</h5>
+
                     <div class="timer-bubble">{{tiempo}} s</div>
                 </div>
                 <div class="p-3">
-                    {{#opciones}}
-                        <button class="opcion-btn">{{.}}</button>
-                    {{/opciones}}
+                    <ul>
+                        {{#respuestas}}
+                            <li>{{texto}}</li>
+                        {{/respuestas}}
+                    </ul>
 
                 </div>
             </div>

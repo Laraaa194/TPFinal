@@ -24,6 +24,7 @@ class Configuration
     public function getDatabase()
     {
         $config = $this->getIniConfig();
+        $config = $this->getIniConfig();
 
         return new Database(
             $config["database"]["server"],
@@ -66,7 +67,8 @@ class Configuration
 
     public function getPartidaController(){
         return new PartidaController
-        ($this->getViewer());
+        ($this->getViewer(),
+            new PreguntaController((new PreguntaModel($this->getDatabase())), $this->getViewer()));
     }
 
     public function getPreguntaController(){
