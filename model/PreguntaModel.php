@@ -13,21 +13,30 @@ class PreguntaModel
         return $this->database->getConnection();
     }
 
-    public function getPregunta()
+    public function getPregunta($id_categoria)
     {
-        $min = 1;
-        $max = 200;
-        $numeroRandom = mt_rand($min, $max);
         $conn = $this->connect();
-        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id = ?");
+        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id_categoria = ?");
         if (!$stmt) {
             die("Error en prepare: " . $conn->error);
         }
-        $stmt->bind_param("i", $numeroRandom);
+
+        $stmt->bind_param("i", $id_categoria);
         $stmt->execute();
 
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $preguntas = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
+        }
+
+        // Elegir una pregunta aleatoria
+        if (count($preguntas) > 0) {
+            return $preguntas[array_rand($preguntas)];
+        } else {
+            return null;
+        }
     }
 
     public function getRespuestas($id_pregunta){
@@ -52,7 +61,7 @@ class PreguntaModel
         if (!$stmt) {
             die("Error en prepare: " . $conn->error);
         }
-        $stmt->bind_param("s", $id_categoria);
+        $stmt->bind_param("i", $id_categoria);
         $stmt->execute();
 
         $result = $stmt->get_result();

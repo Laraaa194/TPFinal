@@ -11,20 +11,22 @@ class PreguntaController
         $this->view = $view;
     }
 
-    public function getPregunta()
+    public function getPregunta($id_categoria)
     {
-        return $this->model->getPregunta();
+        return $this->model->getPregunta($id_categoria);
     }
 
     public function getRespuestas($id_pregunta)
     {
-        return $this->model->getPregunta($this->model->getRespuestas($id_pregunta));
+        return $this->model->getRespuestas($id_pregunta);
     }
+
 
     public function getCategoria($id_categoria)
     {
-        return $this->model->getPregunta($this->model->getCategoria($id_categoria));
+        return $this->model->getCategorias($id_categoria);
     }
+
 
 
 

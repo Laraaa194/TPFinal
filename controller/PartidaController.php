@@ -46,17 +46,37 @@ class PartidaController
     public function pregunta()
     {
         $this->requiereLogin();
+        $mapaCategorias = [
+            'ciencia' => 1,
+            'deporte' => 2,
+            'geografia' => 3,
+            'arte' => 4,
+            'historia' => 5,
+            'entretenimiento' => 6
+        ];
 
-        $pregunta = $this->preguntaController->getPregunta();
+        $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
+        if (!isset($mapaCategorias[$categoriaNombre])) {
+            $_SESSION['error'] = 'Categoría inválida.';
+            header("Location: /TPFinal/Partida/show");
+            exit;
+        }
+
+        $id_categoria = $mapaCategorias[$categoriaNombre];
+        $pregunta = $this->preguntaController->getPregunta($id_categoria);
+
+        if (!$pregunta) {
+            $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
+            header("Location: /TPFinal/Partida/show");
+            exit;
+        }
+
         $_SESSION['pregunta'] = $pregunta['enunciado'];
         $idPregunta = $pregunta['id'];
 
-
-        // Obtén todas las respuestas (es un array de arrays)
         $respuestas = $this->preguntaController->getRespuestas($idPregunta);
-        var_dump($respuestas);
-        die();
         $_SESSION['respuestas'] = $respuestas;
+
 
         // Categorías
         $categorias = [
@@ -68,24 +88,19 @@ class PartidaController
             'entretenimiento' => ['nombre' => 'Entretenimiento', 'color' => '#fadfec', 'color_pregunta' => '#c43e93'],
         ];
 
-        $cat = $_SESSION['categoria_elegida'] ?? null;
-
-        if (!array_key_exists($cat, $categorias)) {
-            $_SESSION['error'] = 'Categoría inválida.';
-            header("Location: /TPFinal/Partida/show");
-            exit;
-        }
 
         // Prepara datos para la vista
         $data = [
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
-            'categoria' => $categorias[$cat]['nombre'],
-            'color_fondo' => $categorias[$cat]['color'],
-            'color_pregunta' => $categorias[$cat]['color_pregunta'],
+            'categoria' => $categorias[$categoriaNombre]['nombre'],
+            'color_fondo' => $categorias[$categoriaNombre]['color'],
+            'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
             'pregunta' => $pregunta['enunciado'],
-            'respuestas' => $respuestas // ¡todas las respuestas!
+            'respuestas' => $respuestas
         ];
+
+
 
         $this->view->render("Pregunta", $data);
     }
