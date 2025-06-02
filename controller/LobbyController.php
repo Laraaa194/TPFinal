@@ -21,6 +21,7 @@ class LobbyController
         $data['usuario'] = $_SESSION['usuario'];
         $data['pagina'] = 'lobby';
         $data['rutaLogo'] = '/TPFinal/Lobby/show';
+        $data['mostrarLogo'] = true;
 
         $this->view->render("Lobby", $data);
     }
@@ -33,8 +34,14 @@ class LobbyController
 
         if (!isset($_SESSION['usuario'])) {
             $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            header("Location: /TPFinal/Login/show");
+            $this->redirectTo("Login/show");
             exit;
         }
+    }
+
+    private function redirectTo($str)
+    {
+        header("Location: ".BASE_URL. $str);
+        exit();
     }
 }

@@ -56,14 +56,14 @@ class RegisterController
             }
 
             if (!empty($_SESSION['errors'])) {
-                $this->redirectTo("/TPFinal/Register/show");
+                $this->redirectTo("Register/show");
             }
 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $_SESSION['success'] = '¡Te registraste correctamente!';
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
             $this->model->add($nombre, $apellido, $anoNacimiento, $this->getIdSexo($sexo), $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
-            $this->redirectTo("/TPFinal/Login/show");
+            $this->redirectTo("Login/show");
         }
     }
 
@@ -83,7 +83,7 @@ class RegisterController
 
         if (!move_uploaded_file($imagen_tmp, $ruta_destino)) {
             $error = "Error: No se pudo subir el archivo.";
-            $this->redirectTo("/TPFinal/Register/show");
+            $this->redirectTo("Register/show");
             exit();
         }
             return $imagen_nombre;
@@ -113,12 +113,13 @@ class RegisterController
         }
         $dataRegister['pagina'] = 'register';
         $dataRegister['rutaLogo']= '/TPFinal/Home/show';
+        $dataRegister['mostrarLogo'] = true;
         $this->view->render("Register", $dataRegister);
     }
 
     private function redirectTo($str)
     {
-        header("location:" . $str);
+        header("location:".BASE_URL. $str);
         exit();
     }
 }

@@ -1,4 +1,7 @@
 <?php
+const BASE_URL = '/TPFinal/';
+
+
 require_once("core/Database.php");
 require_once("core/FilePresenter.php");
 require_once("core/MustachePresenter.php");
@@ -16,6 +19,7 @@ require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
 require_once("model/PerfilModel.php");
 require_once("model/PreguntaModel.php");
+require_once("model/PartidaModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -67,8 +71,9 @@ class Configuration
 
     public function getPartidaController(){
         return new PartidaController
-        ($this->getViewer(),
-            new PreguntaController((new PreguntaModel($this->getDatabase())), $this->getViewer()));
+            ($this->getViewer(),
+            new PartidaModel($this->getDatabase()),
+            new PreguntaModel($this->getDatabase()));
     }
 
     public function getPreguntaController(){

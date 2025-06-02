@@ -23,22 +23,22 @@ class LoginController
             $usuarioEncontrado = $this->model->getUsuario($usuario);
 
             if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
-            //    $_SESSION['usuario'] = $usuarioEncontrado['nombre_usuario'];
+
                 $_SESSION['usuario'] = [
-                    'id' => $usuarioEncontrado['id'],
+                    'id' => $usuarioEncontrado['id_usuario'],
                     'nombre' => $usuarioEncontrado['nombre_usuario'],
                     'puntaje' =>0
                 ];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
-                $this->redirectTo("/TPFinal/Lobby/show");
+                $this->redirectTo("Lobby/show");
                 exit;
             } else if(empty($usuario) || empty($contrasenia)) {
                 $_SESSION['error'] = 'Completa los campos para continuar';
-                $this->redirectTo("/TPFinal/Login/show");
+                $this->redirectTo("Login/show");
                 exit;
             }else{
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
-                $this->redirectTo("/TPFinal/Login/show");
+                $this->redirectTo("Login/show");
                 exit;
             }
         }
@@ -72,14 +72,14 @@ class LoginController
 
         $data['pagina'] = 'login';
         $data['rutaLogo']= '/TPFinal/Home/show';
+        $data['mostrarLogo'] = true;
 
-        $this->view->render("Login",
-            $data);
+        $this->view->render("Login", $data);
 
     }
     private function redirectTo($str)
     {
-        header("Location: " . $str);
+        header("Location: ".BASE_URL. $str);
         exit();
     }
 
@@ -87,7 +87,7 @@ class LoginController
         session_start();
         session_unset();
         session_destroy();
-        $this->redirectTo("/TPFinal/home/show");
+        $this->redirectTo("home/show");
     }
 
 

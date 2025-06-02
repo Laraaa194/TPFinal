@@ -3,31 +3,60 @@
 class PartidaController
 {
     private $view;
-    private $preguntaController;
+    //private $preguntaController;
+
+    private $model;
+    private $preguntaModel;
 
 
-    public function __construct($view, $preguntaController)
+    public function __construct($view, $model, $preguntaModel)
     {
         $this->view = $view;
-        $this->preguntaController = $preguntaController;
+        $this->model = $model;
+        $this->preguntaModel = $preguntaModel;
     }
 
     public function show()
     {
         $this->requiereLogin();
+        $idUsuario = $_SESSION['usuario']['id'];
+
+        if($this->tienePartidaActiva($idUsuario) === false) {
+            $this->crearPartida();
+        }
+
 
         $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
         $categoriaElegida = $categorias[array_rand($categorias)];
         $_SESSION['categoria_elegida'] = $categoriaElegida;
 
+
         $data = [
             'usuario' => $_SESSION['usuario'],
+            'mostrarLogo' => true,
             'pagina' => 'partida',
             'rutaLogo' => '/TPFinal/Partida/show',
             'categoria_elegida' => $categoriaElegida
+
         ];
 
         $this->view->render("Partida", $data);
+    }
+
+    public function crearPartida(): bool
+    {
+        $this->requiereLogin();
+         $idUsuario = $_SESSION['usuario']['id'];
+
+         $this->model->addPartida($idUsuario, "activa");
+         return true;
+    }
+
+    public function tienePartidaActiva($idUsuario): bool
+    {
+        $estadoPartida = $this->model->getEstadoPartida($idUsuario);
+
+        return isset($estadoPartida['estado']) && $estadoPartida['estado'] === 'activa';
     }
 
     private function requiereLogin()
@@ -38,104 +67,17 @@ class PartidaController
 
         if (!isset($_SESSION['usuario'])) {
             $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            header("Location: /TPFinal/Login/show");
+            $this->redirectTo("Login/show");
             exit;
         }
     }
 
-    public function pregunta()
+
+    private function redirectTo($str)
     {
-        $this->requiereLogin();
-        $mapaCategorias = [
-            'ciencia' => 1,
-            'deporte' => 2,
-            'geografia' => 3,
-            'arte' => 4,
-            'historia' => 5,
-            'entretenimiento' => 6
-        ];
-
-        $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
-        if (!isset($mapaCategorias[$categoriaNombre])) {
-            $_SESSION['error'] = 'Categoría inválida.';
-            header("Location: /TPFinal/Partida/show");
-            exit;
-        }
-
-        $id_categoria = $mapaCategorias[$categoriaNombre];
-        $pregunta = $this->preguntaController->getPregunta($id_categoria);
-
-        if (!$pregunta) {
-            $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-            header("Location: /TPFinal/Partida/show");
-            exit;
-        }
-
-        $_SESSION['pregunta'] = $pregunta['enunciado'];
-        $idPregunta = $pregunta['id'];
-
-        $respuestas = $this->preguntaController->getRespuestas($idPregunta);
-        $_SESSION['respuestas'] = $respuestas;
-
-
-        // Categorías
-        $categorias = [
-            'ciencia' => ['nombre' => 'Ciencia', 'color' => '#e1fae4', 'color_pregunta' => '#178a2c'],
-            'deporte' => ['nombre' => 'Deportes', 'color' => '#fbded3', 'color_pregunta' => '#ff5500'],
-            'geografia' => ['nombre' => 'Geografía', 'color' => '#bcc3df', 'color_pregunta' => '#2626c2'],
-            'arte' => ['nombre' => 'Arte', 'color' => '#fae2e2', 'color_pregunta' => '#c92e2e'],
-            'historia' => ['nombre' => 'Historia', 'color' => '#f6db91', 'color_pregunta' => '#ffcc4d'],
-            'entretenimiento' => ['nombre' => 'Entretenimiento', 'color' => '#fadfec', 'color_pregunta' => '#c43e93'],
-        ];
-
-
-        // Prepara datos para la vista
-        $data = [
-            'usuario' => $_SESSION['usuario'],
-            'pagina' => 'pregunta',
-            'categoria' => $categorias[$categoriaNombre]['nombre'],
-            'color_fondo' => $categorias[$categoriaNombre]['color'],
-            'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
-            'pregunta' => $pregunta['enunciado'],
-            'respuestas' => $respuestas,
-            'id_pregunta' => $idPregunta
-        ];
-
-        $this->view->render("Pregunta", $data);
+        header("Location: ".BASE_URL. $str);
+        exit();
     }
 
-    public function verificarRespuesta()
-    {
-        $this->requiereLogin();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
-            $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
-
-            $esCorrecta=$this->preguntaController->esRespuestaCorrecta($preguntaId,$respuestaId);
-
-            if ($esCorrecta) {
-                $_SESSION['usuario']['puntaje']+=5;
-                header("Location: /TPFinal/Partida/show");
-                exit;
-            } else {
-        //        $_SESSION['error'] = 'Respuesta incorrecta.';
-         //      header("Location: /TPFinal/Partida/partidaPerdida");
-                $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
-                $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
-/*
-                // este metodo capaz que va en el modelo de la partida y no de la pregunta
-                $this->preguntaController->guardarPuntajeDeLaPartida($idUsuario,$puntaje /*$id_partida ); */
-
-                $_SESSION['usuario']['puntaje']=0;
-
-                $this->partidaPerdida();
-                exit();
-            }
-        }
-    }
-
-    public function partidaPerdida()
-    {
-        $this->view->render("PartidaPerdida");
-    }
 }
+
