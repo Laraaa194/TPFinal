@@ -15,8 +15,6 @@ class PreguntaModel
 
     public function getPregunta($id_categoria)
     {
-
-
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id_categoria = ?");
         if (!$stmt) {

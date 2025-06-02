@@ -66,7 +66,7 @@ class Configuration
 
     public function getLobbyController(){
         return new LobbyController
-        ($this->getViewer());
+        ($this->getViewer(), new PartidaModel($this->getDatabase()));
     }
 
     public function getPartidaController(){
