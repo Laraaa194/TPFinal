@@ -21,7 +21,7 @@ class PartidaController
         $this->requiereLogin();
         $idUsuario = $_SESSION['usuario']['id'];
 
-        if($this->tienePartidaActiva($idUsuario) === false) {
+        if ($this->tienePartidaActiva($idUsuario) === false) {
             $this->crearPartida();
         }
 
@@ -46,10 +46,10 @@ class PartidaController
     public function crearPartida(): bool
     {
         $this->requiereLogin();
-         $idUsuario = $_SESSION['usuario']['id'];
+        $idUsuario = $_SESSION['usuario']['id'];
 
-         $this->model->addPartida($idUsuario, "activa");
-         return true;
+        $this->model->addPartida($idUsuario, "activa");
+        return true;
     }
 
     public function tienePartidaActiva($idUsuario): bool

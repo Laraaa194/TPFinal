@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!playBtn || !categoriaElegida) return;
 
     playBtn.addEventListener("click", function () {
+        playBtn.disabled = true;
         const categories = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6'];
         const categoryMap = {
             cat1: 'ciencia',
