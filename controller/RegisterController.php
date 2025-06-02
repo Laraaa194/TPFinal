@@ -7,6 +7,7 @@ class RegisterController
 
     public function __construct($model, $view)
     {
+        SessionController::requiereLogin();
         $this->model = $model;
         $this->view = $view;
     }
@@ -26,7 +27,7 @@ class RegisterController
             'contrasena',
 
         ];
-        $this->iniciarSesion();
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -56,14 +57,14 @@ class RegisterController
             }
 
             if (!empty($_SESSION['errors'])) {
-                $this->redirectTo("Register/show");
+                SessionController::redirectTo("Register/show");
             }
 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $_SESSION['success'] = '¡Te registraste correctamente!';
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
             $this->model->add($nombre, $apellido, $anoNacimiento, $this->getIdSexo($sexo), $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
-            $this->redirectTo("Login/show");
+            SessionController::redirectTo("Login/show");
         }
     }
 
@@ -83,7 +84,8 @@ class RegisterController
 
         if (!move_uploaded_file($imagen_tmp, $ruta_destino)) {
             $error = "Error: No se pudo subir el archivo.";
-            $this->redirectTo("Register/show");
+            SessionController::redirectTo("Register/show");
+
             exit();
         }
             return $imagen_nombre;
@@ -117,9 +119,4 @@ class RegisterController
         $this->view->render("Register", $dataRegister);
     }
 
-    private function redirectTo($str)
-    {
-        header("location:".BASE_URL. $str);
-        exit();
-    }
 }

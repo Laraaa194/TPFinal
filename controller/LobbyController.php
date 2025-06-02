@@ -3,21 +3,26 @@
 class LobbyController
 {
     private $view;
+    private $partidaModel;
 
-    public function __construct($view)
+    public function __construct($view,$partidaModel)
     {
+        SessionController::requiereLogin();
         $this->view = $view;
+        $this->partidaModel = $partidaModel;
     }
 
     public function show()
     {
         $data = [];
-        $this->requiereLogin();
         if (isset($_SESSION['success'])) {
             $data['success'] = $_SESSION['success'];
             unset($_SESSION['success']);
         }
+        $idUsuario = $_SESSION['usuario']['id'];
+        $partidas = $this->partidaModel->getPartidas($idUsuario);
 
+        $data['ultimas_partidas'] = array_slice($partidas, -4);
         $data['usuario'] = $_SESSION['usuario'];
         $data['pagina'] = 'lobby';
         $data['rutaLogo'] = '/TPFinal/Lobby/show';
@@ -26,22 +31,8 @@ class LobbyController
         $this->view->render("Lobby", $data);
     }
 
-    private function requiereLogin()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
-        if (!isset($_SESSION['usuario'])) {
-            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            $this->redirectTo("Login/show");
-            exit;
-        }
-    }
 
-    private function redirectTo($str)
-    {
-        header("Location: ".BASE_URL. $str);
-        exit();
-    }
+
+
 }

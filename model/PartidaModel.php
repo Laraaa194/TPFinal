@@ -52,24 +52,42 @@ class PartidaModel
     public function addPartida($idJugador, $estado)
     {
         $conn = $this->connect();
-        $sql = "INSERT INTO partida (id_jugador, estado) 
+        $sql = "INSERT INTO partida (id_jugador,estado) 
         VALUES (?, ?)";
 
+        $stmt = $conn->prepare($sql);
+
+
+        $stmt->bind_param("is",$idJugador, $estado);
+        $stmt->execute();
+
+    }
+
+
+    public function terminarPartida($idJugador)
+    {
+        $conn = $this->connect();
+        $sql = "UPDATE partida SET estado = 'terminada' WHERE id_jugador = ? AND estado = 'activa'";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("is", $idJugador, $estado);
+        $stmt->bind_param("i", $idJugador);
         $stmt->execute();
     }
 
 
-//    public function terminarPartida($idJugador)
-//    {
-//        $conn = $this->connect();
-//        $sql = "UPDATE partida SET estado = 'terminada' WHERE id_jugador = ? AND estado = 'activa'";
-//
-//        $stmt = $conn->prepare($sql);
-//        $stmt->bind_param("i", $idJugador);
-//        $stmt->execute();
-//    }
+
+    public function getPartidas($idJugador){
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT fecha, puntaje_total,estado FROM partida WHERE id_jugador = ?");
+        $stmt->bind_param("i", $idJugador);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $partidas = [];
+        while ($row = $result->fetch_assoc()) {
+            $partidas[] = $row;
+        }
+        return $partidas;
+}
+
 
 }

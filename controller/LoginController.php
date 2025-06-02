@@ -1,5 +1,6 @@
 <?php
 
+require_once 'SessionController.php';
 class LoginController
 {
     private $model;
@@ -30,15 +31,15 @@ class LoginController
                     'puntaje' =>0
                 ];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
-                $this->redirectTo("Lobby/show");
+                SessionController::redirectTo("Lobby/show");
                 exit;
             } else if(empty($usuario) || empty($contrasenia)) {
                 $_SESSION['error'] = 'Completa los campos para continuar';
-                $this->redirectTo("Login/show");
+                SessionController::redirectTo("Login/show");
                 exit;
             }else{
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
-                $this->redirectTo("Login/show");
+                SessionController::redirectTo("Login/show");
                 exit;
             }
         }
@@ -77,17 +78,13 @@ class LoginController
         $this->view->render("Login", $data);
 
     }
-    private function redirectTo($str)
-    {
-        header("Location: ".BASE_URL. $str);
-        exit();
-    }
+
 
     public function logOut(){
         session_start();
         session_unset();
         session_destroy();
-        $this->redirectTo("home/show");
+        SessionController::redirectTo("home/show");
     }
 
 
