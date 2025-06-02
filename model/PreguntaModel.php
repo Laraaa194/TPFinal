@@ -80,9 +80,7 @@ class PreguntaModel
         return $row && $row['es_correcta'] == 1;
     }
 
-    public function guardarPuntajeDeLaPartida($idUsuario, $puntaje /*, id_partida */){
 
-    }
 
 
 

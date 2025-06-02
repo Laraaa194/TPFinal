@@ -18,7 +18,7 @@ class PerfilController
 
         $usuarioVista = [];
         if (isset($_SESSION['usuario'])) {
-            $nombreUsuarioLogueado = $_SESSION['usuario'];
+            $nombreUsuarioLogueado = $_SESSION['usuario']['nombre'];
             $datosUsuario = $this->model->getUsuario($nombreUsuarioLogueado);
 
             if ($datosUsuario) {
@@ -33,6 +33,8 @@ class PerfilController
 
             $usuarioVista['pagina'] = 'perfil';
             $usuarioVista['rutaLogo'] = '/TPFinal/Lobby/show';
+            $usuarioVista['mostrarLogo'] = true;
+
 
             $this->view->render("Perfil", $usuarioVista);
         }
