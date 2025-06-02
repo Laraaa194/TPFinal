@@ -7,6 +7,7 @@ class PerfilController
 
     public function __construct($model, $view)
     {
+        SessionController::requiereLogin();
         $this->model = $model;
         $this->view = $view;
     }
@@ -14,7 +15,6 @@ class PerfilController
 
     public function show()
     {
-        $this->requiereLogin();
 
         $usuarioVista = [];
         if (isset($_SESSION['usuario'])) {
@@ -40,22 +40,9 @@ class PerfilController
         }
     }
 
-    private function requiereLogin()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!isset($_SESSION['usuario'])) {
-            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            header("Location: /TPFinal/Login/show");
-            exit;
-        }
-    }
 
     public function cambiarFoto()
     {
-        $this->requiereLogin();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!empty($_FILES["imagen"]["name"])) {
 

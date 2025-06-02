@@ -7,6 +7,7 @@ class PreguntaController
 
     public function __construct($model, $view)
     {
+        SessionController::requiereLogin();
         $this->model = $model;
         $this->view = $view;
     }
@@ -74,7 +75,7 @@ class PreguntaController
         $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
         if (!isset($mapaCategorias[$categoriaNombre])) {
             $_SESSION['error'] = 'Categoría inválida.';
-            $this->redirectTo("Partida/show");
+            SessionController::redirectTo("Partida/show");
             exit;
         }
 
@@ -83,7 +84,7 @@ class PreguntaController
 
         if (!$pregunta) {
             $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-            $this->redirectTo("Partida/show");
+            SessionController::redirectTo("Partida/show");
             exit;
         }
 
@@ -104,7 +105,7 @@ class PreguntaController
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
             'mostrarLogo' => false,
-            'categoria' => $categorias[$categoriaNombre]['nombre'],
+            'categoria' =>$categorias[$categoriaNombre]['nombre'],
             'color_fondo' => $categorias[$categoriaNombre]['color'],
             'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
             'pregunta' => $pregunta['enunciado'],
@@ -119,7 +120,6 @@ class PreguntaController
 
     public function verificarRespuesta()
     {
-        $this->requiereLogin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
             $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
@@ -131,6 +131,7 @@ class PreguntaController
                 $_SESSION['respuesta_correcta'] = true;
                 unset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta']);
                 $this->redirectTo("Partida/show");
+                SessionController::redirectTo("Partida/show");
             } else {
                 $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
                 $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
@@ -150,24 +151,6 @@ class PreguntaController
         $this->view->render("PartidaPerdida");
     }
 
-    private function requiereLogin()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!isset($_SESSION['usuario'])) {
-            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            $this->redirectTo("Login/show");
-            exit;
-        }
-    }
-
-    private function redirectTo($str)
-    {
-        header("Location: ".BASE_URL. $str);
-        exit();
-    }
 
 
 

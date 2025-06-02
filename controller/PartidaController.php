@@ -11,6 +11,7 @@ class PartidaController
 
     public function __construct($view, $model, $preguntaModel)
     {
+        SessionController::requiereLogin();
         $this->view = $view;
         $this->model = $model;
         $this->preguntaModel = $preguntaModel;
@@ -18,12 +19,11 @@ class PartidaController
 
     public function show()
     {
-        $this->requiereLogin();
         $idUsuario = $_SESSION['usuario']['id'];
 
-        if ($this->tienePartidaActiva($idUsuario) === false) {
-            $this->crearPartida();
-        }
+       // if($this->tienePartidaActiva($idUsuario) === false) {
+       //     $this->crearPartida();
+      //  }
 
 
         $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
@@ -42,15 +42,35 @@ class PartidaController
 
         $this->view->render("Partida", $data);
     }
-
+/*
     public function crearPartida(): bool
     {
-        $this->requiereLogin();
-        $idUsuario = $_SESSION['usuario']['id'];
+         SessionController::requiereLogin();
+         $idUsuario = $_SESSION['usuario']['id'];
 
-        $this->model->addPartida($idUsuario, "activa");
-        return true;
+    //$idPartida=$this->model->addPartida($idUsuario, "activa");
+
+      //  $idPartida=$_SESSION['idPartida']??null;
+
+         return true;
     }
+*/
+
+    public function finalizarPartida()
+    {
+        $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
+        $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
+        $_SESSION['usuario']['puntaje']=0;
+        $this->model->addPartida($idUsuario,$puntaje,"Perdida");
+        $this->partidaPerdida();
+        exit();
+    }
+
+    public function partidaPerdida()
+    {
+        $this->view->render("PartidaPerdida");
+    }
+
 
     public function tienePartidaActiva($idUsuario): bool
     {
@@ -59,25 +79,16 @@ class PartidaController
         return isset($estadoPartida['estado']) && $estadoPartida['estado'] === 'activa';
     }
 
-    private function requiereLogin()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
-        if (!isset($_SESSION['usuario'])) {
-            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            $this->redirectTo("Login/show");
-            exit;
-        }
+    public function getPartidas($idUsuario)
+    {
+        return $this->model->getPartidas($idUsuario);
     }
 
 
-    private function redirectTo($str)
-    {
-        header("Location: ".BASE_URL. $str);
-        exit();
-    }
+
+
+
 
 }
 

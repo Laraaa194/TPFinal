@@ -22,12 +22,22 @@
             <div class="score-circle">123</div>
         </div>
 
-        <p class="fw-bold">Últimas partidas</p>
+        <p class="fw-bold text-center">Últimas partidas</p>
+        <div class="container">
+            <div class="row justify-content-center">
+                {{#ultimas_partidas}}
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="game-box border p-3 rounded bg-white shadow-sm text-center h-100">
+                            <p class="mb-1"><strong>Fecha:</strong> {{fecha}}</p>
+                            <p class="mb-1"><strong>Puntaje:</strong> {{puntaje_total}}</p>
+                            <p class="mb-0"><strong>Estado:</strong> {{estado}}</p>
+                        </div>
+                    </div>
+                {{/ultimas_partidas}}
 
-        <div class="mx-auto mb-2 game-box w-75 mt-4"></div>
-        <div class="mx-auto mb-2 game-box w-75 mt-4"></div>
-        <div class="mx-auto mb-2 game-box w-75 mt-4"></div>
-        <div class="mx-auto mb-4 game-box w-75 mt-4"></div>
+                {{^ultimas_partidas}}
+                    <p class="text-center mt-4">No tenés partidas registradas todavía.</p>
+                {{/ultimas_partidas}}
 
         <div class="d-flex justify-content-between px-5">
             <a href="/TPFinal/Partida/show">

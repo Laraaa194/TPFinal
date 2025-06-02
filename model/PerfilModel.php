@@ -55,6 +55,10 @@ class PerfilModel
         return $imagen["foto_perfil"];
     }
 
+    public function getIdUsuario()
+    {
+
+    }
     public function eliminarArchivoImagen($nombre_archivo)
     {
 
