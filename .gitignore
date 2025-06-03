@@ -12,4 +12,3 @@ vendor/
 node_modules/
 *.sqlite
 *.bak
-configuration/config.ini

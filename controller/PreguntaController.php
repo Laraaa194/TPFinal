@@ -24,7 +24,7 @@ class PreguntaController
 
     public function esRespuestaCorrecta($idPregunta, $idRespuesta)
     {
-    return $this->model->esRespuestaCorrecta($idPregunta,$idRespuesta);
+        return $this->model->esRespuestaCorrecta($idPregunta, $idRespuesta);
     }
 
 
@@ -35,7 +35,7 @@ class PreguntaController
 
     public function showPregunta()
     {
-        $this->requiereLogin();
+
 
         // ✅ Si ya hay una pregunta cargada, usarla para evitar que cambie al recargar
         if (isset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta'])) {
@@ -75,7 +75,7 @@ class PreguntaController
         $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
         if (!isset($mapaCategorias[$categoriaNombre])) {
             $_SESSION['error'] = 'Categoría inválida.';
-            SessionController::redirectTo("Partida/show");
+            $this->redirectTo("Partida/show");
             exit;
         }
 
@@ -84,7 +84,7 @@ class PreguntaController
 
         if (!$pregunta) {
             $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-            SessionController::redirectTo("Partida/show");
+            sessionController::redirectTo("Partida/show");
             exit;
         }
 
@@ -105,7 +105,7 @@ class PreguntaController
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
             'mostrarLogo' => false,
-            'categoria' =>$categorias[$categoriaNombre]['nombre'],
+            'categoria' => $categorias[$categoriaNombre]['nombre'],
             'color_fondo' => $categorias[$categoriaNombre]['color'],
             'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
             'pregunta' => $pregunta['enunciado'],
@@ -130,8 +130,7 @@ class PreguntaController
                 $_SESSION['usuario']['puntaje']+=1;
                 $_SESSION['respuesta_correcta'] = true;
                 unset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta']);
-                $this->redirectTo("Partida/show");
-                SessionController::redirectTo("Partida/show");
+                sessionController::redirectTo("Partida/show");
             } else {
                 $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
                 $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
@@ -150,8 +149,6 @@ class PreguntaController
     {
         $this->view->render("PartidaPerdida");
     }
-
-
 
 
     public function getCategorias(): array
