@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // === BOTÓN SALIR ===
+
     const btnSalir = document.getElementById('btnSalir');
     const modalElement = document.getElementById('confirmSalirModal');
 

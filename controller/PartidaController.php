@@ -7,13 +7,16 @@ class PartidaController
     private $model;
     private $preguntaModel;
 
+    private $partidaPreguntaModel;
 
-    public function __construct($view, $model, $preguntaModel)
+
+    public function __construct($view, $model, $preguntaModel, $partidaPreguntaModel)
     {
         SessionController::requiereLogin();
         $this->view = $view;
         $this->model = $model;
         $this->preguntaModel = $preguntaModel;
+        $this->partidaPreguntaModel = $partidaPreguntaModel;
     }
 
     public function show()
@@ -23,6 +26,7 @@ class PartidaController
 
         if ($this->tienePartidaActiva($idUsuario) === false) {
             $this->crearPartida();
+            $_SESSION['partida']['id_partida'] = $this->model->getIdPartida($idUsuario);
         }
 
 
@@ -48,7 +52,7 @@ class PartidaController
     {
         SessionController::requiereLogin();
         $idUsuario = $_SESSION['usuario']['id'];
-        $this->model->addPartida($idUsuario, "activa");
+        $this->model->addPartida($idUsuario, true);
         return true;
 
     }
@@ -63,6 +67,27 @@ class PartidaController
 //        $this->partidaPerdida();
 //        exit();
 //    }
+
+
+    public function terminarPartida()
+    {
+
+        $idPartida= $this->model->getIdPartida($_SESSION['usuario']['id']);
+        $idPregunta = isset($_SESSION['id_pregunta']) ? (int)$_SESSION['id_pregunta'] : 0;
+
+        $esCorrecta =  $this->partidaPreguntaModel->esCorrecta($idPartida, $idPregunta);
+
+        if(!$esCorrecta  || isset($_POST['botonSalir']) ){
+            $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
+            $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
+            $_SESSION['usuario']['puntaje']=0;
+
+            $this->model->terminarPartida($idUsuario, $puntaje);
+            SessionController::redirectTo("Lobby/show");
+            exit;
+        }
+
+    }
 
     public function partidaPerdida()
     {

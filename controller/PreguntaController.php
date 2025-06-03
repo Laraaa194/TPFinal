@@ -5,11 +5,14 @@ class PreguntaController
     private $model;
     private $view;
 
-    public function __construct($model, $view)
+    private $partidaPreguntaModel;
+
+    public function __construct($model, $view, $partidaPreguntaModel)
     {
         SessionController::requiereLogin();
         $this->model = $model;
         $this->view = $view;
+        $this->partidaPreguntaModel = $partidaPreguntaModel;
     }
 
     public function getPregunta($id_categoria)
@@ -36,7 +39,6 @@ class PreguntaController
 
     public function showPregunta()
     {
-        SessionController::requiereLogin();
 
         // ✅ Si ya hay una pregunta cargada, usarla para evitar que cambie al recargar
         if (isset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta'])) {
@@ -58,6 +60,7 @@ class PreguntaController
                 'id_pregunta' => $_SESSION['id_pregunta'],
                 'respuesta_correcta' => $respuestaCorrecta,
             ];
+
 
             $this->view->render("Pregunta", $data);
             return;
@@ -125,7 +128,14 @@ class PreguntaController
             $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
             $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
 
+
             $esCorrecta=$this->model->esRespuestaCorrecta($preguntaId,$respuestaId);
+
+            $_SESSION['respuesta_ingresada'] = $respuestaId;
+            $idPartida = $_SESSION['partida']['id_partida'];
+
+            $this->partidaPreguntaModel->registrarTurno($idPartida,$preguntaId,$esCorrecta);
+
 
             if ($esCorrecta) {
                 $_SESSION['usuario']['puntaje']+=1;
@@ -137,7 +147,7 @@ class PreguntaController
                 $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
                 $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
 
-                SessionController::redirectTo("Partida/finalizarPartida");
+                SessionController::redirectTo("Partida/terminarPartida");
 
                 exit();
             }
