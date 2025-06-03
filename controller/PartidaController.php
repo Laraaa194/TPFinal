@@ -22,14 +22,16 @@ class PartidaController
     public function show()
     {
         $idUsuario = $_SESSION['usuario']['id'];
+        $idPartidaActiva= $this->model->getPartidaActiva($idUsuario);
 
-
-        if ($this->tienePartidaActiva($idUsuario) === false) {
+        if ($idPartidaActiva === null) {
             $this->crearPartida();
-            $_SESSION['partida']['id_partida'] = $this->model->getIdPartida($idUsuario);
+            $idPartidaActiva = $this->model->getPartidaActiva($idUsuario);
         }
 
-
+        if ($idPartidaActiva) {
+                $_SESSION['partida']['id_partida'] = $idPartidaActiva['id'];
+        }
 
         $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
         $categoriaElegida = $categorias[array_rand($categorias)];
@@ -86,7 +88,6 @@ class PartidaController
             SessionController::redirectTo("Lobby/show");
             exit;
         }
-
     }
 
     public function partidaPerdida()
@@ -95,12 +96,13 @@ class PartidaController
     }
 
 
-    public function tienePartidaActiva($idUsuario): bool
-    {
-        $estadoPartida = $this->model->getEstadoPartida($idUsuario);
-
-        return isset($estadoPartida['estado']) && $estadoPartida['estado'] === 'activa';
-    }
+    //no se usa mas--> manejamos eso en el modelo
+//    public function tienePartidaActiva($idUsuario): bool
+//    {
+//        $estadoPartida = $this->model->getEstadoPartida($idUsuario);
+//
+//        return isset($estadoPartida['esta_activa']) && $estadoPartida['esta_activa'] === true;
+//    }
 
 
     public function getPartidas($idUsuario)
