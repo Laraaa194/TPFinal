@@ -5,11 +5,14 @@ class PreguntaController
     private $model;
     private $view;
 
-    public function __construct($model, $view)
+    private $partidaPreguntaModel;
+
+    public function __construct($model, $view, $partidaPreguntaModel)
     {
         SessionController::requiereLogin();
         $this->model = $model;
         $this->view = $view;
+        $this->partidaPreguntaModel = $partidaPreguntaModel;
     }
 
     public function getPregunta($id_categoria)
@@ -24,7 +27,7 @@ class PreguntaController
 
     public function esRespuestaCorrecta($idPregunta, $idRespuesta)
     {
-        return $this->model->esRespuestaCorrecta($idPregunta, $idRespuesta);
+    return $this->model->esRespuestaCorrecta($idPregunta,$idRespuesta);
     }
 
 
@@ -33,9 +36,9 @@ class PreguntaController
         return $this->model->getCategorias($id_categoria);
     }
 
+
     public function showPregunta()
     {
-
 
         // ✅ Si ya hay una pregunta cargada, usarla para evitar que cambie al recargar
         if (isset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta'])) {
@@ -58,6 +61,7 @@ class PreguntaController
                 'respuesta_correcta' => $respuestaCorrecta,
             ];
 
+
             $this->view->render("Pregunta", $data);
             return;
         }
@@ -75,7 +79,7 @@ class PreguntaController
         $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
         if (!isset($mapaCategorias[$categoriaNombre])) {
             $_SESSION['error'] = 'Categoría inválida.';
-            $this->redirectTo("Partida/show");
+            SessionController::redirectTo("Partida/show");
             exit;
         }
 
@@ -84,7 +88,7 @@ class PreguntaController
 
         if (!$pregunta) {
             $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-            sessionController::redirectTo("Partida/show");
+            SessionController::redirectTo("Partida/show");
             exit;
         }
 
@@ -124,31 +128,32 @@ class PreguntaController
             $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
             $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
 
+
             $esCorrecta=$this->model->esRespuestaCorrecta($preguntaId,$respuestaId);
+
+            $_SESSION['respuesta_ingresada'] = $respuestaId;
+            $idPartida = $_SESSION['partida']['id_partida'];
+
+            $this->partidaPreguntaModel->registrarTurno($idPartida,$preguntaId,$esCorrecta);
+
 
             if ($esCorrecta) {
                 $_SESSION['usuario']['puntaje']+=1;
                 $_SESSION['respuesta_correcta'] = true;
+
                 unset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta']);
-                sessionController::redirectTo("Partida/show");
+                SessionController::redirectTo("Partida/show");
             } else {
                 $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
                 $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
 
-//                $this->model->terminarPartida($idUsuario);
+                SessionController::redirectTo("Partida/terminarPartida");
 
-
-                $_SESSION['usuario']['puntaje']=0;
-
-                $this->partidaPerdida();
                 exit();
             }
         }
     }
-    public function partidaPerdida()
-    {
-        $this->view->render("PartidaPerdida");
-    }
+
 
 
     public function getCategorias(): array
@@ -163,6 +168,8 @@ class PreguntaController
         ];
         return $categorias;
     }
+
+
 
 
 }
