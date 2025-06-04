@@ -18,27 +18,33 @@
 
 
                 </div>
-               <form action="/TPFinal/Pregunta/verificarRespuesta" method="POST">
-                   <div class="list-group ">
+
+                   <div class="list-group">
                        {{#respuestas}}
-                           <button type="submit" name="respuestaId" value="{{id}}" class="list-group-item list-group-item-action py-4">
-                               {{texto}}
-                           </button>
+                           {{#correcta}}
+                               <div class="list-group-item py-4" style="color: {{color_respuesta}};">
+                                   {{texto}}
+                               </div>
+                           {{/correcta}}
+                           {{^correcta}}
+                               <div  value="{{id}}" class="list-group-item list-group-item-action py-4" style='color: {{color_respuesta}};'>
+                                   {{texto}}
+                               </div>
+                           {{/correcta}}
                        {{/respuestas}}
                    </div>
 
                    <input type="hidden" name="preguntaId" value="{{id_pregunta}}">
-               </form>
 
            </div>
        </div>
 
     </div>
-
-    <div class="position-absolute  bottom-0 m-3 mb-4 ms-4">
-        <button class="btn btn-outline-danger">
-            ⚠️ Reportar pregunta
-        </button>
+<!--    <p class="text-success fw-bold fs-4">Correcto! +1 punto</p>-->
+    <div class="text-center mt-4">
+        <a href="/TPFinal/{{botonRedirect}}" class="btn {{#esCorrecta}}btn-success{{/esCorrecta}}{{^esCorrecta}}btn-danger{{/esCorrecta}} btn-lg">
+            {{nombre_boton}}
+        </a>
     </div>
 
 </main>

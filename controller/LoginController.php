@@ -7,6 +7,7 @@ class LoginController
 
     public function __construct($model, $view)
     {
+        SessionHelper::LoginStarter();
         $this->model = $model;
         $this->view = $view;
     }
@@ -14,7 +15,6 @@ class LoginController
 
     public function login()
     {
-        $this->iniciarSesion();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = $_POST['usuario'] ?? '';
@@ -23,42 +23,34 @@ class LoginController
             $usuarioEncontrado = $this->model->getUsuario($usuario);
 
             if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
-                $_SESSION['usuario'] = $usuarioEncontrado['nombre_usuario'];
+
+                $_SESSION['usuario'] = [
+                    'id' => $usuarioEncontrado['id_usuario'],
+                    'nombre' => $usuarioEncontrado['nombre_usuario'],
+                ];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
-                $this->redirectTo("/TPFinal/Lobby/show");
+                RedirectHelper::redirectTo("Lobby/show");
                 exit;
             } else if(empty($usuario) || empty($contrasenia)) {
                 $_SESSION['error'] = 'Completa los campos para continuar';
-                $this->redirectTo("/TPFinal/Login/show");
+                RedirectHelper::redirectTo("Login/show");
                 exit;
             }else{
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
-                $this->redirectTo("/TPFinal/Login/show");
+                RedirectHelper::redirectTo("Login/show");
                 exit;
             }
         }
 
     }
 
-    private function iniciarSesion()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
-
     public function show()
     {
-
-        $this->iniciarSesion();
-
-
         $data = [];
-
 
         if (isset($_SESSION['error'])) {
             $data['error'] = $_SESSION['error'];
-            unset($_SESSION['error']);  // Lo borramos para que no persista
+            unset($_SESSION['error']);
         }
 
         if (isset($_SESSION['success'])) {
@@ -68,22 +60,16 @@ class LoginController
 
         $data['pagina'] = 'login';
         $data['rutaLogo']= '/TPFinal/Home/show';
+        $data['mostrarLogo'] = true;
 
-        $this->view->render("Login",
-            $data);
+        $this->view->render("Login", $data);
 
-    }
-    private function redirectTo($str)
-    {
-        header("Location: " . $str);
-        exit();
     }
 
     public function logOut(){
-        session_start();
         session_unset();
         session_destroy();
-        $this->redirectTo("/TPFinal/home/show");
+        RedirectHelper::redirectTo("home/show");
     }
 
 

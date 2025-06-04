@@ -17,19 +17,31 @@
         {{/success}}
         <div class="d-flex justify-content-center align-items-center mb-2">
             <a href="/TPFinal/Perfil/show" style="text-decoration: none">
-                <h1 class="fw-bold text-primary">{{usuario}}</h1>
+                <h1 class="fw-bold text-primary">{{usuario.nombre}}</h1>
             </a>
             <div class="score-circle">123</div>
         </div>
 
-        <p class="fw-bold">Últimas partidas</p>
+        <p class="fw-bold text-center mt-4">Últimas partidas</p>
+        <div class="container">
+            <div class="row justify-content-center">
+                {{#ultimas_partidas}}
+                    <div class="col-md-3 col-sm-6 mb-5">
 
-        <div class="mx-auto mb-2 game-box w-75 mt-4"></div>
-        <div class="mx-auto mb-2 game-box w-75 mt-4"></div>
-        <div class="mx-auto mb-2 game-box w-75 mt-4"></div>
-        <div class="mx-auto mb-4 game-box w-75 mt-4"></div>
+                        <div class="game-box p-2 rounded-4 shadow-sm text-center h-100" style="background-color: #cbecbe; border: 3px solid #4c9e72;">
+                            <img src="/TPFinal/public/img/iconoPartida.png" style="width: 30px">
+                            <p class="mb-1 mt-1 " style="color: #009246"><strong>Fecha:</strong> {{fecha}}</p>
+                            <p class="mb-1" style="color: #009246"><strong>Puntaje:</strong> {{puntaje_total}}</p>
 
-        <div class="d-flex justify-content-between px-5">
+                        </div>
+                    </div>
+                {{/ultimas_partidas}}
+
+                {{^ultimas_partidas}}
+                    <p class="text-center mt-5 mb-5">No tenés partidas registradas todavía.</p>
+                {{/ultimas_partidas}}
+
+        <div class="d-flex justify-content-between px-5 mt-4">
             <a href="/TPFinal/Partida/show">
                 <button class="rounded-btn">Iniciar partida</button>
             </a>

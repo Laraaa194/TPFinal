@@ -7,6 +7,7 @@ class PerfilController
 
     public function __construct($model, $view)
     {
+        SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
     }
@@ -14,46 +15,24 @@ class PerfilController
 
     public function show()
     {
-        $this->requiereLogin();
 
-        $usuarioVista = [];
-        if (isset($_SESSION['usuario'])) {
-            $nombreUsuarioLogueado = $_SESSION['usuario'];
-            $datosUsuario = $this->model->getUsuario($nombreUsuarioLogueado);
+        $data = [];
 
-            if ($datosUsuario) {
-                $nombreImagen = $datosUsuario['foto_perfil'];
+            $nombreUsuarioLogueado = $_SESSION['usuario']['nombre'];
+            $datosUsuario = $this->model->getUsuarioConFoto($nombreUsuarioLogueado);
 
-                if ($nombreImagen == null || !file_exists('./public/imagenesUsuarios/' . $nombreImagen)) {
-                    $datosUsuario['foto_perfil'] = 'default.png';
-                }
+            $data['pagina'] = 'perfil';
+            $data['rutaLogo'] = '/TPFinal/Lobby/show';
+            $data['mostrarLogo'] = true;
+            $data['usuario'] = $datosUsuario;
 
-                $usuarioVista['usuario'] = $datosUsuario;
-            }
 
-            $usuarioVista['pagina'] = 'perfil';
-            $usuarioVista['rutaLogo'] = '/TPFinal/Lobby/show';
-
-            $this->view->render("Perfil", $usuarioVista);
-        }
-    }
-
-    private function requiereLogin()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+            $this->view->render("Perfil", $data);
         }
 
-        if (!isset($_SESSION['usuario'])) {
-            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            header("Location: /TPFinal/Login/show");
-            exit;
-        }
-    }
 
     public function cambiarFoto()
     {
-        $this->requiereLogin();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!empty($_FILES["imagen"]["name"])) {
 
@@ -67,11 +46,9 @@ class PerfilController
                 $ruta_destino = "./public/imagenesUsuarios/" . $imagen_nombre;
                 if (move_uploaded_file($imagen_tmp, $ruta_destino)) {
 
-                    // Actualizar en la base de datos con el nuevo nombre
                     $this->model->cambiarImagenPerfil($_SESSION['usuario'], $imagen_nombre);
 
-                    header("Location: /TPFinal/Perfil/show");
-                    exit();
+                    RedirectHelper::redirectTo("Perfil/show");
 
                 } else {
                     die("Error al subir la imagen.");

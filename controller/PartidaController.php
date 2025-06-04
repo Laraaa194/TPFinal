@@ -4,68 +4,84 @@ class PartidaController
 {
     private $view;
 
+    private $model;
+    private $preguntaModel;
 
-    public function __construct($view){
+    private $partidaPreguntaModel;
+
+
+    public function __construct($view, $model, $preguntaModel, $partidaPreguntaModel)
+    {
+        SessionHelper::requiereLogin();
         $this->view = $view;
+        $this->model = $model;
+        $this->preguntaModel = $preguntaModel;
+        $this->partidaPreguntaModel = $partidaPreguntaModel;
     }
 
-    public function show() {
-        $this->requiereLogin();
+    public function show()
+    {
+        $idUsuario = $_SESSION['usuario']['id'];
+        $partidaActiva = $this->model->getPartidaActiva($idUsuario);
 
-        $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
-        $categoriaElegida = $categorias[array_rand($categorias)];
-        $_SESSION['categoria_elegida'] = $categoriaElegida;
+
+        if ($partidaActiva === null) {
+            $this->crearPartida();
+            $partidaActiva = $this->model->getPartidaActiva($idUsuario);
+        }
+
+        if ($partidaActiva) {
+                $_SESSION['partida'] = $partidaActiva;
+        }
+
+        $categoria =  $this->preguntaModel->getCategoriaAleatoria();
+        $_SESSION['categoria_elegida'] = $categoria;
+
+
 
         $data = [
             'usuario' => $_SESSION['usuario'],
+            'mostrarLogo' => true,
             'pagina' => 'partida',
             'rutaLogo' => '/TPFinal/Partida/show',
-            'categoria_elegida' => $categoriaElegida
+            'categoria_elegida' =>  $_SESSION['categoria_elegida'],
+            'categoria_nombre' =>  $_SESSION['categoria_elegida']['nombre'],
+            'partida' => $_SESSION['partida']
         ];
 
         $this->view->render("Partida", $data);
     }
 
-    private function requiereLogin()
+    public function crearPartida()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        $idUsuario = $_SESSION['usuario']['id'];
+        $this->model->addPartida($idUsuario, true);
 
-        if (!isset($_SESSION['usuario'])) {
-            $_SESSION['error'] = 'Debes iniciar sesión para acceder al lobby.';
-            header("Location: /TPFinal/Login/show");
-            exit;
-        }
     }
-    public function pregunta() {
-        $this->requiereLogin();
 
-        $categorias = [
-            'ciencia' => ['nombre' => 'Ciencia', 'color' => '#e1fae4', 'color_pregunta' => '#178a2c'],
-            'deporte' => ['nombre' => 'Deportes', 'color' => '#fbded3', 'color_pregunta' => '#ff5500'],
-            'geografia' => ['nombre' => 'Geografía', 'color' => '#bcc3df', 'color_pregunta' => '#2626c2'],
-            'arte' => ['nombre' => 'Arte', 'color' => '#fae2e2', 'color_pregunta' => '#c92e2e'],
-            'historia' => ['nombre' => 'Historia', 'color' => '#f6db91', 'color_pregunta' => '#ffcc4d'],
-            'entretenimiento' => ['nombre' => 'Entretenimiento', 'color' => '#fadfec', 'color_pregunta' => '#c43e93'],
-        ];
+    public function terminarPartida()
+    {
 
-        $cat = $_SESSION['categoria_elegida'] ?? null;
+        $idPartida= $this->model->getIdPartida($_SESSION['usuario']['id']);
+        $idPregunta = isset($_SESSION['id_pregunta']) ? (int)$_SESSION['id_pregunta'] : 0;
+        $esCorrecta =  $this->partidaPreguntaModel->esCorrecta($idPartida, $idPregunta);
 
-        if (!array_key_exists($cat, $categorias)) {
-            $_SESSION['error'] = 'Categoría inválida.';
-            header("Location: /TPFinal/Partida/show");
-            exit;
+        if($esCorrecta == 0 || isset($_POST['botonSalir']) ){
+            $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
+            $puntaje=isset($_SESSION['partida']['puntaje_total']) ? (int)$_SESSION['partida']['puntaje_total'] : 0 ;
+            $this->model->terminarPartida($idUsuario, $puntaje);
+            unset($_SESSION['respuesta_correcta'], $_SESSION['partida']['puntaje_total'], $_SESSION['id_pregunta'],
+                $_SESSION['respuestas'], $_SESSION['categoria_elegida'],$_SESSION['categoria_elegida']['nombre'],
+                $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
         }
 
-        $data = [
-            'usuario' => $_SESSION['usuario'],
-            'pagina' => 'pregunta',
-            'categoria' => $categorias[$cat]['nombre'],
-            'color_fondo' => $categorias[$cat]['color'],
-            'color_pregunta' => $categorias[$cat]['color_pregunta'],
-        ];
-
-        $this->view->render("Pregunta", $data);
+        RedirectHelper::redirectTo("Lobby/show");
     }
+
+    public function partidaPerdida()
+    {
+        $this->view->render("PartidaPerdida");
+    }
+
 }
+
