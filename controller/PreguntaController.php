@@ -20,7 +20,7 @@ class PreguntaController
     {
 
         $data = $this->obtenerPreguntaDesdeSesion();
-        if ($data) {
+        if ($data) { //si ya hay una pregunta en la sesion mostrarla
             $this->view->render("Pregunta", $data);
             return;
         }
@@ -40,10 +40,10 @@ class PreguntaController
         $_SESSION['pregunta'] = $pregunta['enunciado'];
         $_SESSION['respuestas'] = $respuestas;
         $_SESSION['id_pregunta'] = $pregunta['id'];
+        $_SESSION['tiempo_inicio_pregunta'] = time();
 
 
         $respuestaCorrecta = $_SESSION['respuesta_correcta'] ?? false;
-        //esto es para cuando mostremos si la rta fue correcta o no y no peuda hacer trampa
 
         $data = [
             'usuario' => $_SESSION['usuario'],
@@ -68,6 +68,22 @@ class PreguntaController
             $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
             $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
 
+            $this->checkTiempoLimite($preguntaId);
+//            $tiempoActual = time();
+//            $tiempoInicio = $_SESSION['tiempo_inicio_pregunta'] ?? 0;
+//            $tiempoLimite = 10;
+//            if (($tiempoActual - $tiempoInicio) > $tiempoLimite) {
+//                // Tiempo excedido: forzamos como incorrecta
+//                $_SESSION['respuesta_correcta'] = false;
+//                $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
+//                $_SESSION['respuesta_ingresada'] = null;
+//                $idPartida = $_SESSION['partida']['id'];
+//
+//                $this->partidaPreguntaModel->registrarTurno($idPartida, $preguntaId, false);
+//                RedirectHelper::redirectTo("Resultado/show");
+//                return;
+//            }
+
 
             $esCorrecta=$this->model->esRespuestaCorrecta($preguntaId,$respuestaId);
             $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
@@ -83,13 +99,13 @@ class PreguntaController
                 $_SESSION['partida']['puntaje_total'] = $this->model->sumarPunto($idPartida);
                 $_SESSION['respuesta_correcta'] = true;
 
-                RedirectHelper::redirectTo("Resultado/show");
+//                RedirectHelper::redirectTo("Resultado/show");
             } else {
                 $_SESSION['respuesta_correcta'] = false;
-                RedirectHelper::redirectTo("Resultado/show");
+//                RedirectHelper::redirectTo("Resultado/show");
 
             }
-
+            RedirectHelper::redirectTo("Resultado/show");
         }
     }
 
@@ -115,6 +131,23 @@ class PreguntaController
             'respuesta_correcta' => $respuestaCorrecta,
         ];
     }
+    private function checkTiempoLimite(int $preguntaId)
+    {
+        $tiempoActual = time();
+        $tiempoInicio = $_SESSION['tiempo_inicio_pregunta'] ?? 0;
+        $tiempoLimite = 10;
 
+        if (($tiempoActual - $tiempoInicio) > $tiempoLimite) {
+            // Tiempo excedido: forzamos como incorrecta
+            $_SESSION['respuesta_correcta'] = false;
+            $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
+            $_SESSION['respuesta_ingresada'] = null;
+            $idPartida = $_SESSION['partida']['id'];
+
+            $this->partidaPreguntaModel->registrarTurno($idPartida, $preguntaId, false);
+
+            RedirectHelper::redirectTo("Resultado/show");
+        }
+    }
 
 }
