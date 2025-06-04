@@ -7,7 +7,7 @@ class LobbyController
 
     public function __construct($view,$partidaModel)
     {
-        SessionController::requiereLogin();
+        SessionHelper::requiereLogin();
         $this->view = $view;
         $this->partidaModel = $partidaModel;
     }
@@ -27,6 +27,7 @@ class LobbyController
         $data['pagina'] = 'lobby';
         $data['rutaLogo'] = '/TPFinal/Lobby/show';
         $data['mostrarLogo'] = true;
+        $data['partida'] = $_SESSION['partida'];
 
         $this->view->render("Lobby", $data);
     }

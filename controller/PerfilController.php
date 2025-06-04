@@ -7,7 +7,7 @@ class PerfilController
 
     public function __construct($model, $view)
     {
-        SessionController::requiereLogin();
+        SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
     }
@@ -16,29 +16,19 @@ class PerfilController
     public function show()
     {
 
-        $usuarioVista = [];
-        if (isset($_SESSION['usuario'])) {
+        $data = [];
+
             $nombreUsuarioLogueado = $_SESSION['usuario']['nombre'];
-            $datosUsuario = $this->model->getUsuario($nombreUsuarioLogueado);
+            $datosUsuario = $this->model->getUsuarioConFoto($nombreUsuarioLogueado);
 
-            if ($datosUsuario) {
-                $nombreImagen = $datosUsuario['foto_perfil'];
-
-                if ($nombreImagen == null || !file_exists('./public/imagenesUsuarios/' . $nombreImagen)) {
-                    $datosUsuario['foto_perfil'] = 'default.png';
-                }
-
-                $usuarioVista['usuario'] = $datosUsuario;
-            }
-
-            $usuarioVista['pagina'] = 'perfil';
-            $usuarioVista['rutaLogo'] = '/TPFinal/Lobby/show';
-            $usuarioVista['mostrarLogo'] = true;
+            $data['pagina'] = 'perfil';
+            $data['rutaLogo'] = '/TPFinal/Lobby/show';
+            $data['mostrarLogo'] = true;
+            $data['usuario'] = $datosUsuario;
 
 
-            $this->view->render("Perfil", $usuarioVista);
+            $this->view->render("Perfil", $data);
         }
-    }
 
 
     public function cambiarFoto()
@@ -56,11 +46,9 @@ class PerfilController
                 $ruta_destino = "./public/imagenesUsuarios/" . $imagen_nombre;
                 if (move_uploaded_file($imagen_tmp, $ruta_destino)) {
 
-                    // Actualizar en la base de datos con el nuevo nombre
                     $this->model->cambiarImagenPerfil($_SESSION['usuario'], $imagen_nombre);
 
-                    header("Location: /TPFinal/Perfil/show");
-                    exit();
+                    RedirectHelper::redirectTo("Perfil/show");
 
                 } else {
                     die("Error al subir la imagen.");

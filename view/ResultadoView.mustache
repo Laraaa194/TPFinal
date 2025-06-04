@@ -1,0 +1,51 @@
+<main class="min-vh-90 ">
+    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+        <button type="button" class="btn btn-outline-danger rounded-circle position-absolute top-0 end-0 m-3" onclick="window.history.back()" aria-label="Cerrar">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div class="container d-flex align-items-center justify-content-center mt-5 mb-3"
+             style="background-color: {{color_pregunta}}; max-width: 340px; height: 70px; border-radius: 40px;">
+            <img src="/TPFinal/public/img/{{categoria}}.png" style="width: 40px">
+            <h2 class="fw-bold text-center text-white m-0 ms-2">{{categoria}}</h2>
+        </div>
+
+        <div class="container mt-2 text-center" style="max-width: 700px;">
+           <div class="pregunta-card bg-white rounded shadow ">
+                <div class="pregunta-header p-3 text-white rounded-top" style="background-color: {{color_pregunta}}">
+
+                   <h5 class="mb-0 fs-4">{{pregunta}}</h5>
+
+
+                </div>
+
+                   <div class="list-group">
+                       {{#respuestas}}
+                           {{#correcta}}
+                               <div class="list-group-item py-4" style="color: {{color_respuesta}};">
+                                   {{texto}}
+                               </div>
+                           {{/correcta}}
+                           {{^correcta}}
+                               <div  value="{{id}}" class="list-group-item list-group-item-action py-4" style='color: {{color_respuesta}};'>
+                                   {{texto}}
+                               </div>
+                           {{/correcta}}
+                       {{/respuestas}}
+                   </div>
+
+                   <input type="hidden" name="preguntaId" value="{{id_pregunta}}">
+
+           </div>
+       </div>
+
+    </div>
+<!--    <p class="text-success fw-bold fs-4">Correcto! +1 punto</p>-->
+    <div class="text-center mt-4">
+        <a href="/TPFinal/{{botonRedirect}}" class="btn {{#esCorrecta}}btn-success{{/esCorrecta}}{{^esCorrecta}}btn-danger{{/esCorrecta}} btn-lg">
+            {{nombre_boton}}
+        </a>
+    </div>
+
+</main>
+

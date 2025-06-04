@@ -7,16 +7,9 @@ class RegisterController
 
     public function __construct($model, $view)
     {
-        SessionController::requiereLogin();
+        SessionHelper::LoginStarter();
         $this->model = $model;
         $this->view = $view;
-    }
-
-    private function iniciarSesion()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
     }
 
     public function add()
@@ -35,6 +28,7 @@ class RegisterController
             $apellido = $_POST["apellido"];
             $anoNacimiento = $_POST["anoNacimiento"];
             $sexo = $_POST["sexo"];
+            $sexo = $this->model->getIdSexos($sexo);
             $email = $_POST["correo"];
             $password = $_POST["contrasena"];
             $repetirContrasena = $_POST["repetirContrasena"];
@@ -57,21 +51,17 @@ class RegisterController
             }
 
             if (!empty($_SESSION['errors'])) {
-                SessionController::redirectTo("Register/show");
+                RedirectHelper::redirectTo("Register/show");
             }
 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $_SESSION['success'] = '¡Te registraste correctamente!';
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
-            $this->model->add($nombre, $apellido, $anoNacimiento, $this->getIdSexo($sexo), $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
-            SessionController::redirectTo("Login/show");
+            $this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
+            RedirectHelper::redirectTo("Login/show");
         }
     }
 
-    public function getIdSexo($sexo)
-    {
-        return $this->model->getIdSexos($sexo);
-    }
     public function agregarImagen($imagen, $nombreUsuario)
     {
         $error = [];
@@ -84,24 +74,21 @@ class RegisterController
 
         if (!move_uploaded_file($imagen_tmp, $ruta_destino)) {
             $error = "Error: No se pudo subir el archivo.";
-            SessionController::redirectTo("Register/show");
+            RedirectHelper::redirectTo("Register/show");
 
-            exit();
         }
             return $imagen_nombre;
     }
 
 
-    public function validarContrasenia($password, $contraseniaRepetida){
-        if($password == $contraseniaRepetida) {
+    public function validarContrasenia($password, $contraseniaRepetida)
+    {
+        if ($password == $contraseniaRepetida) {
             return true;
         }
-
-
     }
     public function show()
     {
-        $this->iniciarSesion();
         $dataRegister = [];
 
         if (isset($_SESSION['errors'])) {

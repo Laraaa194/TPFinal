@@ -13,20 +13,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const categoriaElegida = document.getElementById("categoria-data")?.dataset.categoria;
+
     const playBtn = document.querySelector(".play-btn");
     if (!playBtn || !categoriaElegida) return;
 
     playBtn.addEventListener("click", function () {
         playBtn.disabled = true;
+
+
         const categories = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6'];
         const categoryMap = {
-            cat1: 'ciencia',
-            cat2: 'deporte',
-            cat3: 'geografia',
-            cat4: 'arte',
-            cat5: 'historia',
-            cat6: 'entretenimiento'
+            cat1: 'Ciencia',
+            cat2: 'Deporte',
+            cat3: 'Geografía',
+            cat4: 'Arte',
+            cat5: 'Historia',
+            cat6: 'Entretenimiento'
         };
+
 
         const finalCatId = Object.keys(categoryMap).find(key => categoryMap[key] === categoriaElegida);
         const finalIndex = categories.indexOf(finalCatId);

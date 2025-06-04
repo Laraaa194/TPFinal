@@ -1,6 +1,5 @@
 <?php
 
-require_once 'SessionController.php';
 class LoginController
 {
     private $model;
@@ -8,6 +7,7 @@ class LoginController
 
     public function __construct($model, $view)
     {
+        SessionHelper::LoginStarter();
         $this->model = $model;
         $this->view = $view;
     }
@@ -15,7 +15,6 @@ class LoginController
 
     public function login()
     {
-        $this->iniciarSesion();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = $_POST['usuario'] ?? '';
@@ -28,37 +27,25 @@ class LoginController
                 $_SESSION['usuario'] = [
                     'id' => $usuarioEncontrado['id_usuario'],
                     'nombre' => $usuarioEncontrado['nombre_usuario'],
-                    'puntaje' =>0
                 ];
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
-                SessionController::redirectTo("Lobby/show");
+                RedirectHelper::redirectTo("Lobby/show");
                 exit;
             } else if(empty($usuario) || empty($contrasenia)) {
                 $_SESSION['error'] = 'Completa los campos para continuar';
-                SessionController::redirectTo("Login/show");
+                RedirectHelper::redirectTo("Login/show");
                 exit;
             }else{
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
-                SessionController::redirectTo("Login/show");
+                RedirectHelper::redirectTo("Login/show");
                 exit;
             }
         }
 
     }
 
-    private function iniciarSesion()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
-
     public function show()
     {
-
-        $this->iniciarSesion();
-
-
         $data = [];
 
         if (isset($_SESSION['error'])) {
@@ -79,12 +66,10 @@ class LoginController
 
     }
 
-
     public function logOut(){
-        session_start();
         session_unset();
         session_destroy();
-        SessionController::redirectTo("home/show");
+        RedirectHelper::redirectTo("home/show");
     }
 
 

@@ -9,112 +9,52 @@ class PreguntaController
 
     public function __construct($model, $view, $partidaPreguntaModel)
     {
-        SessionController::requiereLogin();
+        SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
         $this->partidaPreguntaModel = $partidaPreguntaModel;
-    }
-
-    public function getPregunta($id_categoria)
-    {
-        return $this->model->getPregunta($id_categoria);
-    }
-
-    public function getRespuestas($id_pregunta)
-    {
-        return $this->model->getRespuestas($id_pregunta);
-    }
-
-    public function esRespuestaCorrecta($idPregunta, $idRespuesta)
-    {
-    return $this->model->esRespuestaCorrecta($idPregunta,$idRespuesta);
-    }
-
-
-    public function getCategoria($id_categoria)
-    {
-        return $this->model->getCategorias($id_categoria);
     }
 
 
     public function showPregunta()
     {
 
-        // ✅ Si ya hay una pregunta cargada, usarla para evitar que cambie al recargar
-        if (isset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta'])) {
-            $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
-            $respuestaCorrecta = $_SESSION['respuesta_correcta'] ?? false;
-            unset($_SESSION['respuesta_correcta']);
-
-            $categorias = $this->getCategorias();
-
-            $data = [
-                'usuario' => $_SESSION['usuario'],
-                'pagina' => 'pregunta',
-                'mostrarLogo' => false,
-                'categoria' => $categorias[$categoriaNombre]['nombre'],
-                'color_fondo' => $categorias[$categoriaNombre]['color'],
-                'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
-                'pregunta' => $_SESSION['pregunta'],
-                'respuestas' => $_SESSION['respuestas'],
-                'id_pregunta' => $_SESSION['id_pregunta'],
-                'respuesta_correcta' => $respuestaCorrecta,
-            ];
-
-
+        $data = $this->obtenerPreguntaDesdeSesion();
+        if ($data) {
             $this->view->render("Pregunta", $data);
             return;
         }
 
-        // ✅ Si no hay pregunta previa, generarla
-        $mapaCategorias = [
-            'ciencia' => 1,
-            'deporte' => 2,
-            'geografia' => 3,
-            'arte' => 4,
-            'historia' => 5,
-            'entretenimiento' => 6
-        ];
+        $id_categoria = $_SESSION['categoria_elegida']['id'];
+        $dataPregunta = $this->model->getPreguntaConRespuestas($id_categoria);
 
-        $categoriaNombre = $_SESSION['categoria_elegida'] ?? null;
-        if (!isset($mapaCategorias[$categoriaNombre])) {
-            $_SESSION['error'] = 'Categoría inválida.';
-            SessionController::redirectTo("Partida/show");
-            exit;
-        }
-
-        $id_categoria = $mapaCategorias[$categoriaNombre];
-        $pregunta = $this->getPregunta($id_categoria);
-
-        if (!$pregunta) {
+        if (!$dataPregunta) {
             $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-            SessionController::redirectTo("Partida/show");
-            exit;
+            RedirectHelper::redirectTo("Partida/show");
         }
 
-        $idPregunta = $pregunta['id'];
-        $respuestas = $this->getRespuestas($idPregunta);
+        $pregunta = $dataPregunta['pregunta'];
+        $respuestas = $dataPregunta['respuestas'];
 
         // Guardar en sesión para evitar que cambie con F5
         $_SESSION['pregunta'] = $pregunta['enunciado'];
         $_SESSION['respuestas'] = $respuestas;
-        $_SESSION['id_pregunta'] = $idPregunta;
+        $_SESSION['id_pregunta'] = $pregunta['id'];
 
-        $categorias = $this->getCategorias();
 
         $respuestaCorrecta = $_SESSION['respuesta_correcta'] ?? false;
-        unset($_SESSION['respuesta_correcta']);
+        //esto es para cuando mostremos si la rta fue correcta o no y no peuda hacer trampa
 
         $data = [
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
             'mostrarLogo' => false,
-            'categoria' => $categorias[$categoriaNombre]['nombre'],
-            'color_fondo' => $categorias[$categoriaNombre]['color'],
-            'color_pregunta' => $categorias[$categoriaNombre]['color_pregunta'],
+            'categoria' =>  $_SESSION['categoria_elegida']['nombre'],
+            'color_fondo' => $_SESSION['categoria_elegida']['color_fondo'],
+            'color_pregunta' => $_SESSION['categoria_elegida']['color'],
             'pregunta' => $pregunta['enunciado'],
             'respuestas' => $respuestas,
-            'id_pregunta' => $idPregunta,
+            'id_pregunta' => $_SESSION['id_pregunta'],
             'respuesta_correcta' => $respuestaCorrecta,
         ];
 
@@ -130,46 +70,51 @@ class PreguntaController
 
 
             $esCorrecta=$this->model->esRespuestaCorrecta($preguntaId,$respuestaId);
+            $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
+
 
             $_SESSION['respuesta_ingresada'] = $respuestaId;
-            $idPartida = $_SESSION['partida']['id_partida'];
+            $idPartida = $_SESSION['partida']['id'];
 
             $this->partidaPreguntaModel->registrarTurno($idPartida,$preguntaId,$esCorrecta);
 
 
             if ($esCorrecta) {
-                $_SESSION['usuario']['puntaje']+=1;
+                $_SESSION['partida']['puntaje_total'] = $this->model->sumarPunto($idPartida);
                 $_SESSION['respuesta_correcta'] = true;
 
-                unset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta']);
-                SessionController::redirectTo("Partida/show");
+                RedirectHelper::redirectTo("Resultado/show");
             } else {
-                $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
-                $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
+                $_SESSION['respuesta_correcta'] = false;
+                RedirectHelper::redirectTo("Resultado/show");
 
-                SessionController::redirectTo("Partida/terminarPartida");
-
-                exit();
             }
+
         }
     }
 
-
-
-    public function getCategorias(): array
+    private function obtenerPreguntaDesdeSesion()
     {
-        $categorias = [
-            'ciencia' => ['nombre' => 'Ciencia', 'color' => '#e1fae4', 'color_pregunta' => '#178a2c'],
-            'deporte' => ['nombre' => 'Deporte', 'color' => '#fbded3', 'color_pregunta' => '#ff5500'],
-            'geografia' => ['nombre' => 'Geografía', 'color' => '#bcc3df', 'color_pregunta' => '#2626c2'],
-            'arte' => ['nombre' => 'Arte', 'color' => '#fae2e2', 'color_pregunta' => '#c92e2e'],
-            'historia' => ['nombre' => 'Historia', 'color' => '#f6db91', 'color_pregunta' => '#ffcc4d'],
-            'entretenimiento' => ['nombre' => 'Entretenimiento', 'color' => '#fadfec', 'color_pregunta' => '#c43e93'],
+        if (!isset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta'], $_SESSION['categoria_elegida'])) {
+            return null;
+        }
+
+        $categoria = $_SESSION['categoria_elegida'];
+        $respuestaCorrecta = $_SESSION['respuesta_correcta'] ?? false;
+
+        return [
+            'usuario' => $_SESSION['usuario'],
+            'pagina' => 'pregunta',
+            'mostrarLogo' => false,
+            'categoria' => $categoria['nombre'],
+            'color_fondo' => $categoria['color_fondo'],
+            'color_pregunta' => $categoria['color'],
+            'pregunta' => $_SESSION['pregunta'],
+            'respuestas' => $_SESSION['respuestas'],
+            'id_pregunta' => $_SESSION['id_pregunta'],
+            'respuesta_correcta' => $respuestaCorrecta,
         ];
-        return $categorias;
     }
-
-
 
 
 }

@@ -50,24 +50,14 @@ class PartidaModel
         return $result->fetch_assoc();
     }
 
-//    public function getEstadoPartida($idUsuario)
-//    {
-//        $conn = $this->connect();
-//        $stmt = $conn->prepare("SELECT esta_activa FROM partida WHERE id_jugador = ?");
-//        $stmt->bind_param("i", $idUsuario);
-//        $stmt->execute();
-//        $result = $stmt->get_result();
-//        return $result->fetch_assoc();
-//    }
-
     public function getPartidaActiva($idUsuario)
     {
         $conn = $this->connect();
-        $stmt = $conn->prepare("SELECT id FROM partida WHERE id_jugador = ? AND esta_activa = 1 ORDER BY id DESC LIMIT 1");
+        $stmt = $conn->prepare("SELECT * FROM partida WHERE id_jugador = ? AND esta_activa = 1 ORDER BY id DESC LIMIT 1");
         $stmt->bind_param("i", $idUsuario);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc(); // retorna ['id' => ...] o null
+        return $result->fetch_assoc();
     }
 
 

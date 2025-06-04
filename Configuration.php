@@ -1,6 +1,8 @@
 <?php
 const BASE_URL = '/TPFinal/';
 
+require_once("helper/RedirectHelper.php");
+require_once("helper/SessionHelper.php");
 
 require_once("core/Database.php");
 require_once("core/FilePresenter.php");
@@ -14,6 +16,7 @@ require_once ("controller/LobbyController.php");
 require_once("controller/PerfilController.php");
 require_once("controller/PartidaController.php");
 require_once("controller/PreguntaController.php");
+require_once("controller/ResultadoController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -84,7 +87,11 @@ class Configuration
         new PartidaPreguntaModel($this->getDatabase()));
     }
 
-
+    public function getResultadoController()
+    {
+        return new ResultadoController
+        ($this->getViewer());
+    }
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);

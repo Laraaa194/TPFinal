@@ -97,4 +97,19 @@ class PerfilModel
         return true;
     }
 
+    public function getUsuarioConFoto($nombre)
+    {
+        $usuario = $this->getUsuario($nombre);
+
+        if ($usuario) {
+            $foto = $usuario['foto_perfil'];
+            if ($foto === null || !file_exists('./public/imagenesUsuarios/' . $foto)) {
+                $usuario['foto_perfil'] = 'default.png';
+            }
+        }
+
+        return $usuario;
+    }
+
+
 }

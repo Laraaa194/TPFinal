@@ -3,7 +3,7 @@
         <h4>{{usuario.nombre}}</h4>
         <div class="d-flex justify-content-around mt-2">
             <span><strong>Partida en progreso</strong></span>
-            <span><strong>Puntos: {{usuario.puntaje}}</strong></span>
+            <span><strong>Puntos: {{partida.puntaje_total}}</strong></span>
         </div>
     </div>
 
@@ -51,5 +51,5 @@
         </div>
     </div>
 </div>
-<div id="categoria-data" data-categoria="{{categoria_elegida}}"></div>
+<div id="categoria-data" data-categoria="{{categoria_nombre}}"></div>
 <script src="/TPFinal/public/Js/ruleta.js"></script>

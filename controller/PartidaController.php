@@ -12,7 +12,7 @@ class PartidaController
 
     public function __construct($view, $model, $preguntaModel, $partidaPreguntaModel)
     {
-        SessionController::requiereLogin();
+        SessionHelper::requiereLogin();
         $this->view = $view;
         $this->model = $model;
         $this->preguntaModel = $preguntaModel;
@@ -22,20 +22,21 @@ class PartidaController
     public function show()
     {
         $idUsuario = $_SESSION['usuario']['id'];
-        $idPartidaActiva= $this->model->getPartidaActiva($idUsuario);
+        $partidaActiva = $this->model->getPartidaActiva($idUsuario);
 
-        if ($idPartidaActiva === null) {
+
+        if ($partidaActiva === null) {
             $this->crearPartida();
-            $idPartidaActiva = $this->model->getPartidaActiva($idUsuario);
+            $partidaActiva = $this->model->getPartidaActiva($idUsuario);
         }
 
-        if ($idPartidaActiva) {
-                $_SESSION['partida']['id_partida'] = $idPartidaActiva['id'];
+        if ($partidaActiva) {
+                $_SESSION['partida'] = $partidaActiva;
         }
 
-        $categorias = ['ciencia', 'deporte', 'geografia', 'arte', 'historia', 'entretenimiento'];
-        $categoriaElegida = $categorias[array_rand($categorias)];
-        $_SESSION['categoria_elegida'] = $categoriaElegida;
+        $categoria =  $this->preguntaModel->getCategoriaAleatoria();
+        $_SESSION['categoria_elegida'] = $categoria;
+
 
 
         $data = [
@@ -43,77 +44,44 @@ class PartidaController
             'mostrarLogo' => true,
             'pagina' => 'partida',
             'rutaLogo' => '/TPFinal/Partida/show',
-            'categoria_elegida' => $categoriaElegida
-
+            'categoria_elegida' =>  $_SESSION['categoria_elegida'],
+            'categoria_nombre' =>  $_SESSION['categoria_elegida']['nombre'],
+            'partida' => $_SESSION['partida']
         ];
 
         $this->view->render("Partida", $data);
     }
 
-    public function crearPartida(): bool
+    public function crearPartida()
     {
-        SessionController::requiereLogin();
         $idUsuario = $_SESSION['usuario']['id'];
         $this->model->addPartida($idUsuario, true);
-        return true;
 
     }
-
-
-//    public function finalizarPartida()
-//    {
-//        $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
-//        $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
-//        $_SESSION['usuario']['puntaje']=0;
-//        $this->model->addPartida($idUsuario,$puntaje,"Perdida");
-//        $this->partidaPerdida();
-//        exit();
-//    }
-
 
     public function terminarPartida()
     {
 
         $idPartida= $this->model->getIdPartida($_SESSION['usuario']['id']);
         $idPregunta = isset($_SESSION['id_pregunta']) ? (int)$_SESSION['id_pregunta'] : 0;
-
         $esCorrecta =  $this->partidaPreguntaModel->esCorrecta($idPartida, $idPregunta);
 
-        if(!$esCorrecta  || isset($_POST['botonSalir']) ){
+        if($esCorrecta == 0 || isset($_POST['botonSalir']) ){
             $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
-            $puntaje=isset($_SESSION['usuario']['puntaje']) ? (int)$_SESSION['usuario']['puntaje'] : 0 ;
-            $_SESSION['usuario']['puntaje']=0;
-
+            $puntaje=isset($_SESSION['partida']['puntaje_total']) ? (int)$_SESSION['partida']['puntaje_total'] : 0 ;
             $this->model->terminarPartida($idUsuario, $puntaje);
-            SessionController::redirectTo("Lobby/show");
-            exit;
+            unset($_SESSION['respuesta_correcta'], $_SESSION['partida']['puntaje_total'], $_SESSION['id_pregunta'],
+                $_SESSION['respuestas'], $_SESSION['categoria_elegida'],$_SESSION['categoria_elegida']['nombre'],
+                $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
         }
+
+        RedirectHelper::redirectTo("Lobby/show");
     }
 
     public function partidaPerdida()
     {
         $this->view->render("PartidaPerdida");
     }
-
-
-    //no se usa mas--> manejamos eso en el modelo
-//    public function tienePartidaActiva($idUsuario): bool
-//    {
-//        $estadoPartida = $this->model->getEstadoPartida($idUsuario);
-//
-//        return isset($estadoPartida['esta_activa']) && $estadoPartida['esta_activa'] === true;
-//    }
-
-
-    public function getPartidas($idUsuario)
-    {
-        return $this->model->getPartidas($idUsuario);
-    }
-
-
-
-
-
 
 }
 

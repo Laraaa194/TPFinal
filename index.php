@@ -4,7 +4,6 @@ $configuration = new Configuration();
 $router = $configuration->getRouter();
 
 
-
 $controller = $_GET["controller"] ?? "Home";
 $method = $_GET["method"] ?? "show";
 
