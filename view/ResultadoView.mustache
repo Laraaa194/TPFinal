@@ -22,12 +22,12 @@
                    <div class="list-group">
                        {{#respuestas}}
                            {{#correcta}}
-                               <div class="list-group-item py-4" style="color: {{color_respuesta}};">
+                               <div class="list-group-item py-4 disabled" style="color: {{color_respuesta}};">
                                    {{texto}}
                                </div>
                            {{/correcta}}
                            {{^correcta}}
-                               <div  value="{{id}}" class="list-group-item list-group-item-action py-4" style='color: {{color_respuesta}};'>
+                               <div  value="{{id}}" class="list-group-item list-group-item-action py-4 disabled" style='color: {{color_respuesta}};'>
                                    {{texto}}
                                </div>
                            {{/correcta}}
@@ -40,7 +40,14 @@
        </div>
 
     </div>
-<!--    <p class="text-success fw-bold fs-4">Correcto! +1 punto</p>-->
+    <div>
+        {{#esCorrecta}}
+            <p class="fw-bold fs-4 text-center mt-3 text-success">{{mensaje}}</p>
+        {{/esCorrecta}}
+        {{^esCorrecta}}
+        <p class="fw-bold fs-4 text-center mt-3 text-danger">{{mensaje}}</p>
+        {{/esCorrecta}}
+    </div>
     <div class="text-center mt-4">
         <a href="/TPFinal/{{botonRedirect}}" class="btn {{#esCorrecta}}btn-success{{/esCorrecta}}{{^esCorrecta}}btn-danger{{/esCorrecta}} btn-lg">
             {{nombre_boton}}

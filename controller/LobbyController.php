@@ -27,7 +27,6 @@ class LobbyController
         $data['pagina'] = 'lobby';
         $data['rutaLogo'] = '/TPFinal/Lobby/show';
         $data['mostrarLogo'] = true;
-        $data['partida'] = $_SESSION['partida'];
 
         $this->view->render("Lobby", $data);
     }
