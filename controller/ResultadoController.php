@@ -54,18 +54,6 @@ class ResultadoController
         }
         unset($respuesta);
 
-//        if (!empty($_SESSION['respuesta_correcta'])) {
-//            $botonRedirect = 'Partida/show';
-//            $nombre_boton = 'Continuar';
-//            $mensaje = '¡Respuesta Correcta! + 1 punto';
-//        }
-//        else {
-//
-//            $botonRedirect = 'Partida/terminarPartida';
-//            $nombre_boton = 'Finalizar';
-//            $mensaje = '¡Respuesta incorrecta!';
-//        }
-
         $mensaje = '';
         if ($timeout) {
             $mensaje = '⏰ Tiempo agotado';
@@ -83,6 +71,7 @@ class ResultadoController
             $nombre_boton = 'Finalizar';
         }
 
+
         $data = [
             'pregunta' => $preguntaEnunciado,
             'respuestas' => $respuestas,
@@ -97,14 +86,10 @@ class ResultadoController
             'mensaje'=> $mensaje
         ];
 
-        $this->unset();
+
         $this->view->render("Resultado", $data);
     }
 
-    public function unset(){
-        unset($_SESSION['respuesta_correcta'], $_SESSION['id_pregunta'],
-            $_SESSION['respuestas'], $_SESSION['categoria_elegida'],
-            $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
-    }
+
 }
 

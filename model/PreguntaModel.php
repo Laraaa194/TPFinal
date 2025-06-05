@@ -4,9 +4,12 @@ class PreguntaModel
 {
     private $database;
 
-    public function __construct($database)
+    private $preguntaUsuarioModel;
+
+    public function __construct($database, $preguntaUsuarioModel)
     {
         $this->database = $database;
+        $this->preguntaUsuarioModel = $preguntaUsuarioModel;
     }
 
     public function connect(){
@@ -132,6 +135,16 @@ public function getCategorias(): array
         ];
     }
 
+    public function getCantidadPreguntas($id_categoria) {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT COUNT(*) as cantidad FROM pregunta WHERE id_categoria = ?");
+        $stmt->bind_param("i", $id_categoria);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['cantidad'];
+    }
+
     public function sumarPunto($idPartida)
     {
         $conn = $this->connect();
@@ -140,5 +153,28 @@ public function getCategorias(): array
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $idPartida);
         $stmt->execute();
+    }
+
+    public function obtenerPreguntaNoRepetida($idUsuario, $idCategoria) {
+        $maxIntentos = $this->getCantidadPreguntas($idCategoria);
+        $intentos = 0;
+
+        do {
+            $dataPregunta = $this->getPreguntaConRespuestas($idCategoria);
+            if (!$dataPregunta) return null;
+
+            $pregunta = $dataPregunta['pregunta'];
+            $intentos++;
+        } while (
+            $this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null &&
+            $intentos < $maxIntentos
+        );
+
+        if ($intentos >= $maxIntentos) {
+            $this->preguntaUsuarioModel->eliminarRegistroDePreguntasContestadas($idUsuario, $idCategoria);
+            $dataPregunta = $this->getPreguntaConRespuestas($idCategoria);
+        }
+
+        return $dataPregunta;
     }
 }
