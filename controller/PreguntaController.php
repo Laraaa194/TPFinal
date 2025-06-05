@@ -9,13 +9,16 @@ class PreguntaController
 
     private $preguntaUsuarioModel;
 
-    public function __construct($model, $view, $partidaPreguntaModel, $preguntaUsuarioModel)
+    private $usuarioModel;
+
+    public function __construct($model, $view, $partidaPreguntaModel, $preguntaUsuarioModel, $usuarioModel)
     {
         SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
         $this->partidaPreguntaModel = $partidaPreguntaModel;
         $this->preguntaUsuarioModel = $preguntaUsuarioModel;
+        $this->usuarioModel = $usuarioModel;
     }
 
 
@@ -24,13 +27,16 @@ class PreguntaController
 
         $this->unsetSessionPregunta();
 
+
         $data = $this->obtenerPreguntaDesdeSesion();
         if ($data) { //si ya hay una pregunta en la sesion mostrarla
             $this->view->render("Pregunta", $data);
             return;
         }
+        $nivelUsuario = $this->usuarioModel->nivelUsuario($_SESSION['usuario']['id']);
 
-        $dataPregunta = $this->model->obtenerPreguntaNoRepetida($_SESSION['usuario']['id'], $_SESSION['categoria_elegida']['id']);
+        $dataPregunta = $this->model->obtenerPreguntaNoRepetida($_SESSION['usuario']['id'], $_SESSION['categoria_elegida']['id'], $nivelUsuario);
+        $this->usuarioModel->incrementarPreguntasRecibidas($_SESSION['usuario']['id']);
 
         if (!$dataPregunta) {
             $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
@@ -89,6 +95,7 @@ class PreguntaController
             if ($esCorrecta) {
                 $_SESSION['partida']['puntaje_total'] = $this->model->sumarPunto($idPartida);
                 $_SESSION['respuesta_correcta'] = true;
+                $this->usuarioModel->incrementarPreguntasAcertadas($_SESSION['usuario']['id']);
 
             } else {
                 $_SESSION['respuesta_correcta'] = false;
@@ -147,29 +154,6 @@ class PreguntaController
         }
     }
 
-//    public function getPreguntaNoRepetida(){
-//        $id_categoria = $_SESSION['categoria_elegida']['id'];
-//        $dataPregunta = $this->model->getPreguntaConRespuestas($id_categoria);
-//        $pregunta = $dataPregunta['pregunta'];
-//        $idUsuario = $_SESSION['usuario']['id'];
-//
-//        $intentos = 0;
-//        $maxIntentos = $this->model->getCantidadPreguntas($id_categoria);
-//
-//        while ($this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null
-//            && $intentos < $maxIntentos) {
-//            $dataPregunta = $this->model->getPreguntaConRespuestas($id_categoria);
-//            if (!$dataPregunta) break; // seguridad
-//            $pregunta = $dataPregunta['pregunta'];
-//            $intentos++;
-//        }
-//
-//        if ($intentos >= $maxIntentos) {
-//            $this->preguntaUsuarioModel->eliminarRegistroDePreguntasContestadas($_SESSION['usuario']['id'], $id_categoria);
-//            $dataPregunta = $this->model->getPreguntaConRespuestas($id_categoria);
-//        }
-//
-//        return $dataPregunta;
-//    }
+
 
 }

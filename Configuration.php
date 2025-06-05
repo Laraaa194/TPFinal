@@ -25,6 +25,7 @@ require_once("model/PreguntaModel.php");
 require_once("model/PartidaModel.php");
 require_once ("model/PartidaPreguntaModel.php");
 require_once ("model/PreguntaUsuarioModel.php");
+require_once ("model/UsuarioModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -89,7 +90,8 @@ class Configuration
             new PreguntaModel( $this->getDatabase(), $preguntaUsuarioModel),
             $this->getViewer(),
             new PartidaPreguntaModel( $this->getDatabase()),
-            $preguntaUsuarioModel
+            $preguntaUsuarioModel,
+            new UsuarioModel($this->getDatabase())
         );
     }
 
