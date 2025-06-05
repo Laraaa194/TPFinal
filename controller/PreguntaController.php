@@ -79,11 +79,8 @@ class PreguntaController
 
             $this->checkTiempoLimite($preguntaId);
 
-
-
             $esCorrecta=$this->model->esRespuestaCorrecta($preguntaId,$respuestaId);
             $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
-
 
             $_SESSION['respuesta_ingresada'] = $respuestaId;
             $idPartida = $_SESSION['partida']['id'];
@@ -102,6 +99,7 @@ class PreguntaController
 
 
             }
+            $this->model->setDificultadPregunta($preguntaId);
             RedirectHelper::redirectTo("Resultado/show");
         }
     }
