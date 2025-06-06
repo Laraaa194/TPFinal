@@ -24,6 +24,11 @@ class PreguntaController
 
     public function showPregunta()
     {
+        if (!isset($_SESSION['partida'])) {
+            $_SESSION['error'] = 'error!';
+//        RedirectHelper::redirectTo("Partida/show");
+        return;
+    }
 
         $this->unsetSessionPregunta();
 
@@ -40,7 +45,7 @@ class PreguntaController
 
         if (!$dataPregunta) {
             $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-            RedirectHelper::redirectTo("Partida/show");
+//            RedirectHelper::redirectTo("Partida/show");
         }
 
         $pregunta = $dataPregunta['pregunta'];
@@ -65,6 +70,7 @@ class PreguntaController
             'respuestas' => $respuestas,
             'id_pregunta' => $_SESSION['id_pregunta'],
             'respuesta_correcta' => $respuestaCorrecta,
+            'error' =>  $_SESSION['error']
         ];
 
         $this->view->render("Pregunta", $data);

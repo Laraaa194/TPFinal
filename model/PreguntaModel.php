@@ -165,13 +165,18 @@ public function getCategorias(): array
             $pregunta = $dataPregunta['pregunta'];
             $intentos++;
         } while (
-            $this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null &&
-            $intentos < $maxIntentos
+            $this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null
+            && $intentos < $maxIntentos // 2 < 2
         );
 
         if ($intentos >= $maxIntentos) {
             $this->preguntaUsuarioModel->eliminarRegistroDePreguntasContestadas($idUsuario, $idCategoria);
-            $dataPregunta = $this->getPreguntaConRespuestas($idCategoria, $idDificultad);
+            do {
+                $dataPregunta = $this->getPreguntaConRespuestas($idCategoria, $idDificultad);
+                if (!$dataPregunta) return null;
+
+                $pregunta = $dataPregunta['pregunta'];
+            } while ($this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null);
         }
 
         return $dataPregunta;

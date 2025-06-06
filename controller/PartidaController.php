@@ -70,7 +70,7 @@ class PartidaController
             $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
             $puntaje=isset($_SESSION['partida']['puntaje_total']) ? (int)$_SESSION['partida']['puntaje_total'] : 0 ;
             $this->model->terminarPartida($idUsuario, $puntaje);
-
+            unset($_SESSION['partida']['puntaje_total']);
         }
 
         RedirectHelper::redirectTo("Lobby/show");

@@ -18,14 +18,12 @@ class ResultadoController
 
         $timeout = isset($_GET['timeout']) && $_GET['timeout'] == 1;
 
-        // Si timeout, forzar respuesta incorrecta
         if ($timeout) {
             $_SESSION['respuesta_correcta'] = false;
             $_SESSION['respuesta_ingresada'] = null;
-            // Aquí podrías definir otros valores de sesión para que la vista sepa que fue timeout
             $mensaje = '⏰ Tiempo agotado. ¡Respuesta incorrecta!';
         } else {
-            $mensaje = ''; // o algún mensaje por defecto
+            $mensaje = '';
         }
 
 
