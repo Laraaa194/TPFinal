@@ -18,14 +18,12 @@ class ResultadoController
 
         $timeout = isset($_GET['timeout']) && $_GET['timeout'] == 1;
 
-        // Si timeout, forzar respuesta incorrecta
         if ($timeout) {
             $_SESSION['respuesta_correcta'] = false;
             $_SESSION['respuesta_ingresada'] = null;
-            // Aquí podrías definir otros valores de sesión para que la vista sepa que fue timeout
             $mensaje = '⏰ Tiempo agotado. ¡Respuesta incorrecta!';
         } else {
-            $mensaje = ''; // o algún mensaje por defecto
+            $mensaje = '';
         }
 
 
@@ -54,18 +52,6 @@ class ResultadoController
         }
         unset($respuesta);
 
-//        if (!empty($_SESSION['respuesta_correcta'])) {
-//            $botonRedirect = 'Partida/show';
-//            $nombre_boton = 'Continuar';
-//            $mensaje = '¡Respuesta Correcta! + 1 punto';
-//        }
-//        else {
-//
-//            $botonRedirect = 'Partida/terminarPartida';
-//            $nombre_boton = 'Finalizar';
-//            $mensaje = '¡Respuesta incorrecta!';
-//        }
-
         $mensaje = '';
         if ($timeout) {
             $mensaje = '⏰ Tiempo agotado';
@@ -83,6 +69,7 @@ class ResultadoController
             $nombre_boton = 'Finalizar';
         }
 
+
         $data = [
             'pregunta' => $preguntaEnunciado,
             'respuestas' => $respuestas,
@@ -97,14 +84,10 @@ class ResultadoController
             'mensaje'=> $mensaje
         ];
 
-        $this->unset();
+
         $this->view->render("Resultado", $data);
     }
 
-    public function unset(){
-        unset($_SESSION['respuesta_correcta'], $_SESSION['id_pregunta'],
-            $_SESSION['respuestas'], $_SESSION['categoria_elegida'],
-            $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
-    }
+
 }
 

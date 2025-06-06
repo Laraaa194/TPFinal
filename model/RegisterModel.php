@@ -60,7 +60,8 @@ class RegisterModel
     public function add($nombre,$apellido, $anioNacimiento,$sexo,$email,$password,$nombreUsuario,$foto,$pais,$ciudad)
     {
         $conn = $this->connect();
-        $sql = "INSERT INTO usuario (nombre, apellido, anio_Nacimiento, id_sexo, email, password, nombre_usuario, foto_perfil, id_pais, id_ciudad) 
+        $sql = "INSERT INTO usuario (nombre, apellido, anio_Nacimiento, id_sexo, email,
+                     password, nombre_usuario, foto_perfil, id_pais, id_ciudad) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 

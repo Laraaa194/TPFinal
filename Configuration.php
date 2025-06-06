@@ -24,6 +24,8 @@ require_once("model/PerfilModel.php");
 require_once("model/PreguntaModel.php");
 require_once("model/PartidaModel.php");
 require_once ("model/PartidaPreguntaModel.php");
+require_once ("model/PreguntaUsuarioModel.php");
+require_once ("model/UsuarioModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -77,14 +79,20 @@ class Configuration
         return new PartidaController
             ($this->getViewer(),
             new PartidaModel($this->getDatabase()),
-            new PreguntaModel($this->getDatabase()),
+            new PreguntaModel($this->getDatabase(), new PreguntaUsuarioModel($this->getDatabase())),
             new PartidaPreguntaModel($this->getDatabase()));
     }
 
     public function getPreguntaController(){
-        return new PreguntaController
-        (new PreguntaModel($this->getDatabase()), $this->getViewer(),
-        new PartidaPreguntaModel($this->getDatabase()));
+        $preguntaUsuarioModel = new PreguntaUsuarioModel( $this->getDatabase());
+
+        return new PreguntaController(
+            new PreguntaModel( $this->getDatabase(), $preguntaUsuarioModel),
+            $this->getViewer(),
+            new PartidaPreguntaModel( $this->getDatabase()),
+            $preguntaUsuarioModel,
+            new UsuarioModel($this->getDatabase())
+        );
     }
 
     public function getResultadoController()

@@ -70,17 +70,15 @@ class PartidaController
             $idUsuario=isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : 0 ;
             $puntaje=isset($_SESSION['partida']['puntaje_total']) ? (int)$_SESSION['partida']['puntaje_total'] : 0 ;
             $this->model->terminarPartida($idUsuario, $puntaje);
-            unset($_SESSION['respuesta_correcta'], $_SESSION['partida']['puntaje_total'], $_SESSION['id_pregunta'],
-                $_SESSION['respuestas'], $_SESSION['categoria_elegida'],$_SESSION['categoria_elegida']['nombre'],
-                $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
+            unset($_SESSION['partida']['puntaje_total']);
         }
 
         RedirectHelper::redirectTo("Lobby/show");
     }
 
-    public function partidaPerdida()
-    {
-        $this->view->render("PartidaPerdida");
+    public function unset(){
+        unset($_SESSION['respuesta_correcta'], $_SESSION['partida']['puntaje_total'], $_SESSION['id_pregunta'],
+            $_SESSION['respuestas'], $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
     }
 
 }

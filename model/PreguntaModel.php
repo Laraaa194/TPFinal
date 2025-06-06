@@ -4,39 +4,42 @@ class PreguntaModel
 {
     private $database;
 
-    public function __construct($database)
+    private $preguntaUsuarioModel;
+
+    public function __construct($database, $preguntaUsuarioModel)
     {
         $this->database = $database;
+        $this->preguntaUsuarioModel = $preguntaUsuarioModel;
     }
 
     public function connect(){
         return $this->database->getConnection();
     }
 
-    public function getPregunta($id_categoria)
-    {
-        $conn = $this->connect();
-        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id_categoria = ?");
-        if (!$stmt) {
-            die("Error en prepare: " . $conn->error);
-        }
-
-        $stmt->bind_param("i", $id_categoria);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $preguntas = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $preguntas[] = $row;
-        }
-
-        if (count($preguntas) > 0) {
-            return $preguntas[array_rand($preguntas)];
-        } else {
-            return null;
-        }
-    }
+//    public function getPregunta($id_categoria)
+//    {
+//        $conn = $this->connect();
+//        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id_categoria = ?");
+//        if (!$stmt) {
+//            die("Error en prepare: " . $conn->error);
+//        }
+//
+//        $stmt->bind_param("i", $id_categoria);
+//        $stmt->execute();
+//
+//        $result = $stmt->get_result();
+//        $preguntas = [];
+//
+//        while ($row = $result->fetch_assoc()) {
+//            $preguntas[] = $row;
+//        }
+//
+//        if (count($preguntas) > 0) {
+//            return $preguntas[array_rand($preguntas)];
+//        } else {
+//            return null;
+//        }
+//    }
 
     public function getRespuestas($id_pregunta){
         $conn = $this->connect();
@@ -116,9 +119,9 @@ public function getCategorias(): array
 
     }
 
-    public function getPreguntaConRespuestas(int $idCategoria)
+    public function getPreguntaConRespuestas(int $idCategoria, int $idDificultad)
     {
-        $pregunta = $this->getPregunta($idCategoria);
+        $pregunta = $this->getPreguntaPorDificultadYCategoria($idCategoria, $idDificultad);
 
         if (!$pregunta) {
             return null;
@@ -132,13 +135,126 @@ public function getCategorias(): array
         ];
     }
 
+    public function getCantidadPreguntas($id_categoria, $idDificultad) {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT COUNT(*) as cantidad FROM pregunta WHERE id_categoria = ? AND id_dificultad = ?");
+        $stmt->bind_param("ii", $id_categoria, $idDificultad);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['cantidad'];
+    }
+
     public function sumarPunto($idPartida)
     {
         $conn = $this->connect();
-
         $sql = "UPDATE partida SET puntaje_total = puntaje_total + 1 WHERE id = ? ";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $idPartida);
         $stmt->execute();
     }
+
+    public function obtenerPreguntaNoRepetida($idUsuario, $idCategoria, $idDificultad) {
+        $maxIntentos = $this->getCantidadPreguntas($idCategoria, $idDificultad);
+        $intentos = 0;
+
+        do {
+            $dataPregunta = $this->getPreguntaConRespuestas($idCategoria, $idDificultad);
+            if (!$dataPregunta) return null;
+
+            $pregunta = $dataPregunta['pregunta'];
+            $intentos++;
+        } while (
+            $this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null
+            && $intentos < $maxIntentos // 2 < 2
+        );
+
+        if ($intentos >= $maxIntentos) {
+            $this->preguntaUsuarioModel->eliminarRegistroDePreguntasContestadas($idUsuario, $idCategoria);
+            do {
+                $dataPregunta = $this->getPreguntaConRespuestas($idCategoria, $idDificultad);
+                if (!$dataPregunta) return null;
+
+                $pregunta = $dataPregunta['pregunta'];
+            } while ($this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null);
+        }
+
+        return $dataPregunta;
+    }
+
+    public function getPreguntaPorDificultadYCategoria($idCategoria, $idDificultad)
+    {
+        $conn = $this->connect();
+
+        $stmt = $conn->prepare("
+        SELECT p.* FROM pregunta p
+        JOIN dificultad d ON p.id_dificultad = d.id
+        WHERE p.id_categoria = ? AND d.id = ?
+    ");
+        $stmt->bind_param("ii", $idCategoria, $idDificultad);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $preguntas = [];
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
+        }
+
+        if (count($preguntas) > 0) {
+            return $preguntas[array_rand($preguntas)];
+        } else {
+            return null;
+        }
+    }
+
+
+    public function setDificultadPregunta($idPregunta)
+    {
+        $conn = $this->connect();
+
+        // Paso 1: contar total de respuestas
+        $stmtTotal = $conn->prepare("SELECT COUNT(*) as total FROM partida_pregunta WHERE id_pregunta = ?");
+        $stmtTotal->bind_param("i", $idPregunta);
+        $stmtTotal->execute();
+        $resultTotal = $stmtTotal->get_result();
+        $total = $resultTotal->fetch_assoc()['total'];
+        $stmtTotal->close();
+
+        // Ignorar si hay menos de 10 respuestas
+        if ($total < 10) {
+            return;
+        }
+
+        // Paso 2: contar respuestas correctas
+        $stmtCorrectas = $conn->prepare("SELECT COUNT(*) as correctas FROM partida_pregunta WHERE id_pregunta = ? AND respondida_correctamente = 1");
+        $stmtCorrectas->bind_param("i", $idPregunta);
+        $stmtCorrectas->execute();
+        $resultCorrectas = $stmtCorrectas->get_result();
+        $correctas = $resultCorrectas->fetch_assoc()['correctas'];
+        $stmtCorrectas->close();
+
+        // Paso 3: calcular porcentaje
+        $porcentaje = ($correctas / $total) * 100;
+
+        // Paso 4: determinar dificultad
+        if ($porcentaje >= 70) {
+            $idDificultad = 1; // fácil
+        } elseif ($porcentaje >= 30) {
+            $idDificultad = 2; // media
+        } else {
+            $idDificultad = 3; // difícil
+        }
+
+        // Paso 5: actualizar pregunta
+        $stmtUpdate = $conn->prepare("UPDATE pregunta SET id_dificultad = ? WHERE id = ?");
+        $stmtUpdate->bind_param("ii", $idDificultad, $idPregunta);
+        $stmtUpdate->execute();
+        $stmtUpdate->close();
+    }
+
+
+
+
+
+
 }
