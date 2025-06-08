@@ -19,7 +19,7 @@
             <a href="/TPFinal/Perfil/show" style="text-decoration: none">
                 <h1 class="fw-bold text-primary">{{usuario.nombre}}</h1>
             </a>
-            <div class="score-circle">123</div>
+            <div class="score-circle">{{puntaje_total}}</div>
         </div>
 
         <p class="fw-bold text-center mt-4">Últimas partidas</p>
@@ -45,6 +45,8 @@
             <a href="/TPFinal/Partida/show">
                 <button class="rounded-btn">Iniciar partida</button>
             </a>
+
+            <a href="/TPFinal/Ranking/show" class="rounded-btn text-light" style="text-decoration: none">Ver Ranking</a>
 
             <button class="rounded-btn">Crear pregunta</button>
         </div>

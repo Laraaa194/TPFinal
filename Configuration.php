@@ -17,6 +17,7 @@ require_once("controller/PerfilController.php");
 require_once("controller/PartidaController.php");
 require_once("controller/PreguntaController.php");
 require_once("controller/ResultadoController.php");
+require_once("controller/RankingController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -31,16 +32,16 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
 {
+    private $config;
     public function getDatabase()
     {
-        $config = $this->getIniConfig();
-        $config = $this->getIniConfig();
+        $this->config = $this->getIniConfig();
 
         return new Database(
-            $config["database"]["server"],
-            $config["database"]["user"],
-            $config["database"]["dbname"],
-            $config["database"]["pass"]
+            $this->config["database"]["server"],
+            $this->config["database"]["user"],
+            $this->config["database"]["dbname"],
+            $this->config["database"]["pass"]
         );
     }
 
@@ -62,7 +63,7 @@ class Configuration
     public function getPerfilController()
     {
         return new PerfilController
-        (new PerfilModel($this->getDatabase()), $this->getViewer());
+        (new PerfilModel($this->getDatabase()), $this->getViewer(), new PartidaModel($this->getDatabase()));
     }
 
     public function getRegisterController(){
@@ -99,6 +100,11 @@ class Configuration
     {
         return new ResultadoController
         ($this->getViewer());
+    }
+    public function getRankingController() {
+        return new RankingController(
+            $this->getViewer(), new PartidaModel($this->getDatabase())
+        );
     }
     public function getRouter()
     {

@@ -5,11 +5,14 @@ class PerfilController
     private $view;
     private $model;
 
-    public function __construct($model, $view)
+    private $partidaModel;
+
+    public function __construct($model, $view, $partidaModel)
     {
         SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
+        $this->partidaModel =  $partidaModel;
     }
 
 
@@ -57,4 +60,34 @@ class PerfilController
             }
         }
     }
+
+    public function verPerfil()
+    {
+        $nombreUsuario = $_GET['usuario'] ?? null;
+        if (!$nombreUsuario) {
+            RedirectHelper::redirectTo("Ranking/show");
+        }
+
+        $datosUsuario = $this->model->getUsuarioConFoto($nombreUsuario);
+
+        if (!$datosUsuario) {
+            RedirectHelper::redirectTo("Ranking/show");
+        }
+
+        $usuarioLogueado = $_SESSION['usuario']['nombre'];
+        $esPerfilAjeno = ($usuarioLogueado !== $nombreUsuario);
+        $partidas = $this->partidaModel->getPartidas($datosUsuario['id_usuario']);
+
+        $data = [
+            'pagina' => 'perfil',
+            'rutaLogo' => '/TPFinal/Ranking/show',
+            'usuario' => $datosUsuario,
+            'mostrarLogo' => true,
+            'es_perfil_ajeno' => $esPerfilAjeno,
+            $data['ultimas_partidas'] = array_slice($partidas, -4)
+        ];
+
+        $this->view->render("Perfil", $data);
+    }
+
 }
