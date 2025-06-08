@@ -7,6 +7,7 @@
             <div class="col-md-4 d-flex justify-content-center align-items-center">
                 {{#usuario}}
                     <div style="width: 13em; height: 13em;">
+                        {{^es_perfil_ajeno}}
                         <form method="POST" action="/TPFinal/Perfil/cambiarFoto" enctype="multipart/form-data">
                             <div style="width: 13em; height: 13em; position: relative;">
                                 <img src="../public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil del jugador"
@@ -22,9 +23,18 @@
                                 <input id="nuevaFoto" class="d-none" type="file" name="imagen" accept="image/*" onchange="this.form.submit()">
                             </div>
                         </form>
+                        {{/es_perfil_ajeno}}
 
+                        {{#es_perfil_ajeno}}
+                            <div style="width: 13em; height: 13em; position: relative;">
+                                <img src="../public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil del jugador"
+                                     class="rounded-circle shadow border"
+                                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                            </div>
+                        {{/es_perfil_ajeno}}
 
                     </div>
+
                 {{/usuario}}
             </div>
 
@@ -54,6 +64,7 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/World_map_blank_black.svg/1200px-World_map_blank_black.svg.png" alt="Mapa del mundo" class="world-map">
                     </div>
                 {{/usuario}}
+
             </div>
         </div>
     </div>

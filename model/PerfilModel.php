@@ -40,7 +40,7 @@ class PerfilModel
         return true;
     }
 
-    public function ObtenerImagenPerfil($nombre_usuario)
+    public function obtenerImagenPerfil($nombre_usuario)
     {
         $conn = $this->connect();
 

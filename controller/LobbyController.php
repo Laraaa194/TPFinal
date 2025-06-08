@@ -28,6 +28,8 @@ class LobbyController
         $data['rutaLogo'] = '/TPFinal/Lobby/show';
         $data['mostrarLogo'] = true;
 
+        $data['puntaje_total'] = $this->partidaModel->getPuntajeAcumulado($idUsuario); //Obtiene puntaje acumulado del usuario
+
         $this->view->render("Lobby", $data);
     }
 

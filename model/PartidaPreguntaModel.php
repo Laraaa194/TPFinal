@@ -20,7 +20,7 @@ class PartidaPreguntaModel
         $conn = $this->connect();
         $sql = "INSERT INTO partida_pregunta (id_partida, id_pregunta, respondida_correctamente) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iis", $idPartida, $idPregunta, $esCorrecta);
+        $stmt->bind_param("iii", $idPartida, $idPregunta, $esCorrecta);
         $stmt->execute();
     }
 
