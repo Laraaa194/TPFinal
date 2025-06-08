@@ -70,7 +70,7 @@ class PreguntaController
             'respuestas' => $respuestas,
             'id_pregunta' => $_SESSION['id_pregunta'],
             'respuesta_correcta' => $respuestaCorrecta,
-            'error' =>  $_SESSION['error']
+
         ];
 
         $this->view->render("Pregunta", $data);
