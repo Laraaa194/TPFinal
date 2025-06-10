@@ -19,7 +19,9 @@
             <a href="/TPFinal/Perfil/show" style="text-decoration: none">
                 <h1 class="fw-bold text-primary">{{usuario.nombre}}</h1>
             </a>
-            <div class="score-circle">{{puntaje_total}}</div>
+            <div class="score-circle mb-2" >
+                {{puntaje_total}}
+            </div>
         </div>
 
         <p class="fw-bold text-center mt-4">Últimas partidas</p>
@@ -41,14 +43,24 @@
                     <p class="text-center mt-5 mb-5">No tenés partidas registradas todavía.</p>
                 {{/ultimas_partidas}}
 
-        <div class="d-flex justify-content-between px-5 mt-4">
+        <div class="d-flex justify-content-between px-5 mt-5">
             <a href="/TPFinal/Partida/show">
-                <button class="rounded-btn">Iniciar partida</button>
+
+                <button class="rounded-btn">
+                    <img src="/TPFinal/public/img/iconoLuz.png" class="mb-1" style="width: 25px">
+                    Iniciar partida
+                </button>
             </a>
 
-            <a href="/TPFinal/Ranking/show" class="rounded-btn text-light" style="text-decoration: none">Ver Ranking</a>
+            <a href="/TPFinal/Ranking/show" class="rounded-btn text-light" style="text-decoration: none">
+                <img src="/TPFinal/public/img/iconoTrofeo.png" class="me-1 mb-1" style="width: 20px">
+                Ver Ranking
+            </a>
 
-            <button class="rounded-btn">Crear pregunta</button>
+            <button class="rounded-btn">
+                <img src="/TPFinal/public/img/iconoLapiz.png"  style="width: 26px">
+                Crear pregunta
+            </button>
         </div>
     </div>
 </main>

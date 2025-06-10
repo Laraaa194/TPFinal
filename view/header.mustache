@@ -198,7 +198,7 @@
 
 
         .score-circle {
-            background: white;
+            background: rgba(151, 145, 135, 0.88);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -206,8 +206,9 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: 2px 2px 5px gray;
+            box-shadow: 2px 2px 5px #ffffff;
             margin-left: 10px;
+            color: white;
         }
         .game-box {
             background-color: #b2d8b2;
@@ -221,8 +222,9 @@
             color: #fff;
             border: none;
             border-radius: 50px;
-            padding: 0.6rem 2rem;
+            padding: 0.8rem 2rem;
             font-weight: 600;
+            font-size: 17px;
             letter-spacing: 0.5px;
             transition: all 0.3s ease-in-out;
         }
@@ -323,11 +325,11 @@
         }
 
         .user-info {
-            background-color: #e0f2db;
-            border: 2px solid #a0d49c;
+            background-color: rgba(181, 223, 164, 0.56);
+            /*border: 2px solid #a0d49c;*/
             border-radius: 20px;
             padding: 15px;
-            margin: 5px auto 20px;
+            margin:  auto;
             max-width: 600px;
             text-align: center;
         }
@@ -340,15 +342,17 @@
         }
         .category-container {
             position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 40px auto;
+            width: min(90vw, 400px);
+            aspect-ratio: 7 / 6;
+            margin: 30px auto;
+
         }
+
 
         .category-btn {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 33%;
+            aspect-ratio: 1 / 1;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -358,19 +362,19 @@
             background-color: #bcc3df;
         }
 
-        .cat1 { background-color: #178a2c; bottom: 220px; left: 100px; }           /* Arriba */
-        .cat2 { background-color: #ff5500; top: 40px; left: 210px;}           /* Derecha arriba */
-        .cat3 { background-color: #2626c2; bottom: 40px; left: 210px; }        /* Derecha abajo */
-        .cat4 { background-color: #c92e2e; top: 220px; left: 100px; }        /* Abajo */
-        .cat5 { background-color: #ffcc4d; bottom: 40px; right: 210px; }         /* Izquierda abajo */
-        .cat6 { background-color: #c43e93; top: 40px; right: 210px; }            /* Izquierda arriba */
+        .cat1 { background-color: #178a2c; top: 0%; left: 35%; }       /* Arriba */
+        .cat2 { background-color: #ff5500; top: 25%; left: 70%; }      /* Derecha arriba */
+        .cat3 { background-color: #2626c2; top: 70%; left: 70%; }      /* Derecha abajo */
+        .cat4 { background-color: #c92e2e; top: 95%; left: 35%; }     /* Abajo */
+        .cat5 { background-color: #ffcc4d; top: 70%; left: 0%; }      /* Izquierda abajo */
+        .cat6 { background-color: #c43e93; top: 25%; left: 0%; }      /* Izquierda arriba */
 
         .play-btn {
-            background: linear-gradient(135deg, #009246, #caffa9);
-            color: white;
-            font-size: 1.2rem;
+            background-color: rgba(191, 236, 160, 0.56);
+            color: #009246;
+            font-size: 1.5rem;
             font-weight: bold;
-            padding: 10px 30px;
+            padding: 15px 35px;
             border: none;
             border-radius: 50px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
@@ -378,11 +382,14 @@
             cursor: pointer;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin: 25px auto;
+            margin-top: 100px ;
+            margin-left: 55px;
+
         }
         .play-btn:hover {
-            background: linear-gradient(135deg, #caffa9, #009246);
-
+            background-color: #009246;
+            color: white;
+            box-shadow: 0 6px 14px rgba(134, 237, 182, 0.53);
 
         }
 
