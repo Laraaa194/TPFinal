@@ -7,9 +7,10 @@ $router = $configuration->getRouter();
 $controller = $_GET["controller"] ?? "Home";
 $method = $_GET["method"] ?? "show";
 
+$configuration->validateSession($controller);
+
 $router->go(
-//    $_GET["controller"],
-//    $_GET["method"]
     $controller,
     $method
 );
+

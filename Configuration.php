@@ -1,5 +1,4 @@
 <?php
-const BASE_URL = '/TPFinal/';
 
 require_once("helper/RedirectHelper.php");
 require_once("helper/SessionHelper.php");
@@ -116,4 +115,16 @@ class Configuration
         //return new FileView();
         return new MustachePresenter("view");
     }
+
+    public function validateSession($controller) {
+        $controllersRequierenLogin = ["Perfil", "Lobby", "Partida", "Pregunta", "Resultado", "Ranking"];
+
+        if (in_array($controller, $controllersRequierenLogin)) {
+            SessionHelper::requiereLogin();
+        } elseif ($controller === "Login" || $controller === "Register") {
+            SessionHelper::LoginStarter();
+        }
+    }
+
+
 }

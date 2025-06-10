@@ -51,7 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Esperar 3 segundos luego de detenerse
                 setTimeout(() => {
-                    window.location.href = "/TPFinal/Pregunta/showPregunta";
+
+                    window.location.href = "/Pregunta/showPregunta";
                 }, 500); // antes tenías 1000 ms, que es 1 segundo
             }
 

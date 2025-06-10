@@ -9,7 +9,6 @@ class ResultadoController
 
     public function __construct($view)
     {
-        SessionHelper::requiereLogin();
         $this->view = $view;
     }
 

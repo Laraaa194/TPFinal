@@ -19,5 +19,12 @@ class SessionHelper
         }
     }
 
+    public static function logOut(){
+        SessionHelper::LoginStarter();
+        session_unset();
+        session_destroy();
+        RedirectHelper::redirectTo("home/show");
+
+    }
     //cuando estén los roles, aca puede estar requiereLoginEditor, requiereLoginAdministrador?
 }

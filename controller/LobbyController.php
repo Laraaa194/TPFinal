@@ -7,7 +7,6 @@ class LobbyController
 
     public function __construct($view,$partidaModel)
     {
-        SessionHelper::requiereLogin();
         $this->view = $view;
         $this->partidaModel = $partidaModel;
     }
@@ -25,7 +24,7 @@ class LobbyController
         $data['ultimas_partidas'] = array_slice($partidas, -4);
         $data['usuario'] = $_SESSION['usuario'];
         $data['pagina'] = 'lobby';
-        $data['rutaLogo'] = '/TPFinal/Lobby/show';
+        $data['rutaLogo'] = '/Lobby/show';
         $data['mostrarLogo'] = true;
 
         $data['puntaje_total'] = $this->partidaModel->getPuntajeAcumulado($idUsuario); //Obtiene puntaje acumulado del usuario
@@ -34,7 +33,10 @@ class LobbyController
     }
 
 
+    public static function logOut(){
+       SessionHelper::logOut();
 
+    }
 
 
 }

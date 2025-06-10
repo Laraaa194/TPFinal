@@ -7,7 +7,6 @@ class RegisterController
 
     public function __construct($model, $view)
     {
-        SessionHelper::LoginStarter();
         $this->model = $model;
         $this->view = $view;
     }
@@ -40,39 +39,48 @@ class RegisterController
 
             if ($this->model->getUsuario($nombreUsuario) !== null) {
                 $_SESSION['errors']['nombreUsuario'] = 'Ya existe un usuario con ese nombre';
+                echo 'Ya existe un usuario con ese nombre';
             }
 
             if ($this->model->getCorreoUsuario($email) !== null) {
                 $_SESSION['errors']['correo'] = 'Ya existe un usuario con ese correo';
+                echo 'Ya existe un usuario con ese correo';
             }
 
             if (!$this->validarContrasenia($password, $repetirContrasena)) {
                 $_SESSION['errors']['contrasena'] = 'La contraseña no coincide';
+                echo 'La contraseña no coincide';
             }
 
             if (!empty($_SESSION['errors'])) {
-                RedirectHelper::redirectTo("Register/show");
+//                RedirectHelper::redirectTo("Register/show");
             }
-
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $_SESSION['success'] = '¡Te registraste correctamente!';
+
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
+
             $this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
+
+
             RedirectHelper::redirectTo("Login/show");
         }
     }
 
     public function agregarImagen($imagen, $nombreUsuario)
     {
+        if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] === 4) {
+            return null;
+        }
         $error = [];
         $imagen = $_FILES['imagen']['name'];
         $imagen_tmp = $_FILES['imagen']['tmp_name'];
         $extension = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
 
         $imagen_nombre = strtolower($nombreUsuario) . "." . $extension;
-        $ruta_destino = "./public/imagenesUsuarios/" . $imagen_nombre;
+        $ruta_destino = './public/imagenesUsuarios/' . $imagen_nombre;
 
-        if (!move_uploaded_file($imagen_tmp, $ruta_destino)) {
+        if (!move_uploaded_file($imagen_tmp, $ruta_destino) || $imagen === null) {
             $error = "Error: No se pudo subir el archivo.";
             RedirectHelper::redirectTo("Register/show");
 
@@ -101,7 +109,7 @@ class RegisterController
             unset($_SESSION['success']);
         }
         $dataRegister['pagina'] = 'register';
-        $dataRegister['rutaLogo']= '/TPFinal/Home/show';
+        $dataRegister['rutaLogo']= '/Home/show';
         $dataRegister['mostrarLogo'] = true;
         $this->view->render("Register", $dataRegister);
     }

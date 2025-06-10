@@ -13,7 +13,6 @@ class PreguntaController
 
     public function __construct($model, $view, $partidaPreguntaModel, $preguntaUsuarioModel, $usuarioModel)
     {
-        SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
         $this->partidaPreguntaModel = $partidaPreguntaModel;
@@ -72,6 +71,7 @@ class PreguntaController
             'respuesta_correcta' => $respuestaCorrecta,
 
         ];
+
 
         $this->view->render("Pregunta", $data);
     }

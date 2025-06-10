@@ -12,7 +12,7 @@ class HomeController
     public function show()
     {
 
-        $data = ['pagina' => 'home', 'rutaLogo' => '/TPFinal/Home/show', 'mostrarLogo' => true];
+        $data = ['pagina' => 'home', 'rutaLogo' => '/Home/show', 'mostrarLogo' => true];
         $this->view->render("paginaInicio", $data);
     }
 }

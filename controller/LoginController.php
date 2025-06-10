@@ -7,7 +7,6 @@ class LoginController
 
     public function __construct($model, $view)
     {
-        SessionHelper::LoginStarter();
         $this->model = $model;
         $this->view = $view;
     }
@@ -59,18 +58,13 @@ class LoginController
         }
 
         $data['pagina'] = 'login';
-        $data['rutaLogo']= '/TPFinal/Home/show';
+        $data['rutaLogo']= '/Home/show';
         $data['mostrarLogo'] = true;
 
         $this->view->render("Login", $data);
 
     }
 
-    public function logOut(){
-        session_unset();
-        session_destroy();
-        RedirectHelper::redirectTo("home/show");
-    }
 
 
 }

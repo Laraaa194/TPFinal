@@ -11,22 +11,22 @@
 
     <div class="category-container">
         <div class="category-btn cat1" id="cat1">
-            <img src="../public/img/Ciencia.png" style="width: 70px">
+            <img src="/public/img/Ciencia.png" style="width: 80px">
         </div>
         <div class="category-btn cat2" id="cat2">
-            <img src="../public/img/Deporte.png" style="width: 70px">
+            <img src="/public/img/Deporte.png" style="width: 80px">
         </div>
         <div class="category-btn cat3" id="cat3">
-            <img src="../public/img/Geografía.png" style="width: 70px">
+            <img src="/public/img/Geografía.png" style="width: 80px">
         </div>
         <div class="category-btn cat4" id="cat4">
-            <img src="../public/img/Arte.png" style="width: 70px">
+            <img src="/public/img/Arte.png" style="width: 80px">
         </div>
         <div class="category-btn cat5" id="cat5">
-            <img src="../public/img/Historia.png" style="width: 80px">
+            <img src="/public/img/Historia.png" style="width: 90px">
         </div>
         <div class="category-btn cat6" id="cat6">
-            <img src="../public/img/Entretenimiento.png" style="width: 70px">
+            <img src="/public/img/Entretenimiento.png" style="width: 80px">
         </div>
         <button id="play-btn" class="play-btn center-play-btn">Jugar</button>
     </div>
@@ -45,7 +45,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <form method="post" action="/TPFinal/Partida/terminarPartida">
+                <form method="post" action="/Partida/terminarPartida">
                     <button name="botonSalir" type="submit" class="btn btn-danger">Sí, salir</button>
                 </form>
 
@@ -54,4 +54,4 @@
     </div>
 </div>
 <div id="categoria-data" data-categoria="{{categoria_nombre}}"></div>
-<script src="/TPFinal/public/Js/ruleta.js"></script>
+<script src="/public/Js/ruleta.js"></script>

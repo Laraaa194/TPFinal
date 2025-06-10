@@ -1,7 +1,7 @@
 
 <main>
     <div class="logout-container">
-        <form method="post" action="/TPFinal/login/logOut">
+        <form method="post" action="/Lobby/logOut">
             <button class="logout-btn">Cerrar sesión</button>
         </form>
     </div>
@@ -16,7 +16,7 @@
             </div>
         {{/success}}
         <div class="d-flex justify-content-center align-items-center mb-2">
-            <a href="/TPFinal/Perfil/show" style="text-decoration: none">
+            <a href="/Perfil/show" style="text-decoration: none">
                 <h1 class="fw-bold text-primary">{{usuario.nombre}}</h1>
             </a>
             <div class="score-circle mb-2" >
@@ -31,7 +31,7 @@
                     <div class="col-md-3 col-sm-6 mb-5">
 
                         <div class="game-box p-2 rounded-4 shadow-sm text-center h-100" style="background-color: #cbecbe; border: 3px solid #4c9e72;">
-                            <img src="/TPFinal/public/img/iconoPartida.png" style="width: 30px">
+                            <img src="/public/img/iconoPartida.png" style="width: 30px">
                             <p class="mb-1 mt-1 " style="color: #009246"><strong>Fecha:</strong> {{fecha}}</p>
                             <p class="mb-1" style="color: #009246"><strong>Puntaje:</strong> {{puntaje_total}}</p>
 
@@ -44,21 +44,21 @@
                 {{/ultimas_partidas}}
 
         <div class="d-flex justify-content-between px-5 mt-5">
-            <a href="/TPFinal/Partida/show">
+            <a href="/Partida/show">
 
                 <button class="rounded-btn">
-                    <img src="/TPFinal/public/img/iconoLuz.png" class="mb-1" style="width: 25px">
+                    <img src="/public/img/iconoLuz.png" class="mb-1" style="width: 25px">
                     Iniciar partida
                 </button>
             </a>
 
-            <a href="/TPFinal/Ranking/show" class="rounded-btn text-light" style="text-decoration: none">
-                <img src="/TPFinal/public/img/iconoTrofeo.png" class="me-1 mb-1" style="width: 20px">
+            <a href="/Ranking/show" class="rounded-btn text-light" style="text-decoration: none">
+                <img src="/public/img/iconoTrofeo.png" class="me-1 mb-1" style="width: 20px">
                 Ver Ranking
             </a>
 
             <button class="rounded-btn">
-                <img src="/TPFinal/public/img/iconoLapiz.png"  style="width: 26px">
+                <img src="/public/img/iconoLapiz.png"  style="width: 26px">
                 Crear pregunta
             </button>
         </div>

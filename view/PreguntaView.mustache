@@ -4,7 +4,7 @@
 
         <div class="container d-flex align-items-center justify-content-center mt-2 mb-4"
              style="background-color: {{color_pregunta}}; max-width: 340px; height: 70px; border-radius: 40px;">
-            <img src="/TPFinal/public/img/{{categoria}}.png" style="width: 40px">
+            <img src="/public/img/{{categoria}}.png" style="width: 40px">
             <h2 class="fw-bold text-center text-white m-0 ms-2">{{categoria}}</h2>
         </div>
 
@@ -19,7 +19,7 @@
 
 
 
-               <form action="/TPFinal/Pregunta/verificarRespuesta" method="POST">
+               <form action="/Pregunta/verificarRespuesta" method="POST">
                    <div class="list-group ">
                        {{#respuestas}}
                            <button type="submit" name="respuestaId" value="{{id}}" class="list-group-item list-group-item-action py-4">
@@ -48,6 +48,6 @@
 <script>
     const PREGUNTA_ID = {{id_pregunta}};
 </script>
-<script src="/TPFinal/public/Js/timer.js"></script>
+<script src="/public/Js/timer.js"></script>
 
 

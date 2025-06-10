@@ -12,7 +12,6 @@ class PartidaController
 
     public function __construct($view, $model, $preguntaModel, $partidaPreguntaModel)
     {
-        SessionHelper::requiereLogin();
         $this->view = $view;
         $this->model = $model;
         $this->preguntaModel = $preguntaModel;
@@ -43,7 +42,7 @@ class PartidaController
             'usuario' => $_SESSION['usuario'],
             'mostrarLogo' => true,
             'pagina' => 'partida',
-            'rutaLogo' => '/TPFinal/Partida/show',
+            'rutaLogo' => '/Partida/show',
             'categoria_elegida' =>  $_SESSION['categoria_elegida'],
             'categoria_nombre' =>  $_SESSION['categoria_elegida']['nombre'],
             'partida' => $_SESSION['partida']

@@ -9,7 +9,6 @@ class PerfilController
 
     public function __construct($model, $view, $partidaModel)
     {
-        SessionHelper::requiereLogin();
         $this->model = $model;
         $this->view = $view;
         $this->partidaModel =  $partidaModel;
@@ -25,7 +24,7 @@ class PerfilController
             $datosUsuario = $this->model->getUsuarioConFoto($nombreUsuarioLogueado);
 
             $data['pagina'] = 'perfil';
-            $data['rutaLogo'] = '/TPFinal/Lobby/show';
+            $data['rutaLogo'] = '/Lobby/show';
             $data['mostrarLogo'] = true;
             $data['usuario'] = $datosUsuario;
 
@@ -80,7 +79,7 @@ class PerfilController
 
         $data = [
             'pagina' => 'perfil',
-            'rutaLogo' => '/TPFinal/Ranking/show',
+            'rutaLogo' => '/Ranking/show',
             'usuario' => $datosUsuario,
             'mostrarLogo' => true,
             'es_perfil_ajeno' => $esPerfilAjeno,

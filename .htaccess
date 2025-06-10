@@ -8,7 +8,6 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /TPFinal/
 
     RewriteRule ^view/ - [L]
     RewriteRule ^(public)($|/) - [L,NC]

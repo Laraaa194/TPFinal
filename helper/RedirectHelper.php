@@ -4,7 +4,7 @@ class RedirectHelper
 {
     public static function redirectTo($str)
     {
-        header("Location: ".BASE_URL. $str);
+        header("Location: /". $str);
         exit();
     }
 }

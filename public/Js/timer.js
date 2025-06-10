@@ -10,6 +10,6 @@ const intervalo = setInterval(() => {
     if (tiempoRestante <= 0) {
         clearInterval(intervalo);
         // Redirigir automáticamente a Resultado, indicando timeout
-        window.location.href = '/TPFinal/Resultado/show?timeout=1';
+        window.location.href = '/Resultado/show?timeout=1';
     }
 }, 1000);

@@ -7,7 +7,6 @@ class RankingController
     private $partidaModel;
 
     public function __construct($view, $partidaModel){
-        SessionHelper::requiereLogin();
         $this->view = $view;
         $this->partidaModel = $partidaModel;
     }
@@ -22,7 +21,7 @@ class RankingController
             'mis_partidas' => $misPartidas,
             'mostrarLogo' => true,
             'pagina' => 'ranking',
-            'rutaLogo' => '/TPFinal/Ranking/show'
+            'rutaLogo' => '/Lobby/show'
         ]);
 
     }
