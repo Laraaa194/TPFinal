@@ -1,29 +1,95 @@
-<main>
-    <div class="container mt-5">
-        <h1 class="text-center text-primary fw-bold mb-5">Ranking</h1>
+<style>
+    body{
+        background-color: #e6f5c9;
+    }
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 12px;
+        font-size: large;
+        background-color: rgba(255, 255, 255, 0.85);
+    }
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
 
-        <div class="row mt-4">
+    .medal-icon {
+        font-size: 1.4rem;
+        line-height: 1;
+    }
+
+    .ranking-name {
+        position: relative;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 0.5rem;
+        color: #000;
+    }
+
+    .ranking-name::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 0;
+        height: 2px;
+        background-color: #0d6efd;
+        transition: width 0.3s ease;
+    }
+
+    .ranking-name:hover {
+        color: #0d6efd;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .ranking-name:hover::after {
+        width: 100%;
+    }
+</style>
+
+<main>
+    <div class="container mt-5 fade-in">
+        <h1 class="text-primary text-center fw-semibold text-gradient mb-5">🏆 Ranking</h1>
+
+        <div class="row g-4">
+            <!-- Puntajes acumulados -->
             <div class="col-md-6">
-                <h5 class="text-primary fw-bold">Puntajes Acumulados</h5>
-                {{#ranking}}
-                    <div class="border rounded px-3 py-2 mb-2 d-flex justify-content-between align-items-center">
-                        <a href="/Perfil/verPerfil?usuario={{nombre_usuario}}" class="fw-bold text-success">{{nombre_usuario}}</a>
-                        <span class="text-danger fw-bold">{{puntaje}} pts.</span>
-                    </div>
-                {{/ranking}}
+                <h5 class="text-secondary fw-semibold mb-3">Top Jugadores</h5>
+                <div class="overflow-hidden" style="max-height: 42em;">
+                    {{#ranking}}
+
+                        <div class="card shadow-sm border-0 mb-3 fade-in delay-{{@index}}">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-2">
+                                    {{#isTop3}}
+                                        <span class="medal-icon">{{medalla}}</span>
+                                    {{/isTop3}}
+                                    <a href="/Perfil/verPerfil?usuario={{nombre_usuario}}" class="ranking-name fw-medium text-decoration-none">
+                                    {{nombre_usuario}}
+                                    </a>
+                                </div>
+                                <span class="badge bg-danger-subtle text-danger fw-bold">{{puntaje}} pts</span>
+                            </div>
+                        </div>
+                    {{/ranking}}
+                </div>
             </div>
-            <div class="col-md-6 overflow-auto" style="max-height: 35em;">
-                <h5 class="text-primary fw-bold">Partidas jugadas</h5>
-                {{#mis_partidas}}
-                    <div class="border rounded px-3 py-2 mb-2 d-flex justify-content-between align-items-center">
-                        <span class="fw-bold text-pink">Tú</span>
-                        <span class="text-success">+{{puntaje_total}}pts</span>
-                    </div>
-                {{/mis_partidas}}
+
+            <!-- Partidas jugadas -->
+            <div class="col-md-6">
+                <h5 class="text-secondary fw-semibold mb-3">Tus partidas</h5>
+                <div class="overflow-hidden" style="max-height: 42em;">
+                    {{#mis_partidas}}
+                        <div class="card shadow-sm border-0 mb-3 fade-in delay-1">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span class="fw-medium text-primary">Tú</span>
+                                <span class="badge bg-success-subtle text-success fw-semibold">+{{puntaje_total}} pts</span>
+                            </div>
+                        </div>
+                    {{/mis_partidas}}
+                </div>
             </div>
         </div>
-        <div class="text-center mt-3">
-            <a href="Lobby/show" class="btn btn-primary">Volver al Lobby</a>
-        </div>
+
     </div>
 </main>
