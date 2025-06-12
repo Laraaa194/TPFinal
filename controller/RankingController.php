@@ -11,8 +11,8 @@ class RankingController
         $this->partidaModel = $partidaModel;
     }
 
-    public function show(){
-        $ranking = $this->partidaModel->getRanking();
+    public function show() {
+        $ranking = $this->partidaModel->getRankingConMedallas();
         $misPartidas = $this->partidaModel->getPartidasOrdenadasPorFecha($_SESSION['usuario']['id']);
 
         $this->view->render("Ranking", [
@@ -23,7 +23,6 @@ class RankingController
             'pagina' => 'ranking',
             'rutaLogo' => '/Lobby/show'
         ]);
-
     }
 
 }

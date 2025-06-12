@@ -1,72 +1,113 @@
+<style>
+    .text-gradient {
+        background: linear-gradient(90deg, #0d6efd, #6610f2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .profile-pic-wrapper {
+        width: 13em;
+        height: 13em;
+        position: relative;
+    }
+
+    .profile-pic {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .profile-pic-wrapper:hover .profile-pic {
+        transform: scale(1.03);
+    }
+
+    .change-photo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        color: #0d6efd;
+        font-weight: 500;
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .profile-pic-wrapper:hover .change-photo-overlay {
+        opacity: 1;
+    }
+
+    .bg-perfil {
+        background-color: rgba(255, 255, 255, 0.65);
+        border-radius: 12px;
+    }
+    .mb-3{
+        border-bottom: 1px #0b8f3e dotted;
+    }
+</style>
 
 <main>
+    <div class="container mt-5">
+        <div class="row justify-content-center align-items-start">
 
-    <div class="container mt-2">
-        <div class="row align-items-center">
-
-            <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <!-- Foto de Perfil -->
+            <div class="col-md-4 d-flex justify-content-center mb-4">
                 {{#usuario}}
-                    <div style="width: 13em; height: 13em;">
+                    <div class="profile-pic-wrapper position-relative">
+                        <img src="/public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil"
+                             class="img-fluid rounded-circle shadow profile-pic">
+
                         {{^es_perfil_ajeno}}
-                        <form method="POST" action="/Perfil/cambiarFoto" enctype="multipart/form-data">
-                            <div style="width: 13em; height: 13em; position: relative;">
-                                <img src="/public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil del jugador"
-                                     class="rounded-circle shadow border"
-                                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
-
-                                <!-- Ícono flotante -->
-                                <label for="nuevaFoto" class="cambiarFoto ">
-                                    <i class="bi bi-camera-fill"></i>
+                            <form method="POST" action="/Perfil/cambiarFoto" enctype="multipart/form-data">
+                                <label for="nuevaFoto" class="change-photo-overlay d-flex flex-column justify-content-center align-items-center">
+                                    <i class="bi bi-camera-fill fs-4 mb-1"></i>
+                                    <span class="small">Cambiar</span>
                                 </label>
-
-                                <!-- Input oculto -->
                                 <input id="nuevaFoto" class="d-none" type="file" name="imagen" accept="image/*" onchange="this.form.submit()">
-                            </div>
-                        </form>
+                            </form>
                         {{/es_perfil_ajeno}}
-
-                        {{#es_perfil_ajeno}}
-                            <div style="width: 13em; height: 13em; position: relative;">
-                                <img src="/public/imagenesUsuarios/{{foto_perfil}}" alt="Foto de perfil del jugador"
-                                     class="rounded-circle shadow border"
-                                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                            </div>
-                        {{/es_perfil_ajeno}}
-
                     </div>
-
                 {{/usuario}}
             </div>
 
+            <!-- Info -->
             <div class="col-md-8">
-                {{#usuario}}
-                    <div class="mb-3">
-                        <label class="form-label-perfil">Nombre</label>
-                        <p class="form-line">{{nombre}}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label-perfil">Apellido</label>
-                        <p class="form-line">{{apellido}}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label-perfil">Usuario</label>
-                        <p class="form-line">{{nombre_usuario}}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label-perfil">Email</label>
-                        <p class="form-line">{{email}}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label-perfil">Año de nacimiento</label>
-                        <p class="form-line">{{anio_nacimiento}}</p>
-                    </div>
-                    <div class="text-end">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/World_map_blank_black.svg/1200px-World_map_blank_black.svg.png" alt="Mapa del mundo" class="world-map">
-                    </div>
-                {{/usuario}}
+                <div class="bg-perfil p-4 shadow-sm card rounded-4 position-relative overflow-hidden">
+                    <div class="world-map-bg"></div>
 
+                    {{#usuario}}
+                        <h3 class="fw-bold text-gradient mb-4 text-center">Perfil del Jugador</h3>
+
+                        <div class="mb-3">
+                            <small class="form-label-perfil">Usuario</small>
+                            <div class="fw-semibold">{{nombre_usuario}}</div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="form-label-perfil">Nombre</small>
+                            <div class="fw-semibold">{{nombre}}</div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="form-label-perfil">Apellido</small>
+                            <div class="fw-semibold">{{apellido}}</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="form-label-perfil">Email</small>
+                            <div class="fw-semibold">{{email}}</div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="form-label-perfil">Año de nacimiento</small>
+                            <div class="fw-semibold">{{anio_nacimiento}}</div>
+                        </div>
+                    {{/usuario}}
+                </div>
             </div>
+
         </div>
     </div>
-
 </main>

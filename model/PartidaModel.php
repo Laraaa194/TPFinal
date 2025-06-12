@@ -131,6 +131,18 @@ class PartidaModel
         return $ranking;
     }
 
+    public function getRankingConMedallas() {
+        $ranking = $this->getRanking();
+        $medallas = ['🥇', '🥈', '🥉'];
+
+        foreach ($ranking as $i => &$usuario) {
+            $usuario['isTop3'] = $i < 3;
+            $usuario['medalla'] = $medallas[$i] ?? '';
+        }
+
+        return $ranking;
+    }
+
     public function getPartidasOrdenadasPorFecha($idJugador){
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT fecha, puntaje_total FROM partida WHERE id_jugador = ? ORDER BY fecha DESC");
