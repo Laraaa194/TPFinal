@@ -6,7 +6,7 @@
         </form>
     </div>
 
-    <div class="container text-center mt-4">
+    <div class="container text-center mt-5">
 
         {{#success}}
 
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <p class="fw-bold text-center mt-4">Últimas partidas</p>
+        <p class="fw-bold text-center mt-5 mb-4" style="color: #008000">Últimas partidas</p>
         <div class="container">
             <div class="row justify-content-center">
                 {{#ultimas_partidas}}
@@ -42,19 +42,19 @@
                 {{^ultimas_partidas}}
                     <p class="text-center mt-5 mb-5">No tenés partidas registradas todavía.</p>
                 {{/ultimas_partidas}}
-
+            </div>
+        </div>
         <div class="d-flex justify-content-between px-5 mt-5">
-            <a href="/Partida/show">
-
-                <button class="rounded-btn">
-                    <img src="/public/img/iconoLuz.png" class="mb-1" style="width: 25px">
-                    Iniciar partida
-                </button>
-            </a>
-
             <a href="/Ranking/show" class="rounded-btn text-light" style="text-decoration: none">
                 <img src="/public/img/iconoTrofeo.png" class="me-1 mb-1" style="width: 20px">
                 Ver Ranking
+            </a>
+
+            <a href="/Partida/show">
+                <button class="rounded-btn-partida">
+                    <img src="/public/img/iconoLuz.png" class="mb-1" style="width: 25px">
+                    Iniciar partida
+                </button>
             </a>
 
             <button class="rounded-btn">
