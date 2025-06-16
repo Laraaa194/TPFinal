@@ -22,4 +22,8 @@ class LobbyEditorController
         $this->view->render('LobbyEditor', $data);
     }
 
+    public static function logOut(){
+        SessionHelper::logOut();
+
+    }
 }
