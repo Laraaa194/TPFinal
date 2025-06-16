@@ -57,16 +57,16 @@ class RegisterModel
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function add($nombre,$apellido, $anioNacimiento,$sexo,$email,$password,$nombreUsuario,$foto,$pais,$ciudad)
+    public function add($nombre,$apellido, $anioNacimiento,$sexo,$email,$password,$nombreUsuario,$foto,$pais,$ciudad, $tipo)
     {
         $conn = $this->connect();
         $sql = "INSERT INTO usuario (nombre, apellido, anio_Nacimiento, id_sexo, email,
-                     password, nombre_usuario, foto_perfil, id_pais, id_ciudad) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     password, nombre_usuario, foto_perfil, id_pais, id_ciudad, id_tipo) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssss", $nombre, $apellido, $anioNacimiento, $sexo, $email, $password, $nombreUsuario, $foto, $pais, $ciudad);
+        $stmt->bind_param("ssssssssssi", $nombre, $apellido, $anioNacimiento, $sexo, $email, $password, $nombreUsuario, $foto, $pais, $ciudad, $tipo);
         $stmt->execute();
     }
 }

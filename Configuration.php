@@ -17,6 +17,7 @@ require_once("controller/PartidaController.php");
 require_once("controller/PreguntaController.php");
 require_once("controller/ResultadoController.php");
 require_once("controller/RankingController.php");
+require_once("controller/LobbyEditorController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -105,6 +106,12 @@ class Configuration
             $this->getViewer(), new PartidaModel($this->getDatabase())
         );
     }
+
+    public function getLobbyEditorController(){
+        return new LobbyEditorController(
+            $this->getViewer());
+    }
+
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);
@@ -117,14 +124,42 @@ class Configuration
     }
 
     public function validateSession($controller) {
-        $controllersRequierenLogin = ["Perfil", "Lobby", "Partida", "Pregunta", "Resultado", "Ranking"];
+        $controllersRequierenLogin = ['Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking'];
 
         if (in_array($controller, $controllersRequierenLogin)) {
             SessionHelper::requiereLogin();
-        } elseif ($controller === "Login" || $controller === "Register") {
+        } elseif ($controller === 'Login' || $controller === 'Register') {
             SessionHelper::LoginStarter();
         }
     }
+
+    public function validateRole($controller) {
+        $roles = [
+//            'Admin' => ['Pregunta', 'Ranking'],
+            'Editor' => ['home', 'Login', 'LobbyEditor'],
+            'Jugador' => ['home', 'Register', 'Login','Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking']
+        ];
+
+        if (!isset($_SESSION['usuario']['id'])) {
+            return;
+        }
+
+        $tipo = SessionHelper::getUserType();
+
+//        if (in_array($controller, $roles['Admin']) && $tipo != 3) {
+//            die("Acceso restringido solo para administradores.");
+//        }
+
+        if (in_array($controller, $roles['Jugador'])&& !in_array($controller, $roles['Editor']) && $tipo != 1) {
+            die("Acceso restringido solo para jugadores.");
+        }
+
+        if (in_array($controller, $roles['Editor']) && $tipo != 2) {
+            die("Acceso restringido solo para editores.");
+        }
+
+    }
+
 
 
 }

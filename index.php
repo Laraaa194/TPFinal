@@ -8,6 +8,8 @@ $controller = $_GET["controller"] ?? "Home";
 $method = $_GET["method"] ?? "show";
 
 $configuration->validateSession($controller);
+$configuration->validateRole($controller);
+
 
 $router->go(
     $controller,

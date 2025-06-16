@@ -35,6 +35,7 @@ class RegisterController
             $imagen = $_FILES['imagen']['name'];
             $pais = null;
             $ciudad = null;
+            $tipo = 1;
 
 
             if ($this->model->getUsuario($nombreUsuario) !== null) {
@@ -53,14 +54,14 @@ class RegisterController
             }
 
             if (!empty($_SESSION['errors'])) {
-//                RedirectHelper::redirectTo("Register/show");
+                RedirectHelper::redirectTo("Register/show");
             }
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $_SESSION['success'] = '¡Te registraste correctamente!';
 
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
 
-            $this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad);
+            $this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad, $tipo);
 
 
             RedirectHelper::redirectTo("Login/show");

@@ -21,23 +21,29 @@ class LoginController
 
             $usuarioEncontrado = $this->model->getUsuario($usuario);
 
-            if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
 
+            if ($usuarioEncontrado && password_verify($contrasenia, $usuarioEncontrado['password'])) {
                 $_SESSION['usuario'] = [
                     'id' => $usuarioEncontrado['id_usuario'],
                     'nombre' => $usuarioEncontrado['nombre_usuario'],
+                    'id_tipo' => $usuarioEncontrado['id_tipo']
                 ];
+
+                $tipo = SessionHelper::getUserType();
                 $_SESSION['success'] = '¡Has iniciado sesión correctamente!';
+
+                if($tipo == 2){
+                    RedirectHelper::redirectTo("LobbyEditor/show");
+                }
                 RedirectHelper::redirectTo("Lobby/show");
-                exit;
             } else if(empty($usuario) || empty($contrasenia)) {
                 $_SESSION['error'] = 'Completa los campos para continuar';
                 RedirectHelper::redirectTo("Login/show");
-                exit;
+
             }else{
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
                 RedirectHelper::redirectTo("Login/show");
-                exit;
+
             }
         }
 

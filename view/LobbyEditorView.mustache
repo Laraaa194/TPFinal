@@ -1,0 +1,70 @@
+
+<main>
+    <div class="logout-container">
+        <form method="post" action="/Lobby/logOut">
+            <button class="logout-btn">Cerrar sesión</button>
+        </form>
+    </div>
+
+    <div class="text-center mt-3">
+
+        {{#success}}
+
+            <div class="custom-alert">
+                <span class="alert-text">✔️ {{success}}</span>
+                <button class="close-btn" onclick="this.parentElement.style.display='none';">✕</button>
+            </div>
+        {{/success}}
+
+
+
+        <div class="container py-5">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">Panel del Editor</h1>
+                <p class="text-muted">Gestión de preguntas y revisiones</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Preguntas sugeridas</h5>
+                            <p class="card-text">Revisá las preguntas enviadas por los usuarios y aprobá o rechazá según corresponda.</p>
+                            <a href="" class="btn btn-outline-primary">Revisar sugeridas</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Preguntas reportadas</h5>
+                            <p class="card-text">Mirá las preguntas denunciadas y decidí si deben seguir visibles o ser eliminadas.</p>
+                            <a href="" class="btn btn-outline-danger">Revisar reportes</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Administrar preguntas</h5>
+                            <p class="card-text">Modificá, eliminá o agregá nuevas preguntas manualmente.</p>
+                            <a href="" class="btn btn-outline-secondary">Ir a gestión</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-5">
+                        <div class="card-body">
+                            <h5 class="card-title">Historial de moderación</h5>
+                            <p class="card-text">Consultá los cambios realizados por vos u otros editores.</p>
+                            <a href="" class="btn btn-outline-dark">Ver historial</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</main>

@@ -6,10 +6,9 @@ class SessionHelper
     public static function requiereLogin()
     {
         self::LoginStarter();
-        if (!isset($_SESSION['usuario'])) {
+        if (!isset($_SESSION['usuario']['id'])) {
             $_SESSION['error'] = 'Debes iniciar sesión para acceder aquí.';
             RedirectHelper::redirectTo("Login/show");
-            exit;
         }
     }
 
@@ -26,5 +25,11 @@ class SessionHelper
         RedirectHelper::redirectTo("home/show");
 
     }
-    //cuando estén los roles, aca puede estar requiereLoginEditor, requiereLoginAdministrador?
+
+    public static function getUserType()
+    {
+        return $_SESSION['usuario']['id_tipo'] ?? null;
+    }
+
+
 }
