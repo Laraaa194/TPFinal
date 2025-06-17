@@ -34,7 +34,7 @@
             padding: 0;
             margin: 0;
         }
-        .lobby, .perfil , .lobbyEditor{
+        .lobby, .perfil , .lobbyEditor, .crearPregunta{
             background-color: #e6f5c9;
         }
 
@@ -489,6 +489,81 @@
             bottom: 30px;
             left: 30px;
         }
+
+        .form-container {
+            max-width: 800px;
+            background: #efefef;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            color: #015422;
+        }
+        .form-pregunta {
+            border: none;
+            border-bottom: 2px solid #8dc78c;  /* verde suave como el de la imagen */
+            background-color: transparent;
+            border-radius: 0;
+            outline: none;
+            box-shadow: none;
+            transition: border-color 0.3s ease;
+            padding-left: 0;
+            padding-right: 0;
+            color: #7f7f7f;
+        }
+
+        .form-pregunta:focus {
+            border-bottom: 2px solid #5aa05a; /* tono más oscuro al enfocar */
+            box-shadow: none;
+        }
+        .form-title {
+            color: #2d2db3;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+
+        }
+        .form-check {
+            padding-top: 0.4rem;
+        }
+        .btn-enviar {
+            background-color: #2d2db3;
+            color: white;
+            font-weight: 600;
+
+        }
+        .btn-enviar:hover {
+            background-color: #1c1c7a;
+        }
+        .footer-text {
+            font-size: 0.9rem;
+            color: #555;
+
+        }
+        .form-select-pregunta {
+            border: none;
+            border-bottom: 2px solid #8dc78c; /* verde suave */
+            background-color: transparent;
+            border-radius: 0;
+            outline: none;
+            box-shadow: none;
+            padding-left: 0;
+            padding-right: 0;
+            font-size: 1rem;
+            color: #555;
+            transition: border-color 0.3s ease, color 0.3s ease;
+            appearance: none; /* oculta el estilo nativo en la mayoría de navegadores */
+            background-image: url("data:image/svg+xml,%3Csvg fill='%238dc78c' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1rem;
+        }
+
+
     </style>
 </head>
 <body class="{{pagina}}" style="background-color: {{color_fondo}};">

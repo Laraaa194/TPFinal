@@ -1,0 +1,54 @@
+<main>
+    <div class="form-container">
+        <h2 class="form-title text-center">Crear pregunta</h2>
+
+        <form>
+            <div class="mb-3">
+                <label for="categoria" class="form-label d-block">Seleccionar categoría:</label>
+                <select class="form-select-pregunta w-75" id="categoria">
+                    <option selected disabled>Elige una categoría</option>
+                    <option value="1">Ciencia</option>
+                    <option value="2">Deportes</option>
+                    <option value="3">Geografía</option>
+                    <option value="4">Arte</option>
+                    <option value="5">Historia</option>
+                    <option value="6">Entretenimiento</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="pregunta" class="form-label">Ingresá la pregunta</label>
+                <input type="text" class="form-pregunta w-100" id="pregunta" placeholder="Escribí tu pregunta aquí">
+            </div>
+
+            <label class="form-label">Ingresá las posibles opciones y seleccioná la correcta</label>
+
+            <div class="d-flex align-items-center mb-2">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 1">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 2">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 3">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 4" >
+                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+            </div>
+
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-enviar px-4 mt-5">Enviar solicitud</button>
+            </div>
+            <p class="footer-text">Tu pregunta será revisada por un editor</p>
+
+        </form>
+    </div>
+</main>

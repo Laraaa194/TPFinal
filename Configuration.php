@@ -17,7 +17,7 @@ require_once("controller/PartidaController.php");
 require_once("controller/PreguntaController.php");
 require_once("controller/ResultadoController.php");
 require_once("controller/RankingController.php");
-require_once("controller/LobbyEditorController.php");
+require_once("controller/CrearPreguntaController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -112,6 +112,11 @@ class Configuration
             $this->getViewer());
     }
 
+    public function getcrearPreguntaController(){
+        return new crearPreguntaController(
+            $this->getViewer());
+    }
+
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);
@@ -124,7 +129,7 @@ class Configuration
     }
 
     public function validateSession($controller) {
-        $controllersRequierenLogin = ['Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking'];
+        $controllersRequierenLogin = ['Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'LobbyEditor', 'CrearPregunta'];
 
         if (in_array($controller, $controllersRequierenLogin)) {
             SessionHelper::requiereLogin();
@@ -137,7 +142,7 @@ class Configuration
         $roles = [
 //            'Admin' => ['Pregunta', 'Ranking'],
             'Editor' => ['home', 'Login', 'LobbyEditor'],
-            'Jugador' => ['home', 'Register', 'Login','Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking']
+            'Jugador' => ['home', 'Register', 'Login','Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta']
         ];
 
         if (!isset($_SESSION['usuario']['id'])) {
