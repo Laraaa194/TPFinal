@@ -16,30 +16,7 @@ class PreguntaModel
         return $this->database->getConnection();
     }
 
-//    public function getPregunta($id_categoria)
-//    {
-//        $conn = $this->connect();
-//        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id_categoria = ?");
-//        if (!$stmt) {
-//            die("Error en prepare: " . $conn->error);
-//        }
-//
-//        $stmt->bind_param("i", $id_categoria);
-//        $stmt->execute();
-//
-//        $result = $stmt->get_result();
-//        $preguntas = [];
-//
-//        while ($row = $result->fetch_assoc()) {
-//            $preguntas[] = $row;
-//        }
-//
-//        if (count($preguntas) > 0) {
-//            return $preguntas[array_rand($preguntas)];
-//        } else {
-//            return null;
-//        }
-//    }
+
 
     public function getRespuestas($id_pregunta){
         $conn = $this->connect();

@@ -1,11 +1,15 @@
 <main>
     <div class="form-container">
-        <h2 class="form-title text-center">Crear pregunta</h2>
+        <div class="form-logo-wrapper">
+            <img src="/public/img/LogoSec.png" alt="Logo decorativo" class="form-logo">
+        </div>
 
-        <form>
+        <h2 class="form-title text-center mt-3">Crear pregunta</h2>
+
+        <form method="post" action="/CrearPregunta/registrarSolicitud">
             <div class="mb-3">
-                <label for="categoria" class="form-label d-block">Seleccionar categoría:</label>
-                <select class="form-select-pregunta w-75" id="categoria">
+                <label for="categoria" class="form-label d-block">Seleccioná una categoría:</label>
+                <select class="form-select-pregunta w-75" id="categoria" name="selectCategoria">
                     <option selected disabled>Elige una categoría</option>
                     <option value="1">Ciencia</option>
                     <option value="2">Deportes</option>
@@ -14,40 +18,53 @@
                     <option value="5">Historia</option>
                     <option value="6">Entretenimiento</option>
                 </select>
+                {{#errors.categoria}}
+                    <div class="mt-1 fw-bold" style="color:#dd4242; font-size: 14px">{{errors.categoria}}</div>
+                {{/errors.categoria}}
+
             </div>
 
             <div class="mb-3">
                 <label for="pregunta" class="form-label">Ingresá la pregunta</label>
-                <input type="text" class="form-pregunta w-100" id="pregunta" placeholder="Escribí tu pregunta aquí">
+                <input type="text" class="form-pregunta w-100" name="preguntaSolicitada" id="pregunta" placeholder="Escribí tu pregunta aquí">
+                {{#errors.pregunta}}
+                    <div class="small mt-1 fw-bold" style="color:#dd4242; font-size: 14px">{{errors.pregunta}}</div>
+                {{/errors.pregunta}}
             </div>
 
             <label class="form-label">Ingresá las posibles opciones y seleccioná la correcta</label>
 
             <div class="d-flex align-items-center mb-2">
-                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 1">
-                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 1" name="respuesta1">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta" value="resp1">
             </div>
 
             <div class="d-flex align-items-center mb-2">
-                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 2">
-                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 2" name="respuesta2">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta" value="resp2">
             </div>
 
             <div class="d-flex align-items-center mb-2">
-                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 3">
-                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 3" name="respuesta3">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta" value="resp3">
             </div>
 
             <div class="d-flex align-items-center mb-3">
-                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 4" >
-                <input class="form-check-input" type="radio" name="respuestaCorrecta">
+                <input type="text" class="form-pregunta w-75 me-3" placeholder="Opción 4" name="respuesta4">
+                <input class="form-check-input" type="radio" name="respuestaCorrecta" value="resp4">
+            </div>
+            {{#errors.respuesta}}
+                <div class="small mt-1 fw-bold" style="color:#dd4242; font-size: 14px">{{errors.respuesta}}</div>
+            {{/errors.respuesta}}
+            {{#errors.respuestaCorrecta}}
+                <div class="small mt-1 fw-bold" style="color:#dd4242; font-size: 14px">{{errors.respuestaCorrecta}}</div>
+            {{/errors.respuestaCorrecta}}
+
+            <div class="d-flex justify-content-between align-items-end mt-5">
+                <p class="footer-text mt-4 mb-0">Recordá que tu pregunta será revisada por un editor.</p>
+                <button type="submit" class="btn btn-enviar px-4 mt-3 mb-1">Enviar solicitud</button>
             </div>
 
-
-            <div class="text-end">
-                <button type="submit" class="btn btn-enviar px-4 mt-5">Enviar solicitud</button>
-            </div>
-            <p class="footer-text">Tu pregunta será revisada por un editor</p>
 
         </form>
     </div>

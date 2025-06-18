@@ -15,6 +15,7 @@ class LoginController
     public function login()
     {
 
+        SessionHelper::LoginStarter();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = $_POST['usuario'] ?? '';
             $contrasenia = $_POST['contrasenia'] ?? '';
