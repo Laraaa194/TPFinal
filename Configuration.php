@@ -18,7 +18,8 @@ require_once("controller/PreguntaController.php");
 require_once("controller/ResultadoController.php");
 require_once("controller/RankingController.php");
 require_once("controller/CrearPreguntaController.php");
-require_once("controller/LobbyEditorController.php");
+require_once ("controller/LobbyEditorController.php");
+require_once ("controller/PreguntasSugeridasController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -28,6 +29,7 @@ require_once("model/PartidaModel.php");
 require_once ("model/PartidaPreguntaModel.php");
 require_once ("model/PreguntaUsuarioModel.php");
 require_once ("model/UsuarioModel.php");
+require_once ("model/CrearPreguntaModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -115,7 +117,14 @@ class Configuration
 
     public function getcrearPreguntaController(){
         return new crearPreguntaController(
-            $this->getViewer());
+            $this->getViewer(),
+            new CrearPreguntaModel($this->getDatabase()));
+    }
+
+    public function getPreguntasSugeridasController(){
+        return new PreguntasSugeridasController(
+            $this->getViewer(), new CrearPreguntaModel($this->getDatabase())
+        );
     }
 
     public function getRouter()

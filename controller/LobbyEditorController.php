@@ -13,11 +13,16 @@ class LobbyEditorController
 
     public function show(){
 
+
         $data= [
             'pagina' => 'lobbyEditor',
             'mostrarLogo'=> true,
             'rutaLogo'=> '/LobbyEditor/show',
         ];
+        if (isset($_SESSION['success'])) {
+            $data['success'] = $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
 
         $this->view->render('LobbyEditor', $data);
     }

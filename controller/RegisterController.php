@@ -40,17 +40,17 @@ class RegisterController
 
             if ($this->model->getUsuario($nombreUsuario) !== null) {
                 $_SESSION['errors']['nombreUsuario'] = 'Ya existe un usuario con ese nombre';
-                echo 'Ya existe un usuario con ese nombre';
+
             }
 
             if ($this->model->getCorreoUsuario($email) !== null) {
                 $_SESSION['errors']['correo'] = 'Ya existe un usuario con ese correo';
-                echo 'Ya existe un usuario con ese correo';
+
             }
 
             if (!$this->validarContrasenia($password, $repetirContrasena)) {
                 $_SESSION['errors']['contrasena'] = 'La contraseña no coincide';
-                echo 'La contraseña no coincide';
+
             }
 
             if (!empty($_SESSION['errors'])) {
