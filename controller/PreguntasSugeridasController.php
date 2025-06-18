@@ -28,5 +28,24 @@ class PreguntasSugeridasController
         $this->view->render("PreguntasSugeridas", $data);
     }
 
+    public function buscar(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $busqueda = trim($_POST['busqueda'] ?? '');
+
+            $preguntas = $this->model->getPreguntasBuscadas($busqueda);
+
+            $data= [
+                'pagina' => 'preguntasSugeridas',
+                'mostrarLogo'=> true,
+                'rutaLogo'=> '/LobbyEditor/show',
+                'preguntas' => $preguntas
+
+            ];
+
+            $this->view->render("PreguntasSugeridas", $data);
+
+        }
+    }
+
 
 }

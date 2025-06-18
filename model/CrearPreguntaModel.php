@@ -61,6 +61,16 @@ class CrearPreguntaModel
 }
 
 
+    public function getPreguntasBuscadas($busqueda){
+        $conn = $this->connect();
+        $busqueda = '%' . strtolower(trim($busqueda)) . '%';
+        $stmt = $conn->prepare("SELECT * FROM pregunta_solicitada WHERE LOWER(enunciado) LIKE ?");
+        $stmt->bind_param("s", $busqueda);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 
 
 }
