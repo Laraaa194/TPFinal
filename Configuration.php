@@ -30,6 +30,7 @@ require_once ("model/PartidaPreguntaModel.php");
 require_once ("model/PreguntaUsuarioModel.php");
 require_once ("model/UsuarioModel.php");
 require_once ("model/CrearPreguntaModel.php");
+require_once ("model/PreguntasEditorModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -123,8 +124,9 @@ class Configuration
 
     public function getPreguntasSugeridasController(){
         return new PreguntasSugeridasController(
-            $this->getViewer(), new CrearPreguntaModel($this->getDatabase())
-        );
+            $this->getViewer(),
+            new PreguntasEditorModel($this->getDatabase()),
+            new CrearPreguntaModel($this->getDatabase()));
     }
 
     public function getRouter()

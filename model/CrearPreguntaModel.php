@@ -52,25 +52,37 @@ class CrearPreguntaModel
         $stmt->execute();
     }
 
-    public function getPreguntasSolicitadas(){
-        $conn = $this->connect();
-        $stmt = $conn->prepare("SELECT * FROM pregunta_solicitada");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-}
 
-
-    public function getPreguntasBuscadas($busqueda){
+    public function addPreguntaAceptada($id_categoria, $enunciado)
+    {
         $conn = $this->connect();
-        $busqueda = '%' . strtolower(trim($busqueda)) . '%';
-        $stmt = $conn->prepare("SELECT * FROM pregunta_solicitada WHERE LOWER(enunciado) LIKE ?");
-        $stmt->bind_param("s", $busqueda);
+        $stmt = $conn->prepare("INSERT INTO pregunta (id_categoria, enunciado, id_dificultad) VALUES (?, ?, 2)");
+        $stmt->bind_param("is", $id_categoria, $enunciado);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+
+        return $conn->insert_id;
     }
 
+    public function addRespuestasAceptadas($id_pregunta, $texto, $es_correcta)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("INSERT INTO respuesta (id_pregunta, texto, es_correcta) VALUES (?, ?, ?)");
+        $stmt->bind_param("isi", $id_pregunta, $texto, $es_correcta);
+        $stmt->execute();
+    }
 
-
+    public function deletePreguntaSolicitada($id_pregunta)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("DELETE FROM pregunta_solicitada WHERE id = ?");
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+    }
+    public function deleteRespuestasSolicitadas($id_pregunta)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("DELETE FROM respuesta_solicitada WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+    }
 }

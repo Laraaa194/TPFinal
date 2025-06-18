@@ -6,6 +6,7 @@ $router = $configuration->getRouter();
 
 $controller = $_GET["controller"] ?? "Home";
 $method = $_GET["method"] ?? "show";
+$params = $_GET["params"] ?? "";
 
 $configuration->validateSession($controller);
 $configuration->validateRole($controller);
@@ -13,6 +14,7 @@ $configuration->validateRole($controller);
 
 $router->go(
     $controller,
-    $method
+    $method,
+    $params
 );
 
