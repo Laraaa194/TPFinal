@@ -21,6 +21,7 @@ require_once("controller/CrearPreguntaController.php");
 require_once ("controller/LobbyEditorController.php");
 require_once ("controller/PreguntasSugeridasController.php");
 require_once ("controller/PreguntasReportadasController.php");
+require_once ("controller/GestionPreguntasController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -142,6 +143,13 @@ class Configuration
         );
     }
 
+    public function getGestionPreguntasController(){
+        return new GestionPreguntasController(
+            $this->getViewer(),
+            new PreguntasEditorModel($this->getDatabase())
+        );
+    }
+
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);
@@ -154,7 +162,7 @@ class Configuration
     }
 
     public function validateSession($controller) {
-        $controllersRequierenLogin = ['Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'LobbyEditor', 'CrearPregunta'];
+        $controllersRequierenLogin = ['Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'];
 
         if (in_array($controller, $controllersRequierenLogin)) {
             SessionHelper::requiereLogin();
@@ -163,33 +171,51 @@ class Configuration
         }
     }
 
-    public function validateRole($controller) {
-        $roles = [
-//            'Admin' => ['Pregunta', 'Ranking'],
-            'Editor' => ['home', 'Login', 'LobbyEditor'],
-            'Jugador' => ['home', 'Register', 'Login','Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta']
-        ];
+//    public function validateRole($controller) {
+//        $roles = [
+////            'Admin' => ['Pregunta', 'Ranking'],
+//            'Editor' => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'],
+//            'Jugador' => ['home', 'Register', 'Login','Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta']
+//        ];
+//
+//        if (!isset($_SESSION['usuario']['id'])) {
+//            return;
+//        }
+//
+//        $tipo = SessionHelper::getUserType();
+//
+////        if (in_array($controller, $roles['Admin']) && $tipo != 3) {
+////            die("Acceso restringido solo para administradores.");
+////        }
+//
+//        if (in_array($controller, $roles['Jugador'])&& !in_array($controller, $roles['Editor']) && $tipo != 1) {
+//            die("Acceso restringido solo para jugadores.");
+//        }
+//
+//        if (in_array($controller, $roles['Editor']) && $tipo != 2) {
+//            die("Acceso restringido solo para editores.");
+//        }
+//
+//    }
+//
 
+    public function validateRole($controller) {
         if (!isset($_SESSION['usuario']['id'])) {
             return;
         }
 
-        $tipo = SessionHelper::getUserType();
+        $tipo = SessionHelper::getUserType(); // 1 = Jugador, 2 = Editor
 
-//        if (in_array($controller, $roles['Admin']) && $tipo != 3) {
-//            die("Acceso restringido solo para administradores.");
-//        }
+        $roles = [
+            1 => ['home', 'Register', 'Login', 'Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta'],
+            2 => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas']
+        ];
 
-        if (in_array($controller, $roles['Jugador'])&& !in_array($controller, $roles['Editor']) && $tipo != 1) {
-            die("Acceso restringido solo para jugadores.");
+        // Si el controlador actual no está permitido para el tipo de usuario, bloquear
+        if (!in_array($controller, $roles[$tipo])) {
+            die("Acceso restringido.");
         }
-
-        if (in_array($controller, $roles['Editor']) && $tipo != 2) {
-            die("Acceso restringido solo para editores.");
-        }
-
     }
-
 
 
 }

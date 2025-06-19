@@ -55,7 +55,7 @@ class PreguntasReportadasController
             $data = [
                 'pagina' => 'revisionPreguntaReportada',
                 'mostrarLogo'=> true,
-                'rutaLogo'=> '/PreguntasReportadasEditor/show',
+                'rutaLogo'=> '/PreguntasReportadas/show',
                 'pregunta' => $pregunta,
                 'nombreCategoria' => $nombreCategoria,
                 'respuestas' => $respuestas
@@ -68,12 +68,12 @@ class PreguntasReportadasController
 
    public function eliminar($id_pregunta){
         $this->model->eliminarPreguntaReportada($id_pregunta);
-        RedirectHelper::redirectTo('PreguntasReportadasEditor/show');
+        RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
 
    public function borrarReporte($id_pregunta){
         $this->model->borrarReporte($id_pregunta);
-        RedirectHelper::redirectTo('PreguntasReportadasEditor/show');
+        RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
 
 

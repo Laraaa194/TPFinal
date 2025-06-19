@@ -24,30 +24,45 @@ class PreguntasEditorModel
     }
 
 
+    // Buscar todas las preguntas por enunciado o nombre de categoría
     public function getPreguntasBuscadas($busqueda)
     {
         $conn = $this->connect();
         $busqueda = '%' . strtolower(trim($busqueda)) . '%';
-        $stmt = $conn->prepare("SELECT * FROM pregunta_solicitada WHERE LOWER(enunciado) LIKE ?");
-        $stmt->bind_param("s", $busqueda);
+
+        $stmt = $conn->prepare("
+        SELECT p.*, c.nombre AS nombreCategoria
+        FROM pregunta p
+        LEFT JOIN categoria c ON p.id_categoria = c.id
+        WHERE LOWER(p.enunciado) LIKE ? OR LOWER(c.nombre) LIKE ?
+        ORDER BY p.id
+    ");
+        $stmt->bind_param("ss", $busqueda, $busqueda);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+// Buscar preguntas reportadas por enunciado o nombre de categoría
     public function getPreguntasBuscadasReportadas($busqueda)
     {
         $conn = $this->connect();
         $busqueda = '%' . strtolower(trim($busqueda)) . '%';
-        $stmt = $conn->prepare("SELECT p.id, p.enunciado 
-             FROM pregunta p 
-             INNER JOIN pregunta_reportada pr ON p.id = pr.idPregunta 
-             WHERE LOWER(p.enunciado) LIKE ?");
-        $stmt->bind_param("s", $busqueda);
+
+        $stmt = $conn->prepare("
+        SELECT p.id AS idPregunta, p.enunciado, c.nombre AS nombreCategoria
+        FROM pregunta p
+        INNER JOIN pregunta_reportada pr ON p.id = pr.idPregunta
+        LEFT JOIN categoria c ON p.id_categoria = c.id
+        WHERE LOWER(p.enunciado) LIKE ? OR LOWER(c.nombre) LIKE ?
+        ORDER BY p.id
+    ");
+        $stmt->bind_param("ss", $busqueda, $busqueda);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
 
 
     public function getPreguntaYRespuestas($id_pregunta): array
@@ -123,7 +138,7 @@ class PreguntasEditorModel
         return $preguntas;
     }
 
-    public function getPreguntaReportadaPorId($id_pregunta): array
+    public function getPreguntaReportadaPorId($id_pregunta)
     {
         $conn = $this->connect();
 
@@ -148,8 +163,6 @@ class PreguntasEditorModel
     }
 
 
-
-
     public function getRespuestasReportadas($id_pregunta): array
     {
         $conn = $this->connect();
@@ -171,7 +184,8 @@ class PreguntasEditorModel
     }
 
 
-    public function eliminarPreguntaReportada($id_pregunta){
+    public function eliminarPreguntaReportada($id_pregunta)
+    {
         $conn = $this->connect();
 
         $stmt = $conn->prepare("
@@ -198,5 +212,33 @@ class PreguntasEditorModel
 
     }
 
+    public function getAllPreguntas()
+    {
+        $conn = $this->connect();
+        $sql = "SELECT * FROM pregunta";
+        $result = $conn->query($sql);
 
+        if (!$result) {
+            return []; // o lanzar error según convenga
+        }
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    public function getAllPreguntasBuscadas($busqueda)
+    {
+        $conn = $this->connect();
+        $busqueda = '%' . strtolower(trim($busqueda)) . '%';
+        $sql = "SELECT p.*, c.nombre AS nombreCategoria
+            FROM pregunta p
+            LEFT JOIN categoria c ON p.id_categoria = c.id
+            WHERE LOWER(p.enunciado) LIKE ? OR LOWER(c.nombre) LIKE ?
+            ORDER BY p.id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $busqueda, $busqueda);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

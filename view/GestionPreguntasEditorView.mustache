@@ -1,0 +1,39 @@
+<main>
+    <div class="container text-center mt-4">
+        <h2 class="fw-bold text-primary">Administrar preguntas</h2>
+
+        <form method="post" action="/GestionPreguntas/buscar">
+            <div class="d-flex justify-content-center mt-4">
+                <div class="input-group shadow-sm search-bar" style="max-width: 950px; width: 90%; border-radius: 50px; background-color: white; overflow: hidden;">
+                    <input type="text" class="form-control border-0 ps-4 py-2" name="busqueda" placeholder="Buscar por enunciado o categoría..." style="border-radius: 0;" />
+                    <button class="btn btn-primary px-3" type="submit" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                        <img src="/public/img/lupa.png" style="width: 30px;" alt="Buscar" />
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-4 text-end">
+            <a href="" class="btn btn-success rounded-pill px-4 py-2">
+                + Agregar nueva pregunta
+            </a>
+        </div>
+
+        <div class="mt-4">
+            {{#preguntas}}
+                <div class="question-card d-flex justify-content-between align-items-center px-3 py-2 shadow-sm mb-3 bg-light rounded">
+                    <div class="question-text text-start">{{enunciado}}</div>
+                    <div class="d-flex gap-2">
+                        <a href="" class="ms-1" title="Editar">
+                            <img src="/public/img/lapizEditar.png" style="width: 34px">
+                        </a>
+                    </div>
+                </div>
+            {{/preguntas}}
+
+            {{^preguntas}}
+                <p class="text-muted mt-4">No hay preguntas cargadas aún.</p>
+            {{/preguntas}}
+        </div>
+    </div>
+</main>
