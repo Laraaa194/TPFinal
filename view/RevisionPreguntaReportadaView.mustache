@@ -1,0 +1,39 @@
+<main>
+
+        <div class="quiz-shell shadow fs-5">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="w-75">
+                    <p class="text-success fw-bold mb-1">Pregunta</p>
+                    <p class="form-pregunta w-100 me-3 fs-5">{{pregunta.enunciado}}</p>
+                    <input type="hidden" name="idPreguntaSolicitada" value="{{pregunta.id}}">
+                </div>
+                <img src="/public/img/ojoLupa.png" class="glyph-pencil" alt="revisar" style="width: 60px">
+            </div>
+
+            <div class="mt-4 fs-5">
+                <p class="text-success fw-bold mb-1">Categoría</p>
+                <div class="mb-3">
+                    <p class="">{{nombreCategoria}}</p>
+                </div>
+
+                <p class="text-success fw-bold mt-4 mb-1">Respuestas</p>
+                {{#respuestas}}
+                    <div class="d-flex align-items-center mb-2">
+                        <div class=" me-3">{{texto}}</div>
+                        {{#es_correcta}}
+                            <span class="badge bg-success">✔</span>
+                        {{/es_correcta}}
+                    </div>
+                {{/respuestas}}
+
+
+                    <div class="d-flex justify-content-between gap-2 mt-5">
+                        <a class="logout-btn fs-6" style="text-decoration: none" href="/PreguntasReportadas/borrarReporte/{{pregunta.id}}">Denegar reporte</a>
+                        <a href="/PreguntasReportadas/eliminar/{{pregunta.id}}" class="btn btn-enviar pt-2 rounded-pill">Eliminar Pregunta</a>
+                    </div>
+
+            </div>
+
+        </div>
+
+</main>

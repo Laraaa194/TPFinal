@@ -34,7 +34,8 @@
             padding: 0;
             margin: 0;
         }
-        .lobby, .perfil , .lobbyEditor, .crearPregunta, .ranking, .preguntasSugeridas{
+        .lobby, .perfil , .lobbyEditor, .crearPregunta, .ranking,
+        .preguntasSugeridas, .reportarPregunta, .preguntasReportadas, .revisionPreguntaReportada{
             background-color: #e6f5c9;
         }
 
@@ -488,15 +489,15 @@
             width: 100%;
         }
         .reportarPregunta {
-            position: absolute;
+
             bottom: 30px;
-            left: 30px;
+            left: 50%;
         }
 
         .form-container {
             position: relative;
             max-width: 45%;
-            background: #e9fde9;
+            background: #d8fbd8;
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -883,6 +884,53 @@
         .glyph-pencil {
             width: 40px;
         }
+
+        .form-container-reportar {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            background: #d8fbd8;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            color: #015422;
+            font-size: 20px;
+        }
+
+        .form-logo-wrapper-reportar {
+            display: flex;
+            justify-content: center;
+            margin-top: -60px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-logo-reportar {
+            width: 70px;
+            height: auto;
+        }
+
+        .container-reportar{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .check-resp-report{
+            content: '✔';
+            color: #46a446;
+            font-size: 1.0em;
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
 
     </style>
 </head>

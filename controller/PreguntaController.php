@@ -117,7 +117,9 @@ class PreguntaController
 
         $data=[
             'id'=> $idPregunta,
-            'pregunta' =>$pregunta['enunciado']
+            'pregunta' =>$pregunta['enunciado'],
+            'pagina' => 'reportarPregunta',
+            'mostrarLogo' => false
         ];
 
         $this->view->render("ReportarPregunta",$data);

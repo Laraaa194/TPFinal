@@ -20,6 +20,7 @@ require_once("controller/RankingController.php");
 require_once("controller/CrearPreguntaController.php");
 require_once ("controller/LobbyEditorController.php");
 require_once ("controller/PreguntasSugeridasController.php");
+require_once ("controller/PreguntasReportadasController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
@@ -132,6 +133,13 @@ class Configuration
             $this->getViewer(),
             new PreguntasEditorModel($this->getDatabase()),
             new CrearPreguntaModel($this->getDatabase()));
+    }
+
+    public function getPreguntasReportadasController(){
+        return new PreguntasReportadasController(
+            $this->getViewer(),
+            new PreguntasEditorModel($this->getDatabase())
+        );
     }
 
     public function getRouter()
