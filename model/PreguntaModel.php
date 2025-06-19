@@ -98,11 +98,18 @@ public function getCategorias(): array
 
     public function getPreguntaConRespuestas(int $idCategoria, int $idDificultad)
     {
-        $pregunta = $this->getPreguntaPorDificultadYCategoria($idCategoria, $idDificultad);
+        $maxIntentos = $this->getCantidadPreguntas($idCategoria, $idDificultad);
+        $intentos = 0;
 
-        if (!$pregunta) {
-            return null;
-        }
+        do {
+            $pregunta = $this->getPreguntaPorDificultadYCategoria($idCategoria, $idDificultad);
+            $intentos++;
+            if (!$pregunta) {
+                return null;
+            }
+            $estaReportada = $this->verificarSiLaPreguntaEstaReportada($pregunta['id']);
+
+        }while($estaReportada && $intentos < $maxIntentos);
 
         $respuestas = $this->getRespuestas($pregunta['id']);
 
@@ -110,6 +117,16 @@ public function getCategorias(): array
             'pregunta' => $pregunta,
             'respuestas' => $respuestas
         ];
+    }
+
+    public function verificarSiLaPreguntaEstaReportada($idPregunta){
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT * FROM pregunta_reportada WHERE idPregunta = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return  $result->num_rows > 0;
     }
 
     public function getCantidadPreguntas($id_categoria, $idDificultad) {
