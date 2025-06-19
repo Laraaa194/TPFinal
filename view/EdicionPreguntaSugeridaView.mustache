@@ -1,0 +1,53 @@
+<main>
+    <form method="post" action="/PreguntasSugeridas/aceptar">
+        <div class="quiz-shell shadow">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="w-75">
+                    <p class="text-success fw-bold mb-1">Pregunta</p>
+                    <input type="text" class="form-pregunta w-100 me-3" value="{{pregunta.enunciado}}" name="enunciadoPregunta">
+                    <input type="hidden" name="idPreguntaSolicitada" value="{{pregunta.id}}">
+                </div>
+                <img src="/public/img/lapizEditar.png" class="glyph-pencil" alt="Editar">
+            </div>
+
+            <div class="mt-4">
+                <p class="text-success fw-bold mb-1">Categoría</p>
+                <div class="mb-3">
+                    <select class="form-select-pregunta w-75" id="categoria" name="selectCategoria">
+                        <option selected>{{nombreCategoria}}</option>
+                        <option value="1">Ciencia</option>
+                        <option value="2">Deportes</option>
+                        <option value="3">Geografía</option>
+                        <option value="4">Arte</option>
+                        <option value="5">Historia</option>
+                        <option value="6">Entretenimiento</option>
+                    </select>
+                </div>
+
+                <p class="text-success fw-bold mt-4 mb-1">Respuestas</p>
+                {{#respuestas}}
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="text" class="form-pregunta w-75 me-3" value="{{texto}}" name="respuestas[{{id}}]">
+                        <input
+                                class="form-check-input"
+                                type="radio"
+                                name="respuestaCorrecta"
+                                value="{{id}}"
+                                {{#es_correcta}}checked{{/es_correcta}}
+                        >
+                    </div>
+                {{/respuestas}}
+
+                {{#pregunta}}
+                <div class="d-flex justify-content-between gap-2 mt-5">
+                    <a class="logout-btn" style="text-decoration: none" href="/PreguntasSugeridas/eliminar/{{id}}">Rechazar solicitud</a>
+                    <button type="submit" class="btn btn-enviar px-4">Aceptar solicitud</button>
+                </div>
+                {{/pregunta}}
+            </div>
+
+        </div>
+    </form>
+
+
+</main>

@@ -3,27 +3,28 @@
         <h2 class="fw-bold text-primary">Preguntas sugeridas</h2>
 
 
-        <div class="d-flex justify-content-center mt-4">
-            <div class="input-group shadow-sm search-bar" style="max-width: 950px; width: 90%; border-radius: 50px; background-color: white; overflow: hidden;">
+        <form method="post" action="/PreguntasSugeridas/buscar">
+            <div class="d-flex justify-content-center mt-4">
+                <div class="input-group shadow-sm search-bar" style="max-width: 950px; width: 90%; border-radius: 50px; background-color: white; overflow: hidden;">
 
-                <input type="text" class="form-control border-0 ps-4 py-2 " placeholder="busque la pregunta por categoría o enunciado" style="border-radius: 0;">
+                    <input type="text" class="form-control border-0 ps-4 py-2 " name="busqueda" placeholder="busque la pregunta por categoría o enunciado" style="border-radius: 0;">
 
-                <button class="btn btn-primary px-3" type="button" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                    <img src="/public/img/lupa.png" style="width: 30px;">
-                </button>
+                    <button class="btn btn-primary px-3" type="submit" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                        <img src="/public/img/lupa.png" style="width: 30px;">
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
         <div class="mt-4">
             {{#preguntas}}
             <div class="question-card">
                 <div class="question-text">{{enunciado}}</div>
                 <div>
-                    <a>
-                        <img src="/public/img/cruzRoja.png" style="width: 35px">
-                    </a>
-                    <a class="ms-1">
+
+                    <a href="/PreguntasSugeridas/mostrarEdicion/{{id}}" class="ms-1">
                         <img src="/public/img/lapizEditar.png" style="width: 34px">
                     </a>
+
                 </div>
             </div>
             {{/preguntas}}
