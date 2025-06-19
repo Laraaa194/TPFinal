@@ -184,6 +184,32 @@ public function getCategorias(): array
         }
     }
 
+    function getEnunciadoDeLaPreguntaPorId($id){
+        $con = $this->connect();
+        $stmt = $con->prepare("
+        SELECT enunciado FROM pregunta p 
+                   WHERE id=?");
+        $stmt->bind_param("i",$id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return $row;
+        } else {
+            return null;
+        }
+    }
+
+    function guardarReporte($idPregunta,$idReporteMotivo,$fechaReporte,$estaVerificada){
+        $con = $this->connect();
+        $stmt = $con->prepare("INSERT INTO 
+       pregunta_reportada (idPregunta,idReporteMotivo,fechaReporte,estaVerificada) 
+            VALUES ( ?,?,?,?) "
+        );
+        $stmt->bind_param("iisi",$idPregunta,$idReporteMotivo, $fechaReporte ,$estaVerificada);
+        $stmt->execute();
+    }
+
+
 
     public function setDificultadPregunta($idPregunta)
     {
@@ -228,6 +254,7 @@ public function getCategorias(): array
         $stmtUpdate->execute();
         $stmtUpdate->close();
     }
+
 
 
 

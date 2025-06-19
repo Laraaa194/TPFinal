@@ -110,6 +110,28 @@ class PreguntaController
         }
     }
 
+    function reportarPregunta(){
+        $idPregunta = (int)$_POST["preguntaId"];
+        $_SESSION['idPregunta']=$idPregunta;
+        $pregunta =$this->model->getEnunciadoDeLaPreguntaPorId($idPregunta);
+
+        $data=[
+            'id'=> $idPregunta,
+            'pregunta' =>$pregunta['enunciado']
+        ];
+
+        $this->view->render("ReportarPregunta",$data);
+    }
+
+    function guardarReporte(){
+        $idPregunta = $_SESSION['idPregunta'];
+        $idReporteMotivo=(int)$_POST['motivo'];
+        $fecha = date("Y-m-d H:i:s");
+        $estaVerificada = false;
+        $this->model->guardarReporte($idPregunta,$idReporteMotivo,$fecha,$estaVerificada);
+        RedirectHelper::redirectTo("Partida/show");
+    }
+
     private function unsetSessionPregunta(){
         unset($_SESSION['respuesta_correcta'], $_SESSION['id_pregunta'],
             $_SESSION['respuestas'], $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );

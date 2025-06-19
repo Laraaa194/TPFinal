@@ -39,9 +39,12 @@
         <p class="mb-0">⏳ Tiempo restante: <span id="contador-tiempo">10</span> segundos</p>
     </div>
     <div class="position-absolute  bottom-0 m-3 mb-4 ms-4">
-        <button class="btn btn-outline-danger">
-            ⚠️ Reportar pregunta
-        </button>
+        <form action="/Pregunta/reportarPregunta" method="POST">
+            <input type="hidden" name="preguntaId" value="{{id_pregunta}}">
+            <button type="submit" class="btn btn-outline-danger">
+                ⚠️ Reportar pregunta
+            </button>
+        </form>
     </div>
 
 </main>
