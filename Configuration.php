@@ -88,6 +88,11 @@ class Configuration
             new PartidaPreguntaModel($this->getDatabase()));
     }
 
+    public function getReportarPreguntaController(){
+        $preguntaUsuarioModel = new PreguntaUsuarioModel( $this->getDatabase());
+        return new ReportarPreguntaController(new PreguntaModel( $this->getDatabase(), $preguntaUsuarioModel),$this->getViewer());
+    }
+
     public function getPreguntaController(){
         $preguntaUsuarioModel = new PreguntaUsuarioModel( $this->getDatabase());
 
