@@ -111,11 +111,28 @@ class PartidaModel
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        return $row ? (int)$row['puntaje_acumulado'] : 0; // Si el usuario no tiene partidas, devuelve 0
+        return $row ? (int)$row['puntaje_acumulado'] : 0;
     }
 
-    public function getRanking()
+    public function getRankingPorMejorPartida()
     {
+        $conn = $this->connect();
+        $sql = "SELECT u.nombre_usuario, u.nombre, u.apellido, 
+                   COALESCE(MAX(p.puntaje_total), 0) AS puntaje
+            FROM usuario u
+            LEFT JOIN partida p ON p.id_jugador = u.id_usuario AND p.esta_activa = 0
+            GROUP BY u.id_usuario, u.nombre_usuario, u.nombre, u.apellido
+            ORDER BY puntaje DESC";
+        $result = $conn->query($sql);
+
+        $ranking = [];
+        while ($row = $result->fetch_assoc()) {
+            $ranking[] = $row;
+        }
+        return $ranking;
+    }
+
+    public function getRankingPorPuntajeAcumulado() {
         $conn = $this->connect();
         $sql = "SELECT u.nombre_usuario, u.nombre, u.apellido, COALESCE(SUM(p.puntaje_total), 0) AS puntaje
             FROM usuario u
@@ -131,18 +148,6 @@ class PartidaModel
         return $ranking;
     }
 
-    public function getRankingConMedallas() {
-        $ranking = $this->getRanking();
-        $medallas = ['🥇', '🥈', '🥉'];
-
-        foreach ($ranking as $i => &$usuario) {
-            $usuario['isTop3'] = $i < 3;
-            $usuario['medalla'] = $medallas[$i] ?? '';
-        }
-
-        return $ranking;
-    }
-
     public function getPartidasOrdenadasPorFecha($idJugador){
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT fecha, puntaje_total FROM partida WHERE id_jugador = ? ORDER BY fecha DESC");
@@ -155,5 +160,4 @@ class PartidaModel
         }
         return $partidas;
     }
-
 }

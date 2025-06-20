@@ -1,20 +1,32 @@
 
 <main>
-    <div class="container mt-5 fade-in">
+    <div class="container mt-3 fade-in">
         <h1 class="text-primary text-center fw-semibold text-gradient mb-5">🏆 Ranking</h1>
+        <form method="POST" class="m-4 text-center">
+            <div class="btn-group" role="group" aria-label="Ranking type">
+                <input type="radio" class="btn-check" name="tipo" id="mejor_partida" value="mejor_partida" autocomplete="off"
+                       onchange="this.form.submit()" {{#tipo_mejor_partida}}checked{{/tipo_mejor_partida}}>
+                <label id="mejorPartida" class="btn btn-outline-primary" for="mejor_partida">🏅 Mejor Partida</label>
+
+                <input type="radio" class="btn-check" name="tipo" id="acumulado" value="acumulado" autocomplete="off"
+                       onchange="this.form.submit()" {{#tipo_acumulado}}checked{{/tipo_acumulado}}>
+                <label id="puntajeAcumulado" class="btn btn-outline-primary" for="acumulado">📊 Puntaje Acumulado</label>
+            </div>
+        </form>
 
         <div class="row g-4">
-            <!-- Puntajes acumulados -->
             <div class="col-md-6">
-                <h5 class="text-secondary fw-semibold mb-3">Top Jugadores</h5>
-                <div class="overflow-hidden" style="max-height: 42em;">
+                <h5 class="text-primary fw-semibold mb-3">Top Jugadores</h5>
+                <div class="overflow-auto seccion-scrollable">
                     {{#ranking}}
-
                         <div class="card shadow-sm border-0 mb-3 fade-in delay-{{@index}}">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center gap-2">
                                     {{#isTop3}}
                                         <span class="medal-icon">{{medalla}}</span>
+                                    {{/isTop3}}
+                                    {{^isTop3}}
+                                        <span class="ranking-position fw-bold text-muted">{{posicion}}.</span>
                                     {{/isTop3}}
                                     <a href="/Perfil/verPerfil?usuario={{nombre_usuario}}" class="ranking-name fw-medium text-decoration-none">
                                     {{nombre_usuario}}
@@ -27,10 +39,9 @@
                 </div>
             </div>
 
-            <!-- Partidas jugadas -->
             <div class="col-md-6">
-                <h5 class="text-secondary fw-semibold mb-3">Tus partidas</h5>
-                <div class="overflow-hidden" style="max-height: 42em;">
+                <h5 class="text-primary fw-semibold mb-3">Tus partidas</h5>
+                <div class="overflow-auto seccion-scrollable">
                     {{#mis_partidas}}
                         <div class="card shadow-sm border-0 mb-3 fade-in delay-1">
                             <div class="card-body d-flex justify-content-between align-items-center">
