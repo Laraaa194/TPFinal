@@ -109,8 +109,9 @@ class Configuration
 
     public function getResultadoController()
     {
-        return new ResultadoController
-        ($this->getViewer());
+
+        return new ResultadoController(
+            $this->getViewer());
     }
     public function getRankingController() {
         return new RankingController(
@@ -171,33 +172,6 @@ class Configuration
         }
     }
 
-//    public function validateRole($controller) {
-//        $roles = [
-////            'Admin' => ['Pregunta', 'Ranking'],
-//            'Editor' => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'],
-//            'Jugador' => ['home', 'Register', 'Login','Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta']
-//        ];
-//
-//        if (!isset($_SESSION['usuario']['id'])) {
-//            return;
-//        }
-//
-//        $tipo = SessionHelper::getUserType();
-//
-////        if (in_array($controller, $roles['Admin']) && $tipo != 3) {
-////            die("Acceso restringido solo para administradores.");
-////        }
-//
-//        if (in_array($controller, $roles['Jugador'])&& !in_array($controller, $roles['Editor']) && $tipo != 1) {
-//            die("Acceso restringido solo para jugadores.");
-//        }
-//
-//        if (in_array($controller, $roles['Editor']) && $tipo != 2) {
-//            die("Acceso restringido solo para editores.");
-//        }
-//
-//    }
-//
 
     public function validateRole($controller) {
         if (!isset($_SESSION['usuario']['id'])) {

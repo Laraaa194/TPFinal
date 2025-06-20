@@ -36,7 +36,8 @@
 
     </div>
     <div class="text-center mt-3">
-        <p class="mb-0">⏳ Tiempo restante: <span id="contador-tiempo">10</span> segundos</p>
+        <p class="mb-0">⏳ Tiempo restante: <span id="contador-tiempo">{{tiempo_restante}}</span> segundos</p>
+
     </div>
     <div class="position-absolute  bottom-0 m-3 mb-4 ms-4">
         <form action="/Pregunta/reportarPregunta" method="POST">
@@ -50,6 +51,10 @@
 </main>
 <script>
     const PREGUNTA_ID = {{id_pregunta}};
+    const TIEMPO_LIMITE = 10;
+    const TIEMPO_INICIO = {{tiempo_inicio}};
+    console.log("TIEMPO_INICIO desde PHP:", TIEMPO_INICIO);
+    console.log("TIEMPO_LIMITE:", TIEMPO_LIMITE);
 </script>
 <script src="/public/Js/timer.js"></script>
 

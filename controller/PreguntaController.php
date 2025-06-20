@@ -29,8 +29,6 @@ class PreguntaController
         return;
     }
 
-        $this->unsetSessionPregunta();
-
 
         $data = $this->obtenerPreguntaDesdeSesion();
         if ($data) { //si ya hay una pregunta en la sesion mostrarla
@@ -53,8 +51,14 @@ class PreguntaController
         $_SESSION['pregunta'] = $pregunta['enunciado'];
         $_SESSION['respuestas'] = $respuestas;
         $_SESSION['id_pregunta'] = $pregunta['id'];
-        $_SESSION['tiempo_inicio_pregunta'] = time();
+        if (!isset($_SESSION['tiempo_inicio_pregunta'])) {
+            $_SESSION['tiempo_inicio_pregunta'] = time();
+        }
+        $tiempo_inicio = $_SESSION['tiempo_inicio_pregunta'];
+        $tiempo_actual = time();
+        $tiempo_limite = 10;
 
+        $tiempo_restante = max(0, $tiempo_limite - ($tiempo_actual - $tiempo_inicio));
 
         $respuestaCorrecta = $_SESSION['respuesta_correcta'] ?? false;
 
@@ -69,6 +73,8 @@ class PreguntaController
             'respuestas' => $respuestas,
             'id_pregunta' => $_SESSION['id_pregunta'],
             'respuesta_correcta' => $respuestaCorrecta,
+            'tiempo_inicio' => $tiempo_inicio,
+            'tiempo_restante' => $tiempo_restante
 
         ];
 
@@ -105,6 +111,7 @@ class PreguntaController
 
 
             }
+
             $this->model->setDificultadPregunta($preguntaId);
             RedirectHelper::redirectTo("Resultado/show");
         }
@@ -134,10 +141,10 @@ class PreguntaController
         RedirectHelper::redirectTo("Partida/show");
     }
 
-    private function unsetSessionPregunta(){
-        unset($_SESSION['respuesta_correcta'], $_SESSION['id_pregunta'],
-            $_SESSION['respuestas'], $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
-    }
+//    private function unsetSessionPregunta(){
+//        unset($_SESSION['respuesta_correcta'], $_SESSION['id_pregunta'],
+//            $_SESSION['respuestas'], $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
+//    }
 
     private function obtenerPreguntaDesdeSesion()
     {
@@ -147,7 +154,6 @@ class PreguntaController
 
         $categoria = $_SESSION['categoria_elegida'];
         $respuestaCorrecta = $_SESSION['respuesta_correcta'] ?? false;
-
 
 
         return [
@@ -161,6 +167,7 @@ class PreguntaController
             'respuestas' => $_SESSION['respuestas'],
             'id_pregunta' => $_SESSION['id_pregunta'],
             'respuesta_correcta' => $respuestaCorrecta,
+            'tiempo_inicio' => $_SESSION['tiempo_inicio_pregunta']
         ];
     }
     private function checkTiempoLimite(int $preguntaId)
