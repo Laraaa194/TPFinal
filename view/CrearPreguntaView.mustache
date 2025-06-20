@@ -6,7 +6,7 @@
 
         <h2 class="form-title text-center mt-3">Crear pregunta</h2>
 
-        <form method="post" action="/CrearPregunta/registrarSolicitud">
+        <form method="post" action="{{rutaAction}}">
             <div class="mb-3">
                 <label for="categoria" class="form-label d-block">Seleccioná una categoría:</label>
                 <select class="form-select-pregunta w-75" id="categoria" name="selectCategoria">
@@ -26,7 +26,7 @@
 
             <div class="mb-3">
                 <label for="pregunta" class="form-label">Ingresá la pregunta</label>
-                <input type="text" class="form-pregunta w-100" name="preguntaSolicitada" id="pregunta" placeholder="Escribí tu pregunta aquí">
+                <input type="text" class="form-pregunta w-100" name="pregunta" id="pregunta" placeholder="Escribí tu pregunta aquí">
                 {{#errors.pregunta}}
                     <div class="small mt-1 fw-bold" style="color:#dd4242; font-size: 14px">{{errors.pregunta}}</div>
                 {{/errors.pregunta}}
@@ -61,8 +61,10 @@
             {{/errors.respuestaCorrecta}}
 
             <div class="d-flex justify-content-between align-items-end mt-5">
+                {{#mostrarP}}
                 <p class="footer-text mt-4 mb-0">Recordá que tu pregunta será revisada por un editor.</p>
-                <button type="submit" class="btn btn-enviar px-4 mt-3 mb-1">Enviar solicitud</button>
+                {{/mostrarP}}
+                <button type="submit" class="btn btn-enviar px-4 mt-3 mb-1 text-end">Enviar</button>
             </div>
 
 

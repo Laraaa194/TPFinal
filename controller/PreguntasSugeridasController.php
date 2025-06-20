@@ -33,7 +33,7 @@ class PreguntasSugeridasController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $busqueda = trim($_POST['busqueda'] ?? '');
 
-            $preguntas = $this->model->getPreguntasBuscadas($busqueda);
+            $preguntas = $this->model->getPreguntasBuscadasSolicitadas($busqueda);
 
             $data= [
                 'pagina' => 'preguntasSugeridas',
@@ -50,7 +50,7 @@ class PreguntasSugeridasController
 
     public function mostrarEdicion($id){
 
-        $preguntaYRespuestas = $this->model->getPreguntaYRespuestas($id);
+        $preguntaYRespuestas = $this->model->getPreguntaYRespuestasSolicitadas($id);
         $nombreCategoria = $this->model->getNombreCategoria($preguntaYRespuestas['pregunta']['id_categoria']);
 
         $data=

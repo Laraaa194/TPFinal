@@ -24,7 +24,7 @@ class PreguntasEditorModel
     }
 
 
-    // Buscar todas las preguntas por enunciado o nombre de categoría
+
     public function getPreguntasBuscadas($busqueda)
     {
         $conn = $this->connect();
@@ -36,6 +36,24 @@ class PreguntasEditorModel
         LEFT JOIN categoria c ON p.id_categoria = c.id
         WHERE LOWER(p.enunciado) LIKE ? OR LOWER(c.nombre) LIKE ?
         ORDER BY p.id
+    ");
+        $stmt->bind_param("ss", $busqueda, $busqueda);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPreguntasBuscadasSolicitadas($busqueda)
+    {
+        $conn = $this->connect();
+        $busqueda = '%' . strtolower(trim($busqueda)) . '%';
+
+        $stmt = $conn->prepare("
+        SELECT ps.*, c.nombre AS nombreCategoria
+        FROM pregunta_solicitada ps
+        LEFT JOIN categoria c ON ps.id_categoria = c.id
+        WHERE LOWER(ps.enunciado) LIKE ? OR LOWER(c.nombre) LIKE ?
+        ORDER BY ps.id
     ");
         $stmt->bind_param("ss", $busqueda, $busqueda);
         $stmt->execute();
@@ -65,6 +83,19 @@ class PreguntasEditorModel
 
 
 
+    public function getPreguntaYRespuestasSolicitadas($id_pregunta): array
+    {
+
+        $pregunta = $this->getPreguntaSolicitada($id_pregunta);
+        $respuestas = $this->getRespuestasSolicitadas($id_pregunta);
+
+        return [
+            'pregunta' => $pregunta,
+            'respuestas' => $respuestas
+        ];
+
+    }
+
     public function getPreguntaYRespuestas($id_pregunta): array
     {
 
@@ -78,7 +109,7 @@ class PreguntasEditorModel
 
     }
 
-    public function getPregunta($id_pregunta)
+    public function getPreguntaSolicitada($id_pregunta)
     {
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT * FROM pregunta_solicitada WHERE id = ?");
@@ -90,7 +121,7 @@ class PreguntasEditorModel
 
     }
 
-    public function getRespuestas($id_pregunta): array
+    public function getRespuestasSolicitadas($id_pregunta): array
     {
 
         $conn = $this->connect();
@@ -241,4 +272,102 @@ class PreguntasEditorModel
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    private function getPregunta($id_pregunta)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id = ?");
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    private function getRespuestas($id_pregunta): array
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
+
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $respuestas = [];
+        while ($row = $result->fetch_assoc()) {
+            $respuestas[] = $row;
+        }
+        return $respuestas;
+    }
+
+   public function eliminarPregunta($id_pregunta){
+        $conn = $this->connect();
+        $stmt = $conn->prepare("DELETE FROM pregunta WHERE id = ?");
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+   }
+
+   public function guardarCambios($idPregunta, $categoria, $enunciadoPregunta, $respuestas, $respuestaCorrecta)
+   {
+       $conn = $this->connect();
+       $stmt = $conn->prepare("UPDATE pregunta SET enunciado = ?, id_categoria = ? WHERE id = ?");
+       if (!$stmt) {
+           die("Error en la preparación: " . $conn->error);
+       }
+       $stmt->bind_param("sii", $enunciadoPregunta, $categoria, $idPregunta);
+       $stmt->execute();
+
+       foreach ($respuestas as $idRespuesta => $texto) {
+           $esCorrecta = ($idRespuesta == $respuestaCorrecta) ? 1 : 0;
+           $this->guardarCambiosRespuestas($idRespuesta, $texto, $esCorrecta);
+       }
+
+
+   }
+
+    public function guardarCambiosRespuestas($idRespuesta, $texto, $esCorrecta)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("UPDATE respuesta SET texto = ?, es_correcta = ? WHERE id = ?");
+        $stmt->bind_param("sii", $texto, $esCorrecta, $idRespuesta);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function editorAgregarPreguntaYRespuestas($enunciadoPregunta, $categoria, $respuestas, $respuestaCorrecta)
+    {
+        $conn = $this->connect();
+
+        // Fijamos dificultad media (2) por defecto
+        $dificultad = 2;
+
+        // 1. Insertar la nueva pregunta con dificultad fija
+        $stmt = $conn->prepare("INSERT INTO pregunta (enunciado, id_categoria, id_dificultad) VALUES (?, ?, ?)");
+        $stmt->bind_param("sii", $enunciadoPregunta, $categoria, $dificultad);
+        $stmt->execute();
+
+        $idPregunta = $conn->insert_id;
+        $stmt->close();
+
+        // 2. Insertar las respuestas asociadas
+        $stmt = $conn->prepare("INSERT INTO respuesta (id_pregunta, texto, es_correcta) VALUES (?, ?, ?)");
+
+        foreach ($respuestas as $indice => $texto) {
+            $esCorrecta = ($indice == $respuestaCorrecta) ? 1 : 0;
+            $stmt->bind_param("isi", $idPregunta, $texto, $esCorrecta);
+            $stmt->execute();
+        }
+
+        $stmt->close();
+    }
+
+    public function getPreguntasPorEnunciado($enunciado)
+    {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT * FROM pregunta WHERE enunciado = ?");
+        $stmt->bind_param("s", $enunciado);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }

@@ -11,28 +11,8 @@ class ResultadoController
 
     public function show()
     {
-        // Primero, si el resultado ya fue mostrado, limpiamos la sesión
-        if (isset($_SESSION['resultado_mostrado']) && $_SESSION['resultado_mostrado'] === true) {
-            unset(
-                $_SESSION['pregunta'],
-                $_SESSION['respuestas'],
-                $_SESSION['id_pregunta'],
-                $_SESSION['respuesta_correcta'],
-                $_SESSION['respuesta_correcta_id'],
-                $_SESSION['respuesta_ingresada'],
-                $_SESSION['tiempo_inicio_pregunta'],
-                $_SESSION['mensaje_resultado'],
-                $_SESSION['nombre_boton'],
-                $_SESSION['boton_redirect'],
-                $_SESSION['resultado_mostrado']
-            );
-            if($_SESSION['nombre_boton'] == 'Continuar'){
-                RedirectHelper::redirectTo('Partida/show');
-            }
-            return;
-        }
+        $this->unsetDatos();
 
-        // Segundo, detectamos si viene por timeout
         $timeout = isset($_GET['timeout']) && $_GET['timeout'] == 1;
         if ($timeout) {
             $_SESSION['respuesta_correcta'] = false;
@@ -55,7 +35,6 @@ class ResultadoController
         }
         unset($respuesta);
 
-        // Mensaje según resultado
         if ($timeout) {
             $mensaje = '⏰ Tiempo agotado';
         } else if (!empty($_SESSION['respuesta_correcta'])) {
@@ -64,7 +43,6 @@ class ResultadoController
             $mensaje = '¡Respuesta incorrecta!';
         }
 
-        // Configuración del botón
         if (!empty($_SESSION['respuesta_correcta'])) {
             $botonRedirect = 'Partida/show';
             $nombre_boton = 'Continuar';
@@ -73,7 +51,6 @@ class ResultadoController
             $nombre_boton = 'Finalizar';
         }
 
-        // Guardamos en sesión por si hay F5
         $_SESSION['mensaje_resultado'] = $mensaje;
         $_SESSION['nombre_boton'] = $nombre_boton;
         $_SESSION['boton_redirect'] = $botonRedirect;
@@ -117,7 +94,36 @@ class ResultadoController
         ];
     }
 
+    private function unsetDatos()
+    {
+        if (isset($_SESSION['resultado_mostrado']) && $_SESSION['resultado_mostrado'] === true) {
 
+            $nombreBoton = $_SESSION['nombre_boton'] ?? '';
+
+            unset(
+                $_SESSION['pregunta'],
+                $_SESSION['respuestas'],
+                $_SESSION['id_pregunta'],
+                $_SESSION['respuesta_correcta'],
+                $_SESSION['respuesta_correcta_id'],
+                $_SESSION['respuesta_ingresada'],
+                $_SESSION['tiempo_inicio_pregunta'],
+                $_SESSION['mensaje_resultado'],
+                $_SESSION['nombre_boton'],
+                $_SESSION['boton_redirect'],
+                $_SESSION['resultado_mostrado']
+            );
+
+            if ($nombreBoton === 'Continuar') {
+                RedirectHelper::redirectTo('Partida/show');
+            } else {
+                RedirectHelper::redirectTo('Partida/terminarPartida');
+            }
+
+            return;
+        }
+
+    }
 
 
 }

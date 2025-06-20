@@ -14,19 +14,21 @@
         </form>
 
         <div class="mt-4 text-end">
-            <a href="" class="btn btn-success rounded-pill px-4 py-2">
+            <a href="/GestionPreguntas/showCrearPregunta" class="btn btn-success rounded-pill px-4 py-2">
                 + Agregar nueva pregunta
             </a>
         </div>
 
         <div class="mt-4">
             {{#preguntas}}
-                <div class="question-card d-flex justify-content-between align-items-center px-3 py-2 shadow-sm mb-3 bg-light rounded">
-                    <div class="question-text text-start">{{enunciado}}</div>
-                    <div class="d-flex gap-2">
-                        <a href="" class="ms-1" title="Editar">
-                            <img src="/public/img/lapizEditar.png" style="width: 34px">
+                <div class="question-card">
+                    <div class="question-text">{{enunciado}}</div>
+                    <div>
+
+                        <a href="/GestionPreguntas/mostrarEdicion/{{id}}" class="ms-1">
+                            <img src="/public/img/lapizEditar.png" class="glyph-pencil" style="width: 34px">
                         </a>
+
                     </div>
                 </div>
             {{/preguntas}}

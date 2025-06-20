@@ -16,7 +16,13 @@ class crearPreguntaController
     {
 
 
-        $data = ['pagina' => 'crearPregunta', 'rutaLogo' => '/Lobby/show', 'mostrarLogo' => true];
+        $data = [
+            'pagina' => 'crearPregunta',
+            'rutaLogo' => '/Lobby/show',
+            'mostrarLogo' => true,
+            'rutaAction' => '/CrearPregunta/registrarSolicitud',
+            'mostrarP' => true
+        ];
 
         if (isset($_SESSION['errors'])) {
             $data['errors'] = $_SESSION['errors'];
@@ -37,7 +43,7 @@ class crearPreguntaController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $categoria = (int)$_POST['selectCategoria'];
-            $enunciadoPregunta = $_POST['preguntaSolicitada'];
+            $enunciadoPregunta = $_POST['pregunta'];
             $respuesta1 = $_POST['respuesta1'];
             $respuesta2 = $_POST['respuesta2'];
             $respuesta3 = $_POST['respuesta3'];

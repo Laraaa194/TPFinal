@@ -23,6 +23,7 @@ require_once ("controller/PreguntasSugeridasController.php");
 require_once ("controller/PreguntasReportadasController.php");
 require_once ("controller/GestionPreguntasController.php");
 
+
 require_once("model/LoginModel.php");
 require_once("model/RegisterModel.php");
 require_once("model/PerfilModel.php");
