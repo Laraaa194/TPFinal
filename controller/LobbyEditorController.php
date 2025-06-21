@@ -17,6 +17,7 @@ class LobbyEditorController
         $data= [
             'pagina' => 'lobbyEditor',
             'mostrarLogo'=> true,
+            'title' => 'Panel de edición',
             'rutaLogo'=> '/LobbyEditor/show',
         ];
         if (isset($_SESSION['success'])) {

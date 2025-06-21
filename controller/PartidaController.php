@@ -20,6 +20,8 @@ class PartidaController
 
     public function show()
     {
+        $this->unsetDatos();
+
         $idUsuario = $_SESSION['usuario']['id'];
         $partidaActiva = $this->model->getPartidaActiva($idUsuario);
 
@@ -43,6 +45,7 @@ class PartidaController
             'mostrarLogo' => true,
             'pagina' => 'partida',
             'rutaLogo' => '/Partida/show',
+            'title' => 'Partida',
             'categoria_elegida' =>  $_SESSION['categoria_elegida'],
             'categoria_nombre' =>  $_SESSION['categoria_elegida']['nombre'],
             'partida' => $_SESSION['partida']
@@ -75,9 +78,22 @@ class PartidaController
         RedirectHelper::redirectTo("Lobby/show");
     }
 
-    public function unset(){
-        unset($_SESSION['respuesta_correcta'], $_SESSION['partida']['puntaje_total'], $_SESSION['id_pregunta'],
-            $_SESSION['respuestas'], $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
+    public function unsetDatos(){
+        if (isset($_SESSION['resultado_mostrado']) && $_SESSION['resultado_mostrado'] === true) {
+            unset(
+                $_SESSION['pregunta'],
+                $_SESSION['respuestas'],
+                $_SESSION['id_pregunta'],
+                $_SESSION['respuesta_correcta'],
+                $_SESSION['respuesta_correcta_id'],
+                $_SESSION['respuesta_ingresada'],
+                $_SESSION['tiempo_inicio_pregunta'],
+                $_SESSION['mensaje_resultado'],
+                $_SESSION['nombre_boton'],
+                $_SESSION['boton_redirect'],
+                $_SESSION['resultado_mostrado']
+            );
+        }
     }
 
 }

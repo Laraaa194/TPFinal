@@ -20,6 +20,15 @@
         </div>
 
         <div class="mt-4">
+            {{#mostrarCantidad}}
+                <div class="alert alert-info mt-4">
+                    Hay {{cantidad_total}} preguntas cargadas en total.
+                </div>
+            {{/mostrarCantidad}}
+
+            {{#mensajeCantidad}}
+                <div class="alert alert-info mt-4">{{mensajeCantidad}}</div>
+            {{/mensajeCantidad}}
             {{#preguntas}}
                 <div class="question-card">
                     <div class="question-text">{{enunciado}}</div>

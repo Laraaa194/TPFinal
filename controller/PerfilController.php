@@ -27,6 +27,7 @@ class PerfilController
             $data['rutaLogo'] = '/Lobby/show';
             $data['mostrarLogo'] = true;
             $data['usuario'] = $datosUsuario;
+            $data['title'] = 'Perfil';
 
 
             $this->view->render("Perfil", $data);
@@ -82,6 +83,7 @@ class PerfilController
             'rutaLogo' => '/Ranking/show',
             'usuario' => $datosUsuario,
             'mostrarLogo' => true,
+            'title' => 'Perfil de jugador',
             'es_perfil_ajeno' => $esPerfilAjeno,
             $data['ultimas_partidas'] = array_slice($partidas, -4)
         ];

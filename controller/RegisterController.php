@@ -112,6 +112,7 @@ class RegisterController
         $dataRegister['pagina'] = 'register';
         $dataRegister['rutaLogo']= '/Home/show';
         $dataRegister['mostrarLogo'] = true;
+        $dataRegister['title'] = 'Registro';
         $this->view->render("Register", $dataRegister);
     }
 

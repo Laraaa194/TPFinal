@@ -67,6 +67,7 @@ class LoginController
         $data['pagina'] = 'login';
         $data['rutaLogo']= '/Home/show';
         $data['mostrarLogo'] = true;
+        $data['title'] = 'Login';
 
         $this->view->render("Login", $data);
 

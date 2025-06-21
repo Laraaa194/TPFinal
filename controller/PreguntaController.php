@@ -23,11 +23,11 @@ class PreguntaController
 
     public function showPregunta()
     {
-        if (!isset($_SESSION['partida'])) {
-            $_SESSION['error'] = 'error!';
-//        RedirectHelper::redirectTo("Partida/show");
-        return;
-    }
+//        if (!isset($_SESSION['partida'])) {
+//            $_SESSION['error'] = 'error!';
+////        RedirectHelper::redirectTo("Partida/show");
+//            return;
+//        }
 
 
         $data = $this->obtenerPreguntaDesdeSesion();
@@ -66,7 +66,8 @@ class PreguntaController
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
             'mostrarLogo' => false,
-            'categoria' =>  $_SESSION['categoria_elegida']['nombre'],
+            'title' => 'Pregunta',
+            'categoria' => $_SESSION['categoria_elegida']['nombre'],
             'color_fondo' => $_SESSION['categoria_elegida']['color_fondo'],
             'color_pregunta' => $_SESSION['categoria_elegida']['color'],
             'pregunta' => $pregunta['enunciado'],
@@ -86,18 +87,18 @@ class PreguntaController
     public function verificarRespuesta()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $respuestaId = isset($_POST['respuestaId']) ? (int) $_POST['respuestaId'] : 0;
-            $preguntaId = isset($_POST['preguntaId']) ? (int) $_POST['preguntaId'] : 0;
+            $respuestaId = isset($_POST['respuestaId']) ? (int)$_POST['respuestaId'] : 0;
+            $preguntaId = isset($_POST['preguntaId']) ? (int)$_POST['preguntaId'] : 0;
 
             $this->checkTiempoLimite($preguntaId);
 
-            $esCorrecta=$this->model->esRespuestaCorrecta($preguntaId,$respuestaId);
+            $esCorrecta = $this->model->esRespuestaCorrecta($preguntaId, $respuestaId);
             $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
 
             $_SESSION['respuesta_ingresada'] = $respuestaId;
             $idPartida = $_SESSION['partida']['id'];
 
-            $this->partidaPreguntaModel->registrarTurno($idPartida,$preguntaId,$esCorrecta);
+            $this->partidaPreguntaModel->registrarTurno($idPartida, $preguntaId, $esCorrecta);
             $this->preguntaUsuarioModel->registrarPreguntaUsuario($_SESSION['usuario']['id'], $preguntaId, $respuestaId, $esCorrecta);
 
 
@@ -117,34 +118,31 @@ class PreguntaController
         }
     }
 
-    function reportarPregunta(){
+    function reportarPregunta()
+    {
         $idPregunta = (int)$_POST["preguntaId"];
-        $_SESSION['idPregunta']=$idPregunta;
-        $pregunta =$this->model->getEnunciadoDeLaPreguntaPorId($idPregunta);
+        $_SESSION['idPregunta'] = $idPregunta;
+        $pregunta = $this->model->getEnunciadoDeLaPreguntaPorId($idPregunta);
 
-        $data=[
-            'id'=> $idPregunta,
-            'pregunta' =>$pregunta['enunciado'],
+        $data = [
+            'id' => $idPregunta,
+            'pregunta' => $pregunta['enunciado'],
             'pagina' => 'reportarPregunta',
             'mostrarLogo' => false
         ];
 
-        $this->view->render("ReportarPregunta",$data);
+        $this->view->render("ReportarPregunta", $data);
     }
 
-    function guardarReporte(){
+    function guardarReporte()
+    {
         $idPregunta = $_SESSION['idPregunta'];
-        $idReporteMotivo=(int)$_POST['motivo'];
+        $idReporteMotivo = (int)$_POST['motivo'];
         $fecha = date("Y-m-d H:i:s");
         $estaVerificada = false;
-        $this->model->guardarReporte($idPregunta,$idReporteMotivo,$fecha,$estaVerificada);
+        $this->model->guardarReporte($idPregunta, $idReporteMotivo, $fecha, $estaVerificada);
         RedirectHelper::redirectTo("Partida/show");
     }
-
-//    private function unsetSessionPregunta(){
-//        unset($_SESSION['respuesta_correcta'], $_SESSION['id_pregunta'],
-//            $_SESSION['respuestas'], $_SESSION['pregunta'], $_SESSION['pregunta']['enunciado'] );
-//    }
 
     private function obtenerPreguntaDesdeSesion()
     {
@@ -160,6 +158,7 @@ class PreguntaController
             'usuario' => $_SESSION['usuario'],
             'pagina' => 'pregunta',
             'mostrarLogo' => false,
+            'title' => 'Pregunta',
             'categoria' => $categoria['nombre'],
             'color_fondo' => $categoria['color_fondo'],
             'color_pregunta' => $categoria['color'],
@@ -170,6 +169,7 @@ class PreguntaController
             'tiempo_inicio' => $_SESSION['tiempo_inicio_pregunta']
         ];
     }
+
     private function checkTiempoLimite(int $preguntaId)
     {
         $tiempoActual = time();
@@ -177,7 +177,6 @@ class PreguntaController
         $tiempoLimite = 10;
 
         if (($tiempoActual - $tiempoInicio) > $tiempoLimite) {
-            // Tiempo excedido: forzamos como incorrecta
             $_SESSION['respuesta_correcta'] = false;
             $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
             $_SESSION['respuesta_ingresada'] = null;
@@ -188,6 +187,7 @@ class PreguntaController
             RedirectHelper::redirectTo("Resultado/show");
         }
     }
+
 
 
 

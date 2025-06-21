@@ -26,7 +26,8 @@ class RankingController
             'tipo_acumulado' => $tipo === 'acumulado',
             'mostrarLogo' => true,
             'pagina' => 'ranking',
-            'rutaLogo' => '/Lobby/show'
+            'rutaLogo' => '/Lobby/show',
+            'title' => 'Ranking'
         ]);
     }
 

@@ -19,6 +19,7 @@ class PreguntasReportadasController
             'pagina' => 'preguntasReportadas',
             'mostrarLogo'=> true,
             'rutaLogo'=> '/LobbyEditor/show',
+            'title' => 'Preguntas reportadas',
             'preguntas' => $preguntasReportadas
         ];
 
@@ -35,6 +36,7 @@ class PreguntasReportadasController
                 'pagina' => 'preguntasReportadas',
                 'mostrarLogo'=> true,
                 'rutaLogo'=> '/LobbyEditor/show',
+                'title' => 'Preguntas reportadas',
                 'preguntas' => $preguntas
 
             ];
@@ -55,6 +57,7 @@ class PreguntasReportadasController
             $data = [
                 'pagina' => 'revisionPreguntaReportada',
                 'mostrarLogo'=> true,
+                'title' => 'Revisión de pregunta',
                 'rutaLogo'=> '/PreguntasReportadas/show',
                 'pregunta' => $pregunta,
                 'nombreCategoria' => $nombreCategoria,

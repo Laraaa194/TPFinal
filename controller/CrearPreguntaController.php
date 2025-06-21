@@ -20,6 +20,7 @@ class crearPreguntaController
             'pagina' => 'crearPregunta',
             'rutaLogo' => '/Lobby/show',
             'mostrarLogo' => true,
+            'title' => 'Crear pregunta',
             'rutaAction' => '/CrearPregunta/registrarSolicitud',
             'mostrarP' => true
         ];

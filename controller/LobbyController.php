@@ -26,6 +26,7 @@ class LobbyController
         $data['pagina'] = 'lobby';
         $data['rutaLogo'] = '/Lobby/show';
         $data['mostrarLogo'] = true;
+        $data['title'] = 'Lobby';
 
         $data['puntaje_total'] = $this->partidaModel->getPuntajeAcumulado($idUsuario); //Obtiene puntaje acumulado del usuario
 

@@ -13,34 +13,44 @@ class GestionPreguntasController
     public function show(){
 
         $preguntas = $this->model->getAllPreguntas();
+        $cantidad_resultados = count($preguntas);
 
         $data = [
             'pagina' => 'gestionPreguntas',
             'mostrarLogo'=> true,
             'rutaLogo'=> '/LobbyEditor/show',
-            'preguntas' => $preguntas
+            'title' => 'Gestión de preguntas',
+            'preguntas' => $preguntas,
+            'cantidad_total' => $cantidad_resultados,
+            'mostrarCantidad' => true
+
         ];
 
         $this->view->render("GestionPreguntasEditor",$data);
     }
 
     public function buscar(){
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $busqueda = trim($_POST['busqueda'] ?? '');
 
-            $preguntas = $this->model->getAllPreguntasBuscadas($busqueda);
+            if ($busqueda === '') {
+                $preguntas = $this->model->getAllPreguntas();
+                $mensajeCantidad = "Hay " . count($preguntas) . " preguntas cargadas en total.";
+            } else {
+                $preguntas = $this->model->getAllPreguntasBuscadas($busqueda);
+                $mensajeCantidad = "Se encontraron " . count($preguntas) . " resultados para tu búsqueda \"$busqueda\".";
+            }
 
             $data= [
                 'pagina' => 'gestionPreguntas',
                 'mostrarLogo'=> true,
                 'rutaLogo'=> '/LobbyEditor/show',
-                'preguntas' => $preguntas
-
+                'title' => 'Gestión de preguntas',
+                'preguntas' => $preguntas,
+                'mensajeCantidad' => $mensajeCantidad
             ];
 
             $this->view->render("GestionPreguntasEditor", $data);
-
         }
     }
 
@@ -53,6 +63,7 @@ class GestionPreguntasController
             [
                 'pagina' => 'gestionPreguntas',
                 'mostrarLogo'=> true,
+                'title' => 'Editar pregunta',
                 'rutaLogo'=> '/GestionPreguntas/show',
                 'pregunta' => $preguntaYRespuestas['pregunta'],
                 'respuestas' => $preguntaYRespuestas['respuestas'],
@@ -100,6 +111,7 @@ class GestionPreguntasController
             'pagina' => 'gestionPreguntas',
             'rutaLogo' => '/GestionPreguntas/show',
             'mostrarLogo' => true,
+            'title' => 'Crear pregunta',
             'rutaAction' => '/GestionPreguntas/agregarPregunta',
             'mostrarP' => false
         ];

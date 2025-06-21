@@ -22,6 +22,7 @@ class PreguntasSugeridasController
             'pagina' => 'preguntasSugeridas',
             'mostrarLogo'=> true,
             'rutaLogo'=> '/LobbyEditor/show',
+            'title' => 'Preguntas sugeridas',
             'preguntas' => $preguntasSugeridas
 
         ];
@@ -38,6 +39,7 @@ class PreguntasSugeridasController
             $data= [
                 'pagina' => 'preguntasSugeridas',
                 'mostrarLogo'=> true,
+                'title' => 'Preguntas sugeridas',
                 'rutaLogo'=> '/LobbyEditor/show',
                 'preguntas' => $preguntas
 
@@ -57,6 +59,7 @@ class PreguntasSugeridasController
             [
                 'pagina' => 'preguntasSugeridas',
                 'mostrarLogo'=> true,
+                'title' => 'Pregunta sugerida',
                 'rutaLogo'=> '/PreguntasSugeridas/show',
                 'pregunta' => $preguntaYRespuestas['pregunta'],
                 'respuestas' => $preguntaYRespuestas['respuestas'],
