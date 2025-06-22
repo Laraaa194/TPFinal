@@ -1,0 +1,26 @@
+<main class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold text-primary">Historial de Moderación</h1>
+        <p class="text-muted">Registro de acciones realizadas por editores</p>
+    </div>
+
+    {{^historial}}
+        <div class="alert alert-info text-center shadow-sm border-0 rounded-4" style="background-color: #e0f7fa; color: #00796b; border-radius: 10px;">
+            <h4 class="alert-heading">¡Ups!</h4>
+            <p class="mb-0">No hay acciones registradas aún.</p>
+        </div>
+    {{/historial}}
+
+    <div class="seccion-scrollable overflow-auto" style="max-height: 41.5em;">
+        {{#historial}}
+            <div class="card mb-3 shadow-sm border-0 rounded-4" style="background-color: #f8f9fa;">
+                <div class="card-body">
+                    <p class="card-text mb-1"><strong>Editor:</strong> {{nombre_usuario}}</p>
+                    <p class="card-text mb-1"><strong>Acción:</strong> <span class="fw-bold" style="color: #025902">{{tipo_accion}}</span></p>
+                    <p class="card-text mb-1"><strong>Detalle:</strong> {{detalle}}</p>
+                    <p class="card-text text-muted small mt-2"><strong>Fecha:</strong> {{fecha}}</p>
+                </div>
+            </div>
+        {{/historial}}
+    </div>
+</main>

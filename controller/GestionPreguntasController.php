@@ -4,11 +4,13 @@ class GestionPreguntasController
 {
     private $view;
     private $model;
+    private $historialModel;
 
-    public function __construct($view, $model)
+    public function __construct($view, $model, $historialModel)
     {
         $this->view = $view;
         $this->model = $model;
+        $this->historialModel = $historialModel;
     }
     public function show(){
 
@@ -79,7 +81,15 @@ class GestionPreguntasController
             $id = $_POST['idPregunta'] ?? null;
 
             if ($id !== null) {
+                $preguntaData = $this->model->getPregunta($id);
+                $enunciado = $preguntaData ? $preguntaData['enunciado'] : "Pregunta Desconocida";
+
                 $this->model->eliminarPregunta($id);
+
+                $idEditorActual = $_SESSION['usuario']['id'];
+                $tipoAccion = 'Eliminar Pregunta';
+                $detalle = "Se eliminó la pregunta: \"{$enunciado}\" y deja de estar activa.";
+                $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
             }
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
@@ -99,6 +109,10 @@ class GestionPreguntasController
 
             $this->model->guardarCambios($idPregunta, $categoria, $enunciadoPregunta, $respuestas, $respuestaCorrecta);
 
+            $idEditorActual = $_SESSION['usuario']['id'];
+            $tipoAccion = 'Editar Pregunta';
+            $detalle = "Se efectuaron cambios en la pregunta: \"{$enunciadoPregunta}\".";
+            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
         }
@@ -156,6 +170,13 @@ class GestionPreguntasController
             }
 
             $this->model->editorAgregarPreguntaYRespuestas($enunciadoPregunta, $categoria, $respuestas, $respuestaCorrecta);
+
+            // **NUEVO: Registrar acción de 'Agregar Pregunta'**
+            $idEditorActual = $_SESSION['usuario']['id'];
+            $tipoAccion = 'Agregar Pregunta';
+            $detalle = "Se agregó una nueva pregunta: \"$enunciadoPregunta\" y pasa a estar activa.";
+            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+
             RedirectHelper::redirectTo('GestionPreguntas/show');
 
         }
