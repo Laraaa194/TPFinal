@@ -22,6 +22,7 @@ require_once ("controller/LobbyEditorController.php");
 require_once ("controller/PreguntasSugeridasController.php");
 require_once ("controller/PreguntasReportadasController.php");
 require_once ("controller/GestionPreguntasController.php");
+require_once("controller/HistorialModeracionController.php");
 
 
 require_once("model/LoginModel.php");
@@ -34,6 +35,7 @@ require_once ("model/PreguntaUsuarioModel.php");
 require_once ("model/UsuarioModel.php");
 require_once ("model/CrearPreguntaModel.php");
 require_once ("model/PreguntasEditorModel.php");
+require_once ("model/HistorialModeracionModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -135,20 +137,31 @@ class Configuration
         return new PreguntasSugeridasController(
             $this->getViewer(),
             new PreguntasEditorModel($this->getDatabase()),
-            new CrearPreguntaModel($this->getDatabase()));
+            new CrearPreguntaModel($this->getDatabase()),
+            new HistorialModeracionModel($this->getDatabase())
+        );
     }
 
     public function getPreguntasReportadasController(){
         return new PreguntasReportadasController(
             $this->getViewer(),
-            new PreguntasEditorModel($this->getDatabase())
+            new PreguntasEditorModel($this->getDatabase()),
+            new HistorialModeracionModel($this->getDatabase())
         );
     }
 
     public function getGestionPreguntasController(){
         return new GestionPreguntasController(
             $this->getViewer(),
-            new PreguntasEditorModel($this->getDatabase())
+            new PreguntasEditorModel($this->getDatabase()),
+            new HistorialModeracionModel($this->getDatabase())
+        );
+    }
+
+    public function getHistorialModeracionController() {
+        return new HistorialModeracionController(
+            $this->getViewer(),
+            new HistorialModeracionModel($this->getDatabase())
         );
     }
 

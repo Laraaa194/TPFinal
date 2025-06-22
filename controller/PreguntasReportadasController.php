@@ -4,11 +4,13 @@ class PreguntasReportadasController
 {
     private $view;
     private $model;
+    private $historialModel;
 
-    public function __construct($view, $model)
+    public function __construct($view, $model,$historialModel)
     {
         $this->view = $view;
         $this->model = $model;
+        $this->historialModel = $historialModel;
     }
 
     public function show(){
@@ -72,12 +74,30 @@ class PreguntasReportadasController
    }
 
    public function eliminar($id_pregunta){
-        $this->model->eliminarPreguntaReportada($id_pregunta);
+       $preguntaData = $this->model->getPreguntaReportadaPorId($id_pregunta);
+       $enunciado = $preguntaData ? $preguntaData['enunciado'] : "Pregunta Desconocida";
+
+       $this->model->eliminarPreguntaReportada($id_pregunta);
+
+       $idEditorActual = $_SESSION['usuario']['id'];
+       $tipoAccion = 'Eliminar Reporte';
+       $detalle = "Se eliminó la pregunta reportada: \"{$enunciado}\".";
+        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+
         RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
 
    public function borrarReporte($id_pregunta){
-        $this->model->borrarReporte($id_pregunta);
+       $preguntaData = $this->model->getPreguntaReportadaPorId($id_pregunta);
+       $enunciado = $preguntaData ? $preguntaData['enunciado'] : "Pregunta Desconocida";
+
+       $this->model->borrarReporte($id_pregunta);
+
+       $idEditorActual = $_SESSION['usuario']['id'];
+       $tipoAccion = 'Denegar reporte';
+       $detalle = "Se denegó el reporte de la pregunta: \"{$enunciado}\".";
+       $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+
         RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
 

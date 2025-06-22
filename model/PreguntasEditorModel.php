@@ -279,7 +279,7 @@ class PreguntasEditorModel
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    private function getPregunta($id_pregunta)
+    public function getPregunta($id_pregunta)
     {
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT * FROM pregunta WHERE id = ?");
@@ -289,7 +289,7 @@ class PreguntasEditorModel
         return $result->fetch_assoc();
     }
 
-    private function getRespuestas($id_pregunta): array
+    public function getRespuestas($id_pregunta): array
     {
         $conn = $this->connect();
         $stmt = $conn->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
