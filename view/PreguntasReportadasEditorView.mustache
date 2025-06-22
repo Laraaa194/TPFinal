@@ -16,9 +16,10 @@
         <div class="mt-4">
             {{#preguntas}}
                 <div class="question-card">
+                    <div class="category-text text-left" style="color: {{color_categoria}}">{{nombre_categoria}}</div>
                     <div class="question-text">{{enunciado}}</div>
                     <div>
-                        <a href="/PreguntasReportadas/mostrarRevision/{{idPregunta}}" class="ms-1">
+                        <a href="/PreguntasReportadas/mostrarRevision/{{id}}" class="ms-1">
                             <img src="/public/img/ojoLupa.png" style="width: 40px" alt="Revisar" />
                         </a>
                     </div>

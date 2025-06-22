@@ -17,7 +17,9 @@ class PreguntasEditorModel
     public function getPreguntasSolicitadas()
     {
         $conn = $this->connect();
-        $stmt = $conn->prepare("SELECT * FROM pregunta_solicitada");
+        $stmt = $conn->prepare("SELECT ps.*, c.nombre AS nombre_categoria, c.color AS color_categoria
+            FROM pregunta_solicitada ps
+            INNER JOIN categoria c ON ps.id_categoria = c.id");
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -153,9 +155,10 @@ class PreguntasEditorModel
     {
         $conn = $this->connect();
 
-        $sql = "SELECT *
+        $sql = "SELECT p.*, c.nombre AS nombre_categoria, c.color AS color_categoria
             FROM pregunta p
-            INNER JOIN pregunta_reportada pr ON p.id = pr.idPregunta";
+            INNER JOIN pregunta_reportada pr ON p.id = pr.idPregunta
+            INNER JOIN categoria c ON p.id_categoria = c.id";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -246,11 +249,14 @@ class PreguntasEditorModel
     public function getAllPreguntas()
     {
         $conn = $this->connect();
-        $sql = "SELECT * FROM pregunta";
+        $sql = "SELECT p.* , c.nombre AS nombre_categoria, c.color AS color_categoria
+                FROM pregunta p
+                INNER JOIN categoria c ON p.id_categoria = c.id
+                ORDER BY c.nombre ASC";
         $result = $conn->query($sql);
 
         if (!$result) {
-            return []; // o lanzar error según convenga
+            return [];
         }
 
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -369,5 +375,24 @@ class PreguntasEditorModel
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getMotivoReportada($id_pregunta) {
+        $conn = $this->connect();
+        $stmt = $conn->prepare("
+        SELECT rm.descripcion
+        FROM pregunta_reportada pr
+        INNER JOIN reporte_motivo rm ON pr.idReporteMotivo = rm.id
+        WHERE pr.idPregunta = ?
+    ");
+        if (!$stmt) {
+            return null;
+        }
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result->fetch_assoc(); // Devuelve ['descripcion' => '...']
+    }
+
 
 }

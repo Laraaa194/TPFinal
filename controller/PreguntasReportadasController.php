@@ -53,6 +53,7 @@ class PreguntasReportadasController
             $nombreCategoria = $this->model->getNombreCategoria($pregunta['id_categoria']);
             $respuestas = $this->model->getRespuestasReportadas($id_pregunta);
 
+            $motivo = $this->model->getMotivoReportada($id_pregunta);
 
             $data = [
                 'pagina' => 'revisionPreguntaReportada',
@@ -61,7 +62,8 @@ class PreguntasReportadasController
                 'rutaLogo'=> '/PreguntasReportadas/show',
                 'pregunta' => $pregunta,
                 'nombreCategoria' => $nombreCategoria,
-                'respuestas' => $respuestas
+                'respuestas' => $respuestas,
+                'motivo' => $motivo['descripcion']
             ];
 
             $this->view->render("RevisionPreguntaReportada", $data);

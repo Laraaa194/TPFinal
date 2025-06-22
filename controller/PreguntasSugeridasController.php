@@ -18,12 +18,13 @@ class PreguntasSugeridasController
 
         $preguntasSugeridas = $this->model->getPreguntasSolicitadas();
 
+
         $data= [
             'pagina' => 'preguntasSugeridas',
             'mostrarLogo'=> true,
             'rutaLogo'=> '/LobbyEditor/show',
             'title' => 'Preguntas sugeridas',
-            'preguntas' => $preguntasSugeridas
+            'preguntas' => $preguntasSugeridas,
 
         ];
 
