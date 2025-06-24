@@ -117,10 +117,10 @@ class PartidaModel
     public function getRankingPorMejorPartida()
     {
         $conn = $this->connect();
-        $sql = "SELECT u.nombre_usuario, u.nombre, u.apellido, 
-                   COALESCE(MAX(p.puntaje_total), 0) AS puntaje
+        $sql = "SELECT u.nombre_usuario, u.nombre, u.apellido, COALESCE(MAX(p.puntaje_total), 0) AS puntaje
             FROM usuario u
-            LEFT JOIN partida p ON p.id_jugador = u.id_usuario AND p.esta_activa = 0
+            LEFT JOIN partida p ON p.id_jugador = u.id_usuario AND p.esta_activa = 0 
+            WHERE u.id_tipo = 1
             GROUP BY u.id_usuario, u.nombre_usuario, u.nombre, u.apellido
             ORDER BY puntaje DESC";
         $result = $conn->query($sql);
@@ -137,6 +137,7 @@ class PartidaModel
         $sql = "SELECT u.nombre_usuario, u.nombre, u.apellido, COALESCE(SUM(p.puntaje_total), 0) AS puntaje
             FROM usuario u
             LEFT JOIN partida p ON p.id_jugador = u.id_usuario AND p.esta_activa = 0
+            WHERE u.id_tipo = 1
             GROUP BY u.id_usuario, u.nombre_usuario, u.nombre, u.apellido
             ORDER BY puntaje DESC";
         $result = $conn->query($sql);
