@@ -123,11 +123,13 @@ class PreguntaController
         $idPregunta = (int)$_POST["preguntaId"];
         $_SESSION['idPregunta'] = $idPregunta;
         $pregunta = $this->model->getEnunciadoDeLaPreguntaPorId($idPregunta);
+        $esCorrecta = $_POST["esCorrecta"];
 
         $data = [
             'id' => $idPregunta,
             'pregunta' => $pregunta['enunciado'],
             'pagina' => 'reportarPregunta',
+            'esCorrecta'=> $esCorrecta,
             'mostrarLogo' => false
         ];
 
@@ -141,7 +143,16 @@ class PreguntaController
         $fecha = date("Y-m-d H:i:s");
         $estaVerificada = false;
         $this->model->guardarReporte($idPregunta, $idReporteMotivo, $fecha, $estaVerificada);
-        RedirectHelper::redirectTo("Partida/show");
+
+        $esCorrecta=$_POST['esCorrecta'];
+
+        if ($esCorrecta){
+            RedirectHelper::redirectTo("Partida/show");
+        }else{
+            RedirectHelper::redirectTo("Lobby/show");
+        }
+
+
     }
 
     private function obtenerPreguntaDesdeSesion()

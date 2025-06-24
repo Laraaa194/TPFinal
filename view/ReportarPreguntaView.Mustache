@@ -10,6 +10,7 @@
         <div class="pregunta text-center fs-5 mb-4">{{pregunta}}</div>
 
         <form method="post" action="/Pregunta/guardarReporte">
+            <input type="hidden" name="esCorrecta" value="{{esCorrecta}}">
             <p class="mb-3">¿Por qué quieres reportar esta pregunta?</p>
 
             <div class="form-check mb-2">
@@ -51,6 +52,5 @@
                 <button type="submit" class="btn btn-enviar px-4 mt-3 mb-1">Enviar reporte</button>
             </div>
         </form>
-    </div>
     </div>
 </main>

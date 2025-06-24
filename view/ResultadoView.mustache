@@ -51,5 +51,15 @@
         </a>
     </div>
 
+    <div class="position-absolute  bottom-0 m-3 mb-4 ms-4">
+        <form action="/Pregunta/reportarPregunta" method="POST">
+            <input type="hidden" name="preguntaId" value="{{id_pregunta}}">
+            <input type="hidden" name="esCorrecta" value="{{esCorrecta}}">
+            <button type="submit" class="btn btn-outline-danger">
+                ⚠️ Reportar pregunta
+            </button>
+        </form>
+    </div>
+
 </main>
 
