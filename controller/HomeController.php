@@ -15,7 +15,9 @@ class HomeController
         $data = ['pagina' => 'home',
             'rutaLogo' => '/Home/show',
             'title' => 'Home',
-            'mostrarLogo' => true];
+            'mostrarLogo' => true,
+
+        ];
         $this->view->render("paginaInicio", $data);
     }
 }

@@ -23,6 +23,7 @@ require_once ("controller/PreguntasSugeridasController.php");
 require_once ("controller/PreguntasReportadasController.php");
 require_once ("controller/GestionPreguntasController.php");
 require_once("controller/HistorialModeracionController.php");
+require_once ("controller/LobbyAdminController.php");
 
 
 require_once("model/LoginModel.php");
@@ -165,6 +166,12 @@ class Configuration
         );
     }
 
+    public function getLobbyAdminController(){
+        return new LobbyAdminController(
+            $this->getViewer()
+        );
+    }
+
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);
@@ -172,12 +179,11 @@ class Configuration
 
     public function getViewer()
     {
-        //return new FileView();
         return new MustachePresenter("view");
     }
 
     public function validateSession($controller) {
-        $controllersRequierenLogin = ['Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'];
+        $controllersRequierenLogin = ['Perfil', 'Lobby','LobbyAdmin', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'];
 
         if (in_array($controller, $controllersRequierenLogin)) {
             SessionHelper::requiereLogin();
@@ -192,11 +198,12 @@ class Configuration
             return;
         }
 
-        $tipo = SessionHelper::getUserType(); // 1 = Jugador, 2 = Editor
+        $tipo = SessionHelper::getUserType();
 
         $roles = [
             1 => ['home', 'Register', 'Login', 'Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta'],
-            2 => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas']
+            2 => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'],
+            3 => ['home', 'Login', 'LobbyAdmin']
         ];
 
         // Si el controlador actual no está permitido para el tipo de usuario, bloquear

@@ -36,6 +36,9 @@ class LoginController
                 if($tipo == 2){
                     RedirectHelper::redirectTo("LobbyEditor/show");
                 }
+                if($tipo == 3){
+                    RedirectHelper::redirectTo("LobbyAdmin/show");
+                }
                 RedirectHelper::redirectTo("Lobby/show");
             } else if(empty($usuario) || empty($contrasenia)) {
                 $_SESSION['error'] = 'Completa los campos para continuar';

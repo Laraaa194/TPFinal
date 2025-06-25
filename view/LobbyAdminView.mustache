@@ -1,0 +1,108 @@
+<main>
+
+    <div class="container">
+        <p class="text-center mb-3 fs-1 fw-bold">Panel de Administración</p>
+        <p class="text-center mb-5" style="color: #6f6f6f">Estadísticas y métricas generales del sistema de trivia</p>
+
+        <!-- Filtro -->
+        <div class="d-flex justify-content-center mb-4">
+            <select class="select-personalizado w-auto me-2 rounded-pill px-5" aria-label="Filtrar por">
+                <option selected>Filtrar por...</option>
+                <option value="dia">Día</option>
+                <option value="semana">Semana</option>
+                <option value="mes">Mes</option>
+                <option value="año">Año</option>
+            </select>
+            <button class="filtrar-btn rounded-pill">Filtrar</button>
+        </div>
+
+        <!-- Métricas principales -->
+        <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 text-center mb-4">
+            <div class="col">
+                <div class="panel">
+                    <div class="icono"><img src="/public/imagenesUsuarios/default.png" style="width: 60px"></div>
+                    <h5>Jugadores</h5>
+                    <p>3000</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="panel">
+                    <div class="icono">🧩</div>
+                    <h5>Total partidas jugadas</h5>
+                    <p>2000</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="panel">
+                    <div class="icono"><img src="/public/img/iconoPartida.png" style="width: 35px"></div>
+                    <h5>Preguntas</h5>
+                    <p>500</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="panel">
+                    <div class="icono"><img src="/public/img/LogoSec.png" style="width: 75px"></div>
+                    <h5>Preguntas creadas</h5>
+                    <p>100</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="panel">
+                    <div class="icono">👥</div>
+                    <h5>Usuarios nuevos</h5>
+                    <p>50</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas detalladas -->
+        <div class="row row-cols-1 row-cols-md-3 g-4 text-center mb-4">
+            <div class="col">
+                <div class="panel">
+                    <h5>Usuarios por país</h5>
+                    <p>🇮🇹 5 &nbsp;&nbsp; 🇧🇷 100</p>
+                    <p>🇪🇸 30 &nbsp;&nbsp; 🇦🇷 500</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="panel">
+                    <h5>Usuarios por sexo</h5>
+                    <p>M: 500 | F: 450</p>
+                    <p>Prefiero no decirlo: 100</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="panel">
+                    <h5>Usuarios por grupo de edad</h5>
+                    <p>Menores: 235</p>
+                    <p>Medio: 450</p>
+                    <p>Jubilados: 115</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Porcentaje -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4">
+                <div class="panel">
+                    <h5>Preguntas respondidas correctamente</h5>
+                    <div class="icono mb-2">✔️</div>
+                    <p>66%</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Descargar -->
+        <div class="d-flex flex-row justify-content-center gap-3 ">
+            <div class="text-center mt-4">
+                <button class="descargar-btn">Descargar</button>
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="imprimir-btn">Imprimir</button>
+            </div>
+        </div>
+    </div>
+
+</main>

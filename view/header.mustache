@@ -35,7 +35,8 @@
             margin: 0;
         }
         .lobby, .perfil , .lobbyEditor, .crearPregunta, .ranking,
-        .preguntasSugeridas, .reportarPregunta, .preguntasReportadas, .revisionPreguntaReportada, .gestionPreguntas, .HistorialModeracion{
+        .preguntasSugeridas, .reportarPregunta, .preguntasReportadas,
+        .revisionPreguntaReportada, .gestionPreguntas, .HistorialModeracion, .lobbyAdmin{
             background-color: #e6f5c9;
         }
 
@@ -973,6 +974,91 @@
             text-align: center;
             opacity: 0;
             transition: opacity 0.2s ease;
+        }
+
+        .panel {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .panel:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+        .panel .icono {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .panel h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .panel p {
+            font-size: 1rem;
+            margin: 0;
+        }
+        .filtrar-btn {
+
+            background: rgb(0, 146, 0); /* rojo claro transparente */
+            color: #ffffff;
+            border: 1px solid #008000;
+            padding: 8px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(6px); /* efecto glass */
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .filtrar-btn:hover{
+            background-color: rgba(67, 152, 57, 0.4);
+            color: #008000;
+            transform: translateY(-1px);
+
+        }
+        .select-personalizado{
+            gap: 2px;
+            border: solid 1px #008000;
+            background-color: rgba(29, 164, 0, 0.13);
+            color: #008000;
+
+        }
+
+        .descargar-btn {
+
+            background: rgba(127, 255, 77, 0.15); /* rojo claro transparente */
+            color: #3d6d32;
+            border: 1px solid #008000;
+            padding: 8px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(6px); /* efecto glass */
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .descargar-btn:hover{
+            background-color: #008000;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(110, 255, 77, 0.18);
+        }
+        .imprimir-btn {
+            margin: auto;
+            background: rgba(77, 119, 255, 0.4); /* rojo claro transparente */
+            color: rgba(35, 49, 248, 0.63);
+            border: 1px solid #0d16a5;
+            padding: 8px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(6px); /* efecto glass */
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .imprimir-btn:hover{
+            background-color: #0d16a5;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(42, 52, 191, 0.44);
         }
 
 
