@@ -28,12 +28,14 @@ class RegisterModel
 
     public function getIdSexos($sexo)
     {
+        $Sexo= strtolower($sexo);
+
         $conn = $this->connect();
-        $stmt = $conn->prepare("SELECT id_sexo FROM sexo WHERE descripcion = ?");
+        $stmt = $conn->prepare("SELECT id_sexo FROM sexo WHERE LOWER(descripcion) = ?");
         if (!$stmt) {
             die("Error en prepare: " . $conn->error);
         }
-        $stmt->bind_param("s", $sexo);
+        $stmt->bind_param("s", $Sexo);
         $stmt->execute();
 
         $result = $stmt->get_result();
@@ -66,7 +68,7 @@ class RegisterModel
 
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssssi", $nombre, $apellido, $anioNacimiento, $sexo, $email, $password, $nombreUsuario, $foto, $pais, $ciudad, $tipo);
+        $stmt->bind_param("sssissssssi", $nombre, $apellido, $anioNacimiento, $sexo, $email, $password, $nombreUsuario, $foto, $pais, $ciudad, $tipo);
         $stmt->execute();
     }
 }

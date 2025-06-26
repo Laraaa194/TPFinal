@@ -26,8 +26,7 @@ class RegisterController
             $nombre = $_POST["nombre"];
             $apellido = $_POST["apellido"];
             $anoNacimiento = $_POST["anoNacimiento"];
-            $sexo = $_POST["sexo"];
-            $sexo = $this->model->getIdSexos($sexo);
+            $sexo = $this->model->getIdSexos($_POST["sexo"]);
             $email = $_POST["correo"];
             $password = $_POST["contrasena"];
             $repetirContrasena = $_POST["repetirContrasena"];
