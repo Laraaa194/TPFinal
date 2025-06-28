@@ -1,3 +1,4 @@
+
 <main>
 
     <div class="container">
@@ -33,10 +34,23 @@
                 </div>
             </div>
             <div class="col">
-                <div class="panel">
+                <div class="panel" style="width: 400px">
                     <div class="icono"><img src="/public/img/iconoPartida.png" style="width: 35px"></div>
                     <h5>Preguntas</h5>
-                    <p>500</p>
+
+                    <!-- Select para cambiar el gráfico -->
+                    <select id="selector-tipo" class="select-personalizado mb-3" style="max-width: 250px; margin: 0 auto;">
+                        <option value="categoria" selected>Por categoría</option>
+                        <option value="dificultad">Por dificultad</option>
+                    </select>
+
+                    <!-- Cargar los datos desde PHP -->
+                    <script>
+                        window.datosPreguntasPorCategoria = JSON.parse('{{{datosPreguntasCategoriaJSON}}}');
+                        window.datosPreguntasPorDificultad = JSON.parse('{{{datosPreguntasDificultadJSON}}}');
+                    </script>
+
+                    <div id="grafico-preguntas" style="height: 300px; width: 100%;"></div>
                 </div>
             </div>
             <div class="col">
@@ -65,18 +79,24 @@
                 </div>
             </div>
             <div class="col">
-                <div class="panel">
+                <div class="panel" style="width: 400px">
                     <h5>Usuarios por sexo</h5>
-                    <p>M: 500 | F: 450</p>
-                    <p>Prefiero no decirlo: 100</p>
+
+                    <script>
+                        window.datosGraficoSexo = JSON.parse('{{{datosSexoJSON}}}');
+                    </script>
+
+                    <div id="grafico-sexo" style="height: 300px; width: 100%; "></div>
                 </div>
             </div>
             <div class="col">
                 <div class="panel">
                     <h5>Usuarios por grupo de edad</h5>
-                    <p>Menores: 235</p>
-                    <p>Medio: 450</p>
-                    <p>Jubilados: 115</p>
+
+                    <script>
+                        window.datosGraficoEdad = JSON.parse('{{{datosEdadJSON}}}');
+                    </script>
+                    <div id="grafico-edad" style="height: 300px; width: 100%; "></div>
                 </div>
             </div>
         </div>
@@ -86,8 +106,10 @@
             <div class="col-md-4">
                 <div class="panel">
                     <h5>Preguntas respondidas correctamente</h5>
-                    <div class="icono mb-2">✔️</div>
-                    <p>66%</p>
+                    <script>
+                        window.datosGraficoRespuestas = JSON.parse('{{{datosRespondidasJSON}}}');
+                    </script>
+                    <div id="grafico-respuestas" style="height: 300px; width: 100%; "></div>
                 </div>
             </div>
         </div>
@@ -106,3 +128,8 @@
     </div>
 
 </main>
+
+<script src="/public/Js/GraficoPorSexo.js"></script>
+<script src="/public/Js/GraficoPorEdad.js"></script>
+<script src="/public/Js/GraficoPorRespuestas.js"></script>
+<script src="/public/Js/GraficoPorPreguntas.js"></script>

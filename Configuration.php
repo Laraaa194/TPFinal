@@ -2,6 +2,7 @@
 
 require_once("helper/RedirectHelper.php");
 require_once("helper/SessionHelper.php");
+require_once ("helper/GraficosHelper.php");
 
 require_once("core/Database.php");
 require_once("core/FilePresenter.php");
@@ -24,6 +25,7 @@ require_once ("controller/PreguntasReportadasController.php");
 require_once ("controller/GestionPreguntasController.php");
 require_once("controller/HistorialModeracionController.php");
 require_once ("controller/LobbyAdminController.php");
+require_once ("controller/EstadisticasAdminController.php");
 
 
 require_once("model/LoginModel.php");
@@ -37,6 +39,7 @@ require_once ("model/UsuarioModel.php");
 require_once ("model/CrearPreguntaModel.php");
 require_once ("model/PreguntasEditorModel.php");
 require_once ("model/HistorialModeracionModel.php");
+require_once("model/EstadisticasAdminModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -168,10 +171,17 @@ class Configuration
 
     public function getLobbyAdminController(){
         return new LobbyAdminController(
-            $this->getViewer()
+            $this->getViewer(),
+            new EstadisticasAdminModel($this->getDatabase())
         );
     }
 
+    public function getEstadisticasAdminController() {
+        return new EstadisticasAdminController(
+            $this->getViewer(),
+            new EstadisticasAdminModel($this->getDatabase())
+        );
+    }
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);
