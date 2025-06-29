@@ -15,6 +15,7 @@ function drawChart() {
         legend: { position: 'absolute' },
         width: '100%',
         height: 300,
+        colors: ['#134bb2', '#8bc34a', '#FFCE56', '#ca3030', '#FF9800']
     };
 
     const chart = new google.visualization.PieChart(document.getElementById('grafico-edad'));

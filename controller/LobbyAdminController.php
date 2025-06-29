@@ -12,14 +12,15 @@ class LobbyAdminController
 
     }
 
-    public function show(){
+    public function show()
+    {
 
 
-        $data= [
+        $data = [
             'pagina' => 'lobbyAdmin',
-            'mostrarLogo'=> true,
+            'mostrarLogo' => true,
             'title' => 'Panel de administración',
-            'rutaLogo'=> '/LobbyAdmin/show',
+            'rutaLogo' => '/LobbyAdmin/show',
 
             'datosSexoJSON' => $this->obtenerJugadoresPorSexo()['datosJSON'],
 
@@ -28,7 +29,9 @@ class LobbyAdminController
             'datosRespondidasJSON' => $this->obtenerCantidadRespondidas()['datosRespondidasJSON'],
 
             'datosPreguntasCategoriaJSON' => $this->obtenerPreguntas()['datosPreguntasCategoriaJSON'],
-            'datosPreguntasDificultadJSON' =>$this->obtenerPreguntas()['datosPreguntasDificultadJSON'],
+            'datosPreguntasDificultadJSON' => $this->obtenerPreguntas()['datosPreguntasDificultadJSON'],
+
+            'datosPreguntasCreadasJSON' => $this->obtenerPreguntasCreadas()['datosPreguntasCreadasJSON'],
 
         ];
         if (isset($_SESSION['success'])) {
@@ -39,7 +42,8 @@ class LobbyAdminController
         $this->view->render('LobbyAdmin', $data);
     }
 
-    public static function logOut(){
+    public static function logOut()
+    {
         SessionHelper::logOut();
 
     }
@@ -86,4 +90,42 @@ class LobbyAdminController
         ];
         return $data;
     }
+
+    public function obtenerPreguntasCreadas(): array
+    {
+        $datos = $this->model->obtenerPreguntasCreadas();
+        $datosFormateados = GraficosHelper::formatearParaGraficoPreguntasCreadas($datos);
+
+        return [
+            'datosPreguntasCreadasJSON' => $datosFormateados
+        ];
+
+    }
+
+    public function getPartidasPor()
+    {
+        $filtro = $_GET['filtro'] ?? 'mes';
+
+        $datos = $this->model->obtenerPartidasAgrupadasPor($filtro);
+        $formateado = GraficosHelper::formatearPartidasParaGrafico($datos, $filtro);
+
+        header('Content-Type: application/json');
+        echo $formateado;
+    }
+
+    public function getUsuariosNuevosPor(){
+        $filtro = $_GET['filtro'] ?? 'mes';
+        $datos = $this->model->obtenerJugadoresNuevosPor($filtro);
+
+        $formateado = GraficosHelper::formatearUsuariosNuevosParaGrafico($datos, $filtro);
+        header('Content-Type: application/json');
+        echo $formateado;
+
+    }
+
+
+
+
+
+
 }

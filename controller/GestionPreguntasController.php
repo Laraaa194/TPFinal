@@ -61,6 +61,8 @@ class GestionPreguntasController
         $preguntaYRespuestas = $this->model->getPreguntaYRespuestas($id);
         $nombreCategoria = $this->model->getNombreCategoria($preguntaYRespuestas['pregunta']['id_categoria']);
 
+        $_SESSION['categoria'] = $preguntaYRespuestas['pregunta']['id_categoria'];
+
         $data=
             [
                 'pagina' => 'gestionPreguntas',
@@ -89,7 +91,7 @@ class GestionPreguntasController
                 $idEditorActual = $_SESSION['usuario']['id'];
                 $tipoAccion = 'Eliminar Pregunta';
                 $detalle = "Se eliminó la pregunta: \"{$enunciado}\" y deja de estar activa.";
-                $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+                $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria']);
             }
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
@@ -112,7 +114,7 @@ class GestionPreguntasController
             $idEditorActual = $_SESSION['usuario']['id'];
             $tipoAccion = 'Editar Pregunta';
             $detalle = "Se efectuaron cambios en la pregunta: \"{$enunciadoPregunta}\".";
-            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $categoria);
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
         }
@@ -171,11 +173,10 @@ class GestionPreguntasController
 
             $this->model->editorAgregarPreguntaYRespuestas($enunciadoPregunta, $categoria, $respuestas, $respuestaCorrecta);
 
-            // **NUEVO: Registrar acción de 'Agregar Pregunta'**
             $idEditorActual = $_SESSION['usuario']['id'];
             $tipoAccion = 'Agregar Pregunta';
             $detalle = "Se agregó una nueva pregunta: \"$enunciadoPregunta\" y pasa a estar activa.";
-            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $categoria);
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
 

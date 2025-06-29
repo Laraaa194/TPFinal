@@ -126,5 +126,101 @@ class EstadisticasAdminModel
     }
 
 
+    public function obtenerPreguntasCreadas()
+    {
+        $conn = $this->connect();
+
+        $sql = "
+            SELECT 
+                c.nombre AS categoria,
+                COALESCE(SUM(CASE WHEN h.tipo_accion = 'Agregar pregunta' THEN 1 ELSE 0 END), 0) AS agregadas_por_editor,
+                COALESCE(SUM(CASE WHEN h.tipo_accion = 'Aceptar solicitud' THEN 1 ELSE 0 END), 0) AS aceptadas_de_jugadores
+            FROM categoria c
+            LEFT JOIN historial_moderacion h ON h.categoria_pregunta = c.id
+            GROUP BY c.id
+            ORDER BY c.nombre
+            ";
+
+        $result = $conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerPartidasAgrupadasPor($criterio)
+    {
+        $conn = $this->connect();
+
+        // Definir el formato de fecha según el criterio
+        switch ($criterio) {
+            case 'dia':
+                $formato = '%Y-%m-%d';
+                break;
+            case 'semana':
+                $formato = '%Y-%u'; // Año + número de semana
+                break;
+            case 'mes':
+                $formato = '%Y-%m';
+                break;
+            case 'anio':
+                $formato = '%Y';
+                break;
+            default:
+                $formato = '%Y-%m';
+                break;
+        }
+
+        $sql = "
+        SELECT DATE_FORMAT(fecha, '$formato') AS periodo, COUNT(*) AS cantidad
+        FROM partida
+        GROUP BY periodo
+        ORDER BY periodo ASC
+    ";
+
+        $result = $conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    public function obtenerJugadoresNuevosPor($filtro)
+    {
+        $conn = $this->connect();
+
+        switch ($filtro) {
+            case 'dia':
+                $group = "DATE(u.fecha_registro)";
+                $select = "DATE(u.fecha_registro) AS periodo";
+                break;
+            case 'semana':
+                $group = "YEAR(u.fecha_registro), WEEK(u.fecha_registro)";
+                $select = "CONCAT(YEAR(u.fecha_registro), '-S', LPAD(WEEK(u.fecha_registro), 2, '0')) AS periodo";
+                break;
+            case 'mes':
+                $group = "YEAR(u.fecha_registro), MONTH(u.fecha_registro)";
+                $select = "DATE_FORMAT(u.fecha_registro, '%Y-%m') AS periodo";
+                break;
+            case 'anio':
+                $group = "YEAR(u.fecha_registro)";
+                $select = "YEAR(u.fecha_registro) AS periodo";
+                break;
+            default:
+                $group = "DATE(u.fecha_registro)";
+                $select = "DATE(u.fecha_registro) AS periodo";
+                break;
+        }
+
+        $sql = "SELECT $select, COUNT(*) AS cantidad
+            FROM usuario u
+            WHERE u.id_tipo = 1 
+            GROUP BY $group
+            ORDER BY u.fecha_registro ASC";
+
+        $result = $conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+
 
 }

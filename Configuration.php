@@ -193,7 +193,8 @@ class Configuration
     }
 
     public function validateSession($controller) {
-        $controllersRequierenLogin = ['Perfil', 'Lobby','LobbyAdmin', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'];
+        $controllersRequierenLogin = ['Perfil', 'Lobby','LobbyAdmin', 'Partida', 'Pregunta', 'Resultado',
+            'Ranking', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas', 'HistorialModeracion'];
 
         if (in_array($controller, $controllersRequierenLogin)) {
             SessionHelper::requiereLogin();
@@ -212,7 +213,7 @@ class Configuration
 
         $roles = [
             1 => ['home', 'Register', 'Login', 'Perfil', 'Lobby', 'Partida', 'Pregunta', 'Resultado', 'Ranking', 'CrearPregunta'],
-            2 => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas'],
+            2 => ['home', 'Login', 'LobbyEditor', 'PreguntasReportadas', 'PreguntasSugeridas', 'CrearPregunta', 'GestionPreguntas', 'HistorialModeracion'],
             3 => ['home', 'Login', 'LobbyAdmin']
         ];
 

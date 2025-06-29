@@ -5,14 +5,12 @@
 
         <!-- Filtro -->
         <div class="d-flex justify-content-center mb-4">
-            <select class="select-personalizado w-auto me-2 rounded-pill px-5" aria-label="Filtrar por">
-                <option selected>Filtrar por...</option>
+            <select id="selector-fecha-filtro" class="select-personalizado w-auto me-2 rounded-pill px-5" aria-label="Filtrar por">
                 <option value="dia">Día</option>
                 <option value="semana">Semana</option>
-                <option value="mes">Mes</option>
-                <option value="año">Año</option>
+                <option value="mes" selected>Mes</option>
+                <option value="anio">Año</option>
             </select>
-            <button class="filtrar-btn rounded-pill">Filtrar</button>
         </div>
 
         <!-- Fila 1: Jugadores, Total partidas, Usuarios nuevos -->
@@ -26,16 +24,16 @@
             </div>
             <div class="col">
                 <div class="panel">
-                    <div class="icono">🧩</div>
                     <h5 class="fs-5 text-success mb-4">Total partidas jugadas</h5>
-                    <p>2000</p>
+                    <div id="grafico-partidas" style="height: 300px; width: 100%;"></div>
+
                 </div>
             </div>
             <div class="col">
                 <div class="panel">
                     <div class="icono">👥</div>
                     <h5 class="fs-5 text-success mb-4">Usuarios nuevos</h5>
-                    <p>50</p>
+                    <div id="grafico-usuarios-nuevos" style="height: 300px; width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -92,9 +90,15 @@
             </div>
             <div class="col">
                 <div class="panel">
-                    <div class="icono"><img src="/public/img/LogoSec.png" style="width: 75px"></div>
-                    <h5 class="fs-5 text-success mb-4">Preguntas creadas</h5>
-                    <p>100</p>
+                    <div class="d-flex justify-content-center align-items-center mb-4">
+                        <div class="icono"><img src="/public/img/LogoSec.png" style="width: 55px"></div>
+                        <h5 class="fs-5 text-success mb-4 mt-3">Preguntas creadas</h5>
+                    </div>
+                    <script>
+                        window.datosPreguntasCreadas = JSON.parse('{{{datosPreguntasCreadasJSON}}}');
+                    </script>
+
+                    <div id="grafico-preguntas-creadas"  class="mb-4" style="height: 300px; width: 100%;"></div>
                 </div>
             </div>
             <div class="col">
@@ -128,3 +132,5 @@
 <script src="/public/Js/GraficoPorEdad.js"></script>
 <script src="/public/Js/GraficoPorRespuestas.js"></script>
 <script src="/public/Js/GraficoPorPreguntas.js"></script>
+<script src="/public/Js/GraficoPreguntasCreadas.js"></script>
+<script src="../public/Js/GraficosFiltroSelect.js"></script>

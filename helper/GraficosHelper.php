@@ -47,6 +47,79 @@ class GraficosHelper
         return $formateados;
     }
 
+    public static function formatearParaGraficoPreguntasCreadas($datos): string
+    {
+        $formato = [['Categoría', 'Por editor', 'Por jugadores']];
+
+        foreach ($datos as $fila) {
+            $formato[] = [
+                $fila['categoria'],
+                (int)$fila['agregadas_por_editor'],
+                (int)$fila['aceptadas_de_jugadores']
+            ];
+        }
+
+        return json_encode($formato);
+
+    }
+
+    public static function formatearPartidasParaGrafico($datos, $filtro)
+    {
+        switch ($filtro) {
+            case 'dia':
+                $columnaTiempo = 'Día';
+                break;
+            case 'semana':
+                $columnaTiempo = 'Semana';
+                break;
+            case 'mes':
+                $columnaTiempo = 'Mes';
+                break;
+            case 'anio':
+                $columnaTiempo = 'Año';
+                break;
+            default:
+                $columnaTiempo = 'Periodo';
+        }
+
+        $formato = [[$columnaTiempo, 'Cantidad']];
+
+        foreach ($datos as $fila) {
+            $formato[] = [$fila['periodo'], (int)$fila['cantidad']];
+        }
+
+        return json_encode($formato);
+    }
+
+    public static function formatearUsuariosNuevosParaGrafico($datos, $filtro)
+    {
+        switch ($filtro) {
+            case 'dia':
+                $columnaTiempo = 'Día';
+                break;
+            case 'semana':
+                $columnaTiempo = 'Semana';
+                break;
+            case 'mes':
+                $columnaTiempo = 'Mes';
+                break;
+            case 'anio':
+                $columnaTiempo = 'Año';
+                break;
+            default:
+                $columnaTiempo = 'Periodo';
+        }
+
+        $resultado = [[$columnaTiempo, 'Cantidad']];
+
+        foreach ($datos as $fila) {
+            $resultado[] = [$fila['periodo'], (int)$fila['cantidad']];
+        }
+
+        return json_encode($resultado);
+    }
+
+
 
 
 }

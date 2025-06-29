@@ -58,6 +58,8 @@ class PreguntasSugeridasController
         $preguntaYRespuestas = $this->model->getPreguntaYRespuestasSolicitadas($id);
         $nombreCategoria = $this->model->getNombreCategoria($preguntaYRespuestas['pregunta']['id_categoria']);
 
+        $_SESSION['categoria'] = $preguntaYRespuestas['pregunta']['id_categoria'];
+
         $data=
             [
                 'pagina' => 'preguntasSugeridas',
@@ -77,6 +79,7 @@ class PreguntasSugeridasController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $categoria = (int)$_POST['selectCategoria'];
+
             $enunciadoPregunta = $_POST['enunciadoPregunta'] ?? '';
             $respuestas = $_POST['respuestas'];
             $respuestaCorrecta = $_POST['respuestaCorrecta'];
@@ -95,7 +98,7 @@ class PreguntasSugeridasController
 
             $tipoAccion = 'Aceptar Solicitud';
             $detalle = "Se aceptó la pregunta sugerida: \"{$enunciadoSugerida}\" y se añadió como pregunta activa.";
-            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $categoria);
 
             $this->eliminarSugerenciaInternamente($idPreguntaSolicitada);
         }
@@ -107,7 +110,7 @@ class PreguntasSugeridasController
         $idEditorActual = $_SESSION['usuario']['id'];
         $tipoAccion = 'Rechazar Solicitud';
         $detalle = "Se rechazó la pregunta sugerida: \"{$enunciadoSugerida}\" y se eliminó la solicitud.";
-        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria']);
 
         $this->crearPreguntaModel->deleteRespuestasSolicitadas($idPregunta);
         $this->crearPreguntaModel->deletePreguntaSolicitada($idPregunta);

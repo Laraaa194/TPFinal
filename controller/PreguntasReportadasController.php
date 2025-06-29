@@ -48,29 +48,29 @@ class PreguntasReportadasController
         }
     }
 
-    public function mostrarRevision($id_pregunta){
+    public function mostrarRevision($id_pregunta)
+    {
 
 
-            $pregunta = $this->model->getPreguntaReportadaPorId($id_pregunta);
-            $nombreCategoria = $this->model->getNombreCategoria($pregunta['id_categoria']);
-            $respuestas = $this->model->getRespuestasReportadas($id_pregunta);
+        $pregunta = $this->model->getPreguntaReportadaPorId($id_pregunta);
+        $nombreCategoria = $this->model->getNombreCategoria($pregunta['id_categoria']);
+        $respuestas = $this->model->getRespuestasReportadas($id_pregunta);
+        $motivo = $this->model->getMotivoReportada($id_pregunta);
 
-            $motivo = $this->model->getMotivoReportada($id_pregunta);
+        $_SESSION['categoria'] = $pregunta['id_categoria'];
 
-            $data = [
-                'pagina' => 'revisionPreguntaReportada',
-                'mostrarLogo'=> true,
-                'title' => 'Revisión de pregunta',
-                'rutaLogo'=> '/PreguntasReportadas/show',
-                'pregunta' => $pregunta,
-                'nombreCategoria' => $nombreCategoria,
-                'respuestas' => $respuestas,
-                'motivo' => $motivo['descripcion']
-            ];
+        $data = [
+            'pagina' => 'revisionPreguntaReportada',
+            'mostrarLogo' => true,
+            'title' => 'Revisión de pregunta',
+            'rutaLogo' => '/PreguntasReportadas/show',
+            'pregunta' => $pregunta,
+            'nombreCategoria' => $nombreCategoria,
+            'respuestas' => $respuestas,
+            'motivo' => $motivo['descripcion']
+        ];
 
-            $this->view->render("RevisionPreguntaReportada", $data);
-
-
+        $this->view->render("RevisionPreguntaReportada", $data);
    }
 
    public function eliminar($id_pregunta){
@@ -82,7 +82,7 @@ class PreguntasReportadasController
        $idEditorActual = $_SESSION['usuario']['id'];
        $tipoAccion = 'Eliminar Reporte';
        $detalle = "Se eliminó la pregunta reportada: \"{$enunciado}\".";
-        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria']);
 
         RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
@@ -96,7 +96,7 @@ class PreguntasReportadasController
        $idEditorActual = $_SESSION['usuario']['id'];
        $tipoAccion = 'Denegar reporte';
        $detalle = "Se denegó el reporte de la pregunta: \"{$enunciado}\".";
-       $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle);
+       $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria'] );
 
         RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
