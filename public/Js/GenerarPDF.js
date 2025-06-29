@@ -1,7 +1,6 @@
 document.querySelector('.descargar-btn').addEventListener('click', async () => {
     const elemento = document.getElementById('contenido-pdf');
 
-    // Esperar 300 ms (ajustable) para asegurar que los gráficos estén listos
     await new Promise(resolve => setTimeout(resolve, 300));
 
     const canvas = await html2canvas(elemento, { scale: 4, useCORS: true });

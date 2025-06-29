@@ -57,21 +57,20 @@ class EstadisticasAdminModel
 
         $sql = "
         SELECT tipo_respuesta, COUNT(*) AS cantidad FROM (
-            -- Respondidas correctamente
             SELECT 'Correctas' AS tipo_respuesta
             FROM pregunta_usuario
             WHERE es_correcta = 1
 
             UNION ALL
 
-            -- Respondidas incorrectamente
+         
             SELECT 'Incorrectas' AS tipo_respuesta
             FROM pregunta_usuario
             WHERE es_correcta = 0
 
             UNION ALL
 
-            -- No respondidas: preguntas que no están en pregunta_usuario
+          
             SELECT 'No respondidas' AS tipo_respuesta
             FROM pregunta p
             WHERE p.id NOT IN (
@@ -90,7 +89,7 @@ class EstadisticasAdminModel
     {
         $conn = $this->connect();
 
-        // Preguntas por categoría
+
         $sqlCategorias = "
         SELECT 
             c.nombre AS categoria,
@@ -105,7 +104,7 @@ class EstadisticasAdminModel
         $resultCategorias = $conn->query($sqlCategorias);
         $preguntasPorCategoria = $resultCategorias->fetch_all(MYSQLI_ASSOC);
 
-        // Preguntas por dificultad
+
         $sqlDificultades = "
         SELECT 
             d.nombre AS dificultad,
@@ -118,7 +117,7 @@ class EstadisticasAdminModel
         $resultDificultades = $conn->query($sqlDificultades);
         $preguntasPorDificultad = $resultDificultades->fetch_all(MYSQLI_ASSOC);
 
-        // Devolver ambos conjuntos
+
         return [
             'por_categoria' => $preguntasPorCategoria,
             'por_dificultad' => $preguntasPorDificultad
@@ -150,13 +149,13 @@ class EstadisticasAdminModel
     {
         $conn = $this->connect();
 
-        // Definir el formato de fecha según el criterio
+
         switch ($criterio) {
             case 'dia':
                 $formato = '%Y-%m-%d';
                 break;
             case 'semana':
-                $formato = '%Y-%u'; // Año + número de semana
+                $formato = '%Y-%u';
                 break;
             case 'mes':
                 $formato = '%Y-%m';
@@ -253,8 +252,6 @@ class EstadisticasAdminModel
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-
-
 
 
 }
