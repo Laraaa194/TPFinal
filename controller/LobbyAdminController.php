@@ -123,6 +123,15 @@ class LobbyAdminController
 
     }
 
+    public function  getJugadoresActivosPor(){
+        $filtro = $_GET['filtro'] ?? 'mes';
+        $datos = $this->model->obtenerJugadoresActivos($filtro);
+
+        $formateado = GraficosHelper::formatearJugadoresActivosParaGrafico($datos,$filtro);
+        header('Content-Type: application/json');
+        echo $formateado;
+    }
+
 
 
 

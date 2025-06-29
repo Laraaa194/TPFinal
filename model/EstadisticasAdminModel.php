@@ -220,6 +220,40 @@ class EstadisticasAdminModel
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function obtenerJugadoresActivos($criterio)
+    {
+        $conn = $this->connect();
+
+        switch ($criterio) {
+            case 'dia':
+                $formato = '%Y-%m-%d';
+                break;
+            case 'semana':
+                $formato = '%Y-%u';
+                break;
+            case 'mes':
+                $formato = '%Y-%m';
+                break;
+            case 'anio':
+                $formato = '%Y';
+                break;
+            default:
+                $formato = '%Y-%m-%d';
+                break;
+        }
+
+        $sql = "
+        SELECT DATE_FORMAT(fecha, '$formato') AS periodo, COUNT(DISTINCT id_jugador) AS cantidad
+        FROM partida
+        GROUP BY periodo
+        ORDER BY periodo ASC
+    ";
+
+        $result = $conn->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 
 
 

@@ -119,6 +119,33 @@ class GraficosHelper
         return json_encode($resultado);
     }
 
+    public static function formatearJugadoresActivosParaGrafico($datos, $filtro)
+    {
+        switch ($filtro) {
+            case 'dia':
+                $columnaTiempo = 'Día';
+                break;
+            case 'semana':
+                $columnaTiempo = 'Semana';
+                break;
+            case 'mes':
+                $columnaTiempo = 'Mes';
+                break;
+            case 'anio':
+                $columnaTiempo = 'Año';
+                break;
+            default:
+                $columnaTiempo = 'Periodo';
+        }
+
+        $resultado = [[$columnaTiempo, 'Jugadores Activos']];
+
+        foreach ($datos as $fila) {
+            $resultado[] = [$fila['periodo'], (int)$fila['cantidad']];
+        }
+
+        return json_encode($resultado);
+    }
 
 
 

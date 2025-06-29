@@ -1,4 +1,7 @@
 <main>
+
+
+
     <div class="container">
         <p class="text-center mb-3 fs-1 fw-bold">Panel de Administración</p>
         <p class="text-center mb-5" style="color: #6f6f6f">Estadísticas y métricas generales del sistema de trivia</p>
@@ -13,13 +16,14 @@
             </select>
         </div>
 
+        <div id="contenido-pdf">
+
         <!-- Fila 1: Jugadores, Total partidas, Usuarios nuevos -->
         <div class="row row-cols-1 row-cols-md-3 g-4 text-center mb-4">
             <div class="col">
                 <div class="panel">
-                    <div class="icono"><img src="/public/imagenesUsuarios/default.png" style="width: 60px"></div>
-                    <h5 class="fs-5 text-success mb-4">Jugadores</h5>
-                    <p>3000</p>
+                    <h5 class="fs-5 text-success mb-4">Jugadores activos</h5>
+                    <div id="grafico-jugadores-activos" style="height: 300px; width: 100%;"></div>
                 </div>
             </div>
             <div class="col">
@@ -31,7 +35,6 @@
             </div>
             <div class="col">
                 <div class="panel">
-                    <div class="icono">👥</div>
                     <h5 class="fs-5 text-success mb-4">Usuarios nuevos</h5>
                     <div id="grafico-usuarios-nuevos" style="height: 300px; width: 100%;"></div>
                 </div>
@@ -72,7 +75,6 @@
             <div class="col">
                 <div class="panel" style="width: 100%">
                     <div class="d-flex justify-content-center align-items-center mb-5">
-                        <img src="/public/img/iconoPartida.png" style="width: 25px; height: auto; margin-right: 8px;">
                         <h5 class="mb-0 fs-3 text-success">Preguntas</h5>
                     </div>
 
@@ -91,7 +93,6 @@
             <div class="col">
                 <div class="panel">
                     <div class="d-flex justify-content-center align-items-center mb-4">
-                        <div class="icono"><img src="/public/img/LogoSec.png" style="width: 55px"></div>
                         <h5 class="fs-5 text-success mb-4 mt-3">Preguntas creadas</h5>
                     </div>
                     <script>
@@ -111,9 +112,9 @@
                 </div>
             </div>
         </div>
-
-        <!-- Botones Descargar / Imprimir -->
-        <div class="row justify-content-center mb-5">
+    </div>
+    </div>
+        <div class="row justify-content-center mb-5 mt-3">
             <div class="col-auto">
                 <button class="descargar-btn">Descargar</button>
             </div>
@@ -133,4 +134,5 @@
 <script src="/public/Js/GraficoPorRespuestas.js"></script>
 <script src="/public/Js/GraficoPorPreguntas.js"></script>
 <script src="/public/Js/GraficoPreguntasCreadas.js"></script>
-<script src="../public/Js/GraficosFiltroSelect.js"></script>
+<script src="/public/Js/GraficosFiltroSelect.js"></script>
+<script src="/public/Js/GenerarPDF.js"></script>

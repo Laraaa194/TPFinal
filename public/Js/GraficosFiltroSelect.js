@@ -8,14 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     selector.addEventListener('change', function () {
         const filtro = this.value;
         cargarYdibujarPartidas(filtro);
-        cargarYdibujarUsuariosNuevos(filtro); // <-- agregás esta línea
+        cargarYdibujarUsuariosNuevos(filtro);
+        cargarYdibujarJugadoresActivos(filtro);
     });
 
     google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(() => {
         const filtroInicial = selector.value;
         cargarYdibujarPartidas(filtroInicial);
-        cargarYdibujarUsuariosNuevos(filtroInicial); // <-- también al cargar por primera vez
+        cargarYdibujarUsuariosNuevos(filtroInicial);
+        cargarYdibujarJugadoresActivos(filtroInicial);
     });
 });
 function cargarYdibujarPartidas(filtro) {
@@ -46,6 +48,23 @@ function cargarYdibujarUsuariosNuevos(filtro) {
                 hAxis: {title: filtro.charAt(0).toUpperCase() + filtro.slice(1)},
                 vAxis: {title: 'Cantidad', format: '0'},
                 colors: ['#28a745'],
+                height: 300
+            });
+        });
+}
+
+function cargarYdibujarJugadoresActivos(filtro) {
+    fetch(`/LobbyAdmin/getJugadoresActivosPor?filtro=${filtro}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Jugadores activos:', data);
+            const dataTable = google.visualization.arrayToDataTable(data);
+            const chart = new google.visualization.ColumnChart(document.getElementById('grafico-jugadores-activos'));
+            chart.draw(dataTable, {
+                title: 'Jugadores activos',
+                hAxis: {title: filtro.charAt(0).toUpperCase() + filtro.slice(1)},
+                vAxis: {title: 'Cantidad', format: '0'},
+                colors: ['#ffc107'],
                 height: 300
             });
         });
