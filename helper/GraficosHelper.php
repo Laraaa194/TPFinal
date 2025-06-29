@@ -30,7 +30,7 @@ class GraficosHelper
     {
         $formateados = [];
 
-        // Formato para preguntas por categoría
+        // Formato para preguntas por categoría (sin color)
         $formatoCategoria = [['Categoría', 'Cantidad']];
         foreach ($datos['por_categoria'] as $fila) {
             $formatoCategoria[] = [$fila['categoria'], (int)$fila['cantidad']];
@@ -46,5 +46,7 @@ class GraficosHelper
 
         return $formateados;
     }
+
+
 
 }

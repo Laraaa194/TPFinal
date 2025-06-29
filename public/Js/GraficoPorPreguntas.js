@@ -3,21 +3,18 @@ google.charts.setOnLoadCallback(drawChartPreguntas);
 
 function drawChartPreguntas(tipo = 'categoria') {
     let datos;
-    let titulo;
 
     if (tipo === 'categoria') {
         datos = google.visualization.arrayToDataTable(window.datosPreguntasPorCategoria);
     } else {
         datos = google.visualization.arrayToDataTable(window.datosPreguntasPorDificultad);
-
     }
 
     const options = {
-        title: titulo,
         legend: { position: 'none' },
         hAxis: { title: tipo.charAt(0).toUpperCase() + tipo.slice(1) },
         vAxis: { title: 'Cantidad' },
-        colors: ['#4CAF50'],
+        colors: ['#89d88d'],
         width: '100%',
         height: 300
     };
