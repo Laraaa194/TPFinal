@@ -17,18 +17,27 @@ class PerfilController
 
     public function show()
     {
-
         $data = [];
+        $nombreUsuarioLogueado = $_SESSION['usuario']['nombre'];
+        $datosUsuario = $this->model->getUsuarioConFoto($nombreUsuarioLogueado);
 
-            $nombreUsuarioLogueado = $_SESSION['usuario']['nombre'];
-            $datosUsuario = $this->model->getUsuarioConFoto($nombreUsuarioLogueado);
+        $urlQR= 'https://localhost/perfil/verPerfil/'.$nombreUsuarioLogueado;
+        $archivoQr= __DIR__ .'/../public/imagenesUsuarios/'.$nombreUsuarioLogueado.'QR.png';
+        $rutaWebQR = '/public/imagenesUsuarios/' . $nombreUsuarioLogueado . 'QR.png';
 
-            $data['pagina'] = 'perfil';
-            $data['rutaLogo'] = '/Lobby/show';
-            $data['mostrarLogo'] = true;
-            $data['usuario'] = $datosUsuario;
-            $data['title'] = 'Perfil';
+        if (!file_exists($archivoQr)) {
+            QRhelper::generarQRCode($urlQR, $archivoQr);
+        }
 
+            $data =[
+                'pagina' => 'perfil',
+                'rutaLogo' => '/Lobby/show',
+                'mostrarLogo' => true,
+                'usuario' => $datosUsuario,
+                'title' => 'Perfil',
+                'rutaQr' => $rutaWebQR,
+                'mostrarUltimasPartidas'=> false
+                ];
 
             $this->view->render("Perfil", $data);
         }
@@ -78,6 +87,14 @@ class PerfilController
         $esPerfilAjeno = ($usuarioLogueado !== $nombreUsuario);
         $partidas = $this->partidaModel->getPartidas($datosUsuario['id_usuario']);
 
+        $urlQR= 'https://localhost/perfil/verPerfil/'.$nombreUsuario;
+        $archivoQr= __DIR__ .'/../public/imagenesUsuarios/'.$nombreUsuario.'QR.png';
+        $rutaWebQR = '/public/imagenesUsuarios/' . $nombreUsuario . 'QR.png';
+
+        if (!file_exists($archivoQr)) {
+            QRhelper::generarQRCode($urlQR, $archivoQr);
+        }
+
         $data = [
             'pagina' => 'perfil',
             'rutaLogo' => '/Ranking/show',
@@ -85,7 +102,9 @@ class PerfilController
             'mostrarLogo' => true,
             'title' => 'Perfil de jugador',
             'es_perfil_ajeno' => $esPerfilAjeno,
-            $data['ultimas_partidas'] = array_slice($partidas, -4)
+            'ultimas_partidas' => array_slice($partidas, -4),
+            'rutaQr'=> $rutaWebQR,
+            'mostrarUltimasPartidas'=> true
         ];
 
         $this->view->render("Perfil", $data);

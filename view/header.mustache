@@ -216,13 +216,13 @@
             color: white;
         }
         .game-box {
-            background-color: #b2d8b2;
-            border: 2px solid green;
+            background-color: rgba(189, 241, 166, 0.54);
             border-radius: 10px;
-            height: 50px;
+            height: 150px;
+            width: 100%;
+            box-shadow: 2px 8px 10px rgba(162, 191, 145, 0.43);
         }
         .rounded-btn {
-
             background: linear-gradient(145deg, #2a34bf, #3c45d1);
             color: #fff;
             border: none;
@@ -1068,15 +1068,14 @@
 
         .select-personalizado {
             background-color: rgba(207, 239, 187, 0.82);
-            border: 1px solid rgba(207, 239, 187, 0.82);
+            border: 1px solid rgb(0, 128, 0);
             border-radius: 20px;
-            padding-right: 20px;
-            padding-left: 20px;
-            padding-top: 5px;
-            padding-bottom:5px;
-            font-size: 0.9rem;
+            padding: 10px;
+
+            font-size: 1.0rem;
             font-weight: 500;
             color: #333;
+
             cursor: pointer;
             transition: border-color 0.2s ease-in-out;
         }
@@ -1097,6 +1096,25 @@
             #contenido-pdf {
                 zoom: 90%;
             }
+        }
+
+        .card-partidas-perfil{
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 12px;
+            font-size: large;
+            background-color: rgba(255, 255, 255, 0.85);
+            width: 90%;
+            margin-left: 110px;
+
+        }
+
+        .lista-partidas{
+            list-style-type: disc;
+            list-style-position: inside;
+        }
+
+        .lista-partidas li::marker {
+            color: #0e52e4;
         }
 
     </style>

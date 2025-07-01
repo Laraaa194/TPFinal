@@ -3,6 +3,7 @@
 require_once("helper/RedirectHelper.php");
 require_once("helper/SessionHelper.php");
 require_once ("helper/GraficosHelper.php");
+require_once ("helper/QRhelper.php");
 
 require_once("core/Database.php");
 require_once("core/FilePresenter.php");
