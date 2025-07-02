@@ -60,11 +60,32 @@ class RegisterController
 
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
 
-            $this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad, $tipo);
+
+            $token=$this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad, $tipo);
+
+            $idUsuario = $this->model->getUsuario($nombreUsuario);
+            EmailHelper::enviarVerificacion($nombre,$email,$token,$idUsuario['id_usuario']);
 
 
             RedirectHelper::redirectTo("Login/show");
         }
+    }
+    public function verificar(){
+        $token=$_GET['token'];
+        $idJugador = $_GET['idJugador'];
+
+        $estaVerificado=$this->model->verificar($token,$idJugador);
+        if($estaVerificado){
+            $this->model->validar($idJugador);
+            $data['success'] = '¡Tu cuenta fue verificada correctamente!';
+        }else {
+            $data['error'] = 'El enlace de verificación es inválido o ya fue usado.';
+        }
+
+
+        $this->view->render("Verificacion",$data);
+
+
     }
 
     public function agregarImagen($imagen, $nombreUsuario)

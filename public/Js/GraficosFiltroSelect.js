@@ -11,7 +11,8 @@ function cargarYdibujarJugadoresActivos(filtro) {
                 hAxis: {title: filtro.charAt(0).toUpperCase() + filtro.slice(1)},
                 vAxis: {title: 'Cantidad', format: '0'},
                 colors: ['#ffc107'],
-                height: 300
+                height: 300,
+                legend:{position:'none'}
             });
         });
 }
@@ -27,7 +28,9 @@ function cargarYdibujarPartidas(filtro) {
                 hAxis: {title: filtro.charAt(0).toUpperCase() + filtro.slice(1)},
                 vAxis: {title: 'Cantidad', format: '0'},
                 colors: ['#007bff'],
-                height: 300
+                height: 300,
+                legend:{position:'none'}
+
             });
         });
 }
@@ -44,7 +47,8 @@ function cargarYdibujarUsuariosNuevos(filtro) {
                 hAxis: {title: filtro.charAt(0).toUpperCase() + filtro.slice(1)},
                 vAxis: {title: 'Cantidad', format: '0'},
                 colors: ['#28a745'],
-                height: 300
+                height: 300,
+                legend:{position:'none'}
             });
         });
 }

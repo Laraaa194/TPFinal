@@ -1,0 +1,25 @@
+<main class="d-flex align-items-center justify-content-center estiloVerification">
+    <div class="login-box text-center">
+        <h4 class="mb-4 mt-1">VERIFICACIÓN DE CUENTA</h4>
+
+        {{#success}}
+            <div class="alert alert-success d-flex align-items-center justify-content-between shadow-sm rounded-3 p-3 mt-3" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+                    <span class="fw-semibold">{{success}}</span>
+                </div>
+            </div>
+        {{/success}}
+
+        {{#error}}
+            <div class="alert alert-danger d-flex align-items-center justify-content-between shadow-sm rounded-3 p-3 mt-3" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-x-circle-fill me-2 fs-4"></i>
+                    <span class="fw-semibold">{{error}}</span>
+                </div>
+            </div>
+        {{/error}}
+
+        <a href="/" class="btn login-btn w-100 mt-4 p-3">VOLVER AL INICIO</a>
+    </div>
+</main>

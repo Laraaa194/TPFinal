@@ -59,16 +59,45 @@ class RegisterModel
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
     public function add($nombre,$apellido, $anioNacimiento,$sexo,$email,$password,$nombreUsuario,$foto,$pais,$ciudad, $tipo)
     {
+        $token = $this->generarToken();
         $conn = $this->connect();
         $sql = "INSERT INTO usuario (nombre, apellido, anio_Nacimiento, id_sexo, email,
-                     password, nombre_usuario, foto_perfil, id_pais, id_ciudad, id_tipo) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+                     password, nombre_usuario, foto_perfil, id_pais, id_ciudad, id_tipo,token) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )";
 
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssissssssi", $nombre, $apellido, $anioNacimiento, $sexo, $email, $password, $nombreUsuario, $foto, $pais, $ciudad, $tipo);
+        $stmt->bind_param("sssissssssii", $nombre, $apellido, $anioNacimiento, $sexo, $email, $password, $nombreUsuario, $foto, $pais, $ciudad, $tipo,$token);
         $stmt->execute();
+        return $token;
+    }
+
+    public function verificar($token,$idJugador){
+        $conn = $this->connect();
+        $stmt = $conn->prepare("SELECT * FROM usuario WHERE id_usuario = ? AND token = ? AND es_valido = 0");
+
+        $stmt->bind_param("ii", $idJugador, $token);
+
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        if ($resultado->num_rows === 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function validar($idJugador){
+        $conn = $this->connect();
+        $stmt = $conn->prepare("UPDATE usuario SET es_valido = 1, token = NULL WHERE id_usuario = ?");
+        $stmt->bind_param("i", $idJugador);
+        return $stmt->execute();
+    }
+    public function generarToken(){
+        return random_int(100000, 999999);
     }
 }

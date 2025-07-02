@@ -44,6 +44,8 @@ require_once ("model/HistorialModeracionModel.php");
 require_once("model/EstadisticasAdminModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
+include_once('vendor/phpmailer/PHPMailer.php');
+include_once ('vendor/phpqrcode/qrlib.php');
 
 class Configuration
 {
