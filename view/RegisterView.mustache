@@ -5,7 +5,7 @@
         <div class="row">
 
             <div class="col-lg-6">
-                <h5 class="fw-normal fs-2">REGÍSTRATE</h5>
+                <h5 class="fw-bold fs-2">REGISTRATE</h5>
 
 
                     <div class="mb-2">
@@ -71,12 +71,10 @@
 
             <div class="col-lg-6 d-flex flex-column">
                 <div class="mb-2 mt-5">
-                    <label class="form-label fw-bold mb-2 d-block" >País y ciudad</label>
-                    <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/World_map_ISO_3166-1_alpha-2_black.svg/1280px-World_map_ISO_3166-1_alpha-2_black.svg.png"
-                            alt="Mapa del mundo"
-                            class="map-image"
-                    />
+                    <label class="form-label fw-bold mb-2 d-block" >Ubicación</label>
+                    <div id="map" style="height: 250px;"></div>
+                    <input type="hidden" id="lat" name="lat">
+                    <input type="hidden" id="lng" name="lng">
                 </div>
 
                 <div class="mb-2">
@@ -109,3 +107,4 @@
         </form>
     </div>
 </main>
+<script src="/public/Js/Mapa.js"></script>
