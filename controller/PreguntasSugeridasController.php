@@ -86,7 +86,6 @@ class PreguntasSugeridasController
             $idPreguntaSolicitada = $_POST['idPreguntaSolicitada'];
 
             $preguntaSolicitadaData = $this->model->getPreguntaSolicitada($idPreguntaSolicitada);
-            $enunciadoSugerida = $preguntaSolicitadaData ? $preguntaSolicitadaData['enunciado'] : "Pregunta Sugerida Desconocida";
             $idPregunta = $this->crearPreguntaModel->addPreguntaAceptada($categoria, $enunciadoPregunta);
 
             foreach ($respuestas as $idRespuesta => $texto) {
@@ -96,21 +95,16 @@ class PreguntasSugeridasController
 
             $idEditorActual = $_SESSION['usuario']['id'];
 
-            $tipoAccion = 'Aceptar Solicitud';
-            $detalle = "Se aceptó la pregunta sugerida: \"{$enunciadoSugerida}\" y se añadió como pregunta activa.";
-            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $categoria);
+            $this->historialModel->registrarAceptacionPreguntaSugerida($idEditorActual, $preguntaSolicitadaData, $categoria);
 
             $this->eliminarSugerenciaInternamente($idPreguntaSolicitada);
         }
     }
     public function eliminar($idPregunta){
         $preguntaSolicitadaData = $this->model->getPreguntaSolicitada($idPregunta);
-        $enunciadoSugerida = $preguntaSolicitadaData ? $preguntaSolicitadaData['enunciado'] : "Pregunta Sugerida Desconocida";
 
         $idEditorActual = $_SESSION['usuario']['id'];
-        $tipoAccion = 'Rechazar Solicitud';
-        $detalle = "Se rechazó la pregunta sugerida: \"{$enunciadoSugerida}\" y se eliminó la solicitud.";
-        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria']);
+        $this->historialModel->registrarRechazoPreguntaSugerida($idEditorActual, $preguntaSolicitadaData, $_SESSION['categoria']);
 
         $this->crearPreguntaModel->deleteRespuestasSolicitadas($idPregunta);
         $this->crearPreguntaModel->deletePreguntaSolicitada($idPregunta);

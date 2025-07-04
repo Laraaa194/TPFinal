@@ -49,7 +49,7 @@ class LoginController
                 $_SESSION['error'] = 'Completa los campos para continuar';
                 RedirectHelper::redirectTo("Login/show");
 
-            }else{
+            }else if (!$usuarioEncontrado || !password_verify($contrasenia, $usuarioEncontrado['password'])) {
                 $_SESSION['error'] = 'Usuario o contraseña incorrectos';
                 RedirectHelper::redirectTo("Login/show");
 
@@ -67,9 +67,9 @@ class LoginController
             unset($_SESSION['error']);
         }
 
-        if (isset($_SESSION['success'])) {
-            $data['success'] = $_SESSION['success'];
-            unset($_SESSION['success']);
+        if (isset($_SESSION['successRegister'])) {
+            $data['successRegister'] = $_SESSION['successRegister'];
+            unset($_SESSION['successRegister']);
         }
 
         $data['pagina'] = 'login';

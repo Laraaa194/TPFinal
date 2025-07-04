@@ -89,9 +89,7 @@ class GestionPreguntasController
                 $this->model->eliminarPregunta($id);
 
                 $idEditorActual = $_SESSION['usuario']['id'];
-                $tipoAccion = 'Eliminar Pregunta';
-                $detalle = "Se eliminó la pregunta: \"{$enunciado}\" y deja de estar activa.";
-                $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria']);
+                $this->historialModel->registrarEliminacionPregunta($idEditorActual, $preguntaData, $_SESSION['categoria']);
             }
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
@@ -112,9 +110,7 @@ class GestionPreguntasController
             $this->model->guardarCambios($idPregunta, $categoria, $enunciadoPregunta, $respuestas, $respuestaCorrecta);
 
             $idEditorActual = $_SESSION['usuario']['id'];
-            $tipoAccion = 'Editar Pregunta';
-            $detalle = "Se efectuaron cambios en la pregunta: \"{$enunciadoPregunta}\".";
-            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $categoria);
+            $this->historialModel->registrarEdicionPregunta($idEditorActual, ['enunciado' => $enunciadoPregunta], $categoria);
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
         }
@@ -174,9 +170,7 @@ class GestionPreguntasController
             $this->model->editorAgregarPreguntaYRespuestas($enunciadoPregunta, $categoria, $respuestas, $respuestaCorrecta);
 
             $idEditorActual = $_SESSION['usuario']['id'];
-            $tipoAccion = 'Agregar Pregunta';
-            $detalle = "Se agregó una nueva pregunta: \"$enunciadoPregunta\" y pasa a estar activa.";
-            $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $categoria);
+            $this->historialModel->registrarCreacionPregunta($idEditorActual, $enunciadoPregunta, $categoria);
 
             RedirectHelper::redirectTo('GestionPreguntas/show');
 

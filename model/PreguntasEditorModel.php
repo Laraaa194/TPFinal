@@ -267,7 +267,7 @@ class PreguntasEditorModel
     {
         $conn = $this->connect();
         $busqueda = '%' . strtolower(trim($busqueda)) . '%';
-        $sql = "SELECT p.*, c.nombre AS nombreCategoria
+        $sql = "SELECT p.*, c.nombre AS nombre_categoria, c.color AS color_categoria
             FROM pregunta p
             LEFT JOIN categoria c ON p.id_categoria = c.id
             WHERE LOWER(p.enunciado) LIKE ? OR LOWER(c.nombre) LIKE ?

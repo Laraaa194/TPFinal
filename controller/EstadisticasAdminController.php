@@ -29,21 +29,4 @@ class EstadisticasAdminController
         $this->view->render('LobbyAdmin', $data);
     }
 
-//    public function obtenerJugadoresPorSexo(){
-//        $datos = $this->model->obtenerJugadoresPorSexo();
-//        $datosFormateados = GraficosHelper::formatearParaGraficoSexo($datos);
-//
-//        $data= [
-//            'pagina' => 'lobbyAdmin',
-//            'mostrarLogo'=> true,
-//            'title' => 'Panel de administración',
-//            'rutaLogo'=> '/LobbyAdmin/show',
-//            'datosSexo' => json_encode($datosFormateados, JSON_UNESCAPED_UNICODE)
-//        ];
-//        var_dump($data['datosSexo']);
-//        die();
-//
-//        $this->view->render('LobbyAdmin', $data);
-//
-//    }
 }

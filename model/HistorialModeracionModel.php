@@ -13,6 +13,51 @@ class HistorialModeracionModel
         return $this->database->getConnection();
     }
 
+    public function registrarEdicionPregunta($idEditor, $pregunta, $categoria)
+    {
+        $tipoAccion = 'Editar Pregunta';
+        $detalle = 'Se efectuaron cambios en la pregunta: "' . $pregunta['enunciado'] . '".';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
+    public function registrarEliminacionPregunta($idEditor, $pregunta, $categoria)
+    {
+        $tipoAccion = 'Eliminar Pregunta';
+        $detalle = 'Se eliminó la pregunta: "' . $pregunta['enunciado'] . '" y deja de estar activa.';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
+    public function registrarCreacionPregunta($idEditor, $enunciado, $categoria)
+    {
+        $tipoAccion = 'Agregar Pregunta';
+        $detalle = 'Se agregó una nueva pregunta: "' . $enunciado . '" y pasa a estar activa.';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
+    public function registrarEliminacionReporte($idEditor, $pregunta, $categoria)
+    {
+        $tipoAccion = 'Eliminar Reporte';
+        $detalle = 'Se eliminó la pregunta reportada: "' . $pregunta['enunciado'] . '".';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
+
+    public function registrarDenegacionReporte($idEditor, $pregunta, $categoria)
+    {
+        $tipoAccion = 'Denegar reporte';
+        $detalle = 'Se denegó el reporte de la pregunta: "' . $pregunta['enunciado'] . '".';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
+
+    public function registrarAceptacionPreguntaSugerida($idEditor, $pregunta, $categoria)
+    {
+        $tipoAccion = 'Aceptar Solicitud';
+        $detalle = 'Se aceptó la pregunta sugerida: "' . $pregunta['enunciado'] . '" y se añadió como pregunta activa.';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
+
+    public function registrarRechazoPreguntaSugerida($idEditor, $pregunta, $categoria)
+    {
+        $tipoAccion = 'Rechazar Solicitud';
+        $detalle = 'Se rechazó la pregunta sugerida: "' . $pregunta['enunciado'] . '" y se eliminó la solicitud.';
+        $this->registrarAccion($idEditor, $tipoAccion, $detalle, $categoria);
+    }
     public function registrarAccion($idEditor, $tipoAccion, $detalle, $categoria)
     {
         $conn = $this->connect();

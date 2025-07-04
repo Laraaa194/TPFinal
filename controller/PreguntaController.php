@@ -23,12 +23,6 @@ class PreguntaController
 
     public function showPregunta()
     {
-//        if (!isset($_SESSION['partida'])) {
-//            $_SESSION['error'] = 'error!';
-////        RedirectHelper::redirectTo("Partida/show");
-//            return;
-//        }
-
 
         $data = $this->obtenerPreguntaDesdeSesion();
         if ($data) { //si ya hay una pregunta en la sesion mostrarla
@@ -40,10 +34,6 @@ class PreguntaController
         $dataPregunta = $this->model->obtenerPreguntaNoRepetida($_SESSION['usuario']['id'], $_SESSION['categoria_elegida']['id'], $nivelUsuario);
         $this->usuarioModel->incrementarPreguntasRecibidas($_SESSION['usuario']['id']);
 
-        if (!$dataPregunta) {
-            $_SESSION['error'] = 'No se encontraron preguntas en esta categoría.';
-//            RedirectHelper::redirectTo("Partida/show");
-        }
 
         $pregunta = $dataPregunta['pregunta'];
         $respuestas = $dataPregunta['respuestas'];

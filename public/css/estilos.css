@@ -3,11 +3,7 @@
     padding: 0;
     font-family: 'Montserrat', sans-serif;
 }
-body{
-    background-color: #e6f5c9;
-    min-height: 100vh;
-    position: relative;
-}
+
 .navbar {
     background-color: transparent !important;
     padding: 0.5rem 1rem;
@@ -46,7 +42,7 @@ body{
 .revisionPreguntaReportada, .gestionPreguntas, .HistorialModeracion, .lobbyAdmin {
 
     /*background-color: #e6f5c9;*/
-    background: linear-gradient(to bottom, #e6f5c9, #c0e0a0, #aad08a);
+    background: #d8e6b5;
 
 }
 
@@ -70,14 +66,14 @@ body{
     transition: background-color 0.7s, color 0.7s;
 }
 .btn-registrarse-home:hover {
-    background-color: #000 !important;
+    background-color: #004a9f !important;
     color: #fff !important;
 }
 .inicia-sesion {
     transition: color 0.7s, color 0.7s;
 }
 .inicia-sesion:hover {
-    color: #000 !important;
+    color: #004a9f !important;
 }
 .estiloLogin {
     display: flex;
@@ -108,7 +104,7 @@ body{
     transition: background-color 0.7s, color 0.7s;
 }
 .login-btn:hover {
-    background-color: #000;
+    background-color:  #004a9f;
     color: #fff;
 }
 .text-link {
@@ -168,7 +164,7 @@ body{
 
 
 .form-select option {
-    color: #000000;
+    color:  #004a9f;
 }
 
 .btn-sexo {
@@ -178,13 +174,13 @@ body{
     transition: background-color 0.6s, color 0.4s;
 }
 .btn-sexo:hover {
-    background-color: #000;
+    background-color:  #004a9f;
     color: #fff;
 }
 
 
 .btn-check:checked + .btn-sexo {
-    background-color: #000;
+    background-color:  #004a9f;
     color: #fff;
 }
 
@@ -202,7 +198,7 @@ body{
 }
 
 .upload-icon-wrapper:hover {
-    background-color: #000;
+    background-color:  #004a9f;
     color: #fff;
 }
 
@@ -219,7 +215,7 @@ body{
 }
 
 .btn-registrarse:hover {
-    background-color: #000;
+    background-color:  #004a9f;
     color: #fff;
 }
 
@@ -240,7 +236,7 @@ body{
     font-weight: bold;
     box-shadow: 2px 2px 5px #ffffff;
     margin-left: 10px;
-    color: #ff0404;
+    color: #007bff;
 }
 .game-box {
     background-color: rgba(25, 135, 84, 0.18);
@@ -534,7 +530,7 @@ body{
     border-radius: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     margin: 40px auto;
-    color: #007bff;
+    color: #007235;
     font-size: 20px;
 }
 .form-pregunta {
@@ -556,7 +552,7 @@ body{
     box-shadow: none;
 }
 .form-title {
-    color: #007bff;
+    color: #007235;
     font-weight: 700;
     text-align: center;
     margin-bottom: 25px;
@@ -602,13 +598,13 @@ body{
     transition: background-color 0.7s, color 0.7s;
 }
 .btn-enviar:hover {
-    background-color: #000 !important;
+    background-color:  #004a9f !important;
     color: #fff !important;
     box-shadow: 0 6px 14px rgba(77, 119, 255, 0.4);
 }
 .footer-text {
     font-size: 0.9rem;
-    color: #007bff;
+    color: #9999d1;
     margin-bottom: 1px;
 }
 .form-select-pregunta {
@@ -963,7 +959,7 @@ body{
 
 .form-container-reportar {
     position: relative;
-    width: 100%;
+    width: 50%;
     max-width: 700px;
     background: #d8fbd8;
     padding: 30px;

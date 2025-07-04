@@ -80,9 +80,7 @@ class PreguntasReportadasController
        $this->model->eliminarPreguntaReportada($id_pregunta);
 
        $idEditorActual = $_SESSION['usuario']['id'];
-       $tipoAccion = 'Eliminar Reporte';
-       $detalle = "Se eliminó la pregunta reportada: \"{$enunciado}\".";
-        $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria']);
+       $this->historialModel->registrarEliminacionReporte($idEditorActual, $preguntaData, $_SESSION['categoria']);
 
         RedirectHelper::redirectTo('PreguntasReportadas/show');
    }
@@ -94,9 +92,7 @@ class PreguntasReportadasController
        $this->model->borrarReporte($id_pregunta);
 
        $idEditorActual = $_SESSION['usuario']['id'];
-       $tipoAccion = 'Denegar reporte';
-       $detalle = "Se denegó el reporte de la pregunta: \"{$enunciado}\".";
-       $this->historialModel->registrarAccion($idEditorActual, $tipoAccion, $detalle, $_SESSION['categoria'] );
+       $this->historialModel->registrarDenegacionReporte($idEditorActual, $preguntaData, $_SESSION['categoria']);
 
         RedirectHelper::redirectTo('PreguntasReportadas/show');
    }

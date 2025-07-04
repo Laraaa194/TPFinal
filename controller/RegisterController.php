@@ -32,8 +32,8 @@ class RegisterController
             $repetirContrasena = $_POST["repetirContrasena"];
             $nombreUsuario = $_POST["nombreUsuario"];
             $imagen = $_FILES['imagen']['name'];
-            $pais = null;
-            $ciudad = null;
+            $latitud = $_POST["lat"];
+            $longitud = $_POST["lng"];
             $tipo = 1;
 
 
@@ -56,12 +56,12 @@ class RegisterController
                 RedirectHelper::redirectTo("Register/show");
             }
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $_SESSION['success'] = '¡Te registraste correctamente!';
+            $_SESSION['successRegister'] = '¡Te registraste correctamente! Verifica tu email';
 
             $nombreImagen = $this->agregarImagen($imagen, $nombreUsuario);
 
 
-            $token=$this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $pais, $ciudad, $tipo);
+            $token=$this->model->add($nombre, $apellido, $anoNacimiento, $sexo, $email, $hash, $nombreUsuario, $nombreImagen, $latitud, $longitud, $tipo);
 
             $idUsuario = $this->model->getUsuario($nombreUsuario);
             EmailHelper::enviarVerificacion($nombre,$email,$token,$idUsuario['id_usuario']);

@@ -6,6 +6,15 @@
         <h4 class="mb-4 mt-1">INICIO SESIÓN</h4>
 
 
+        {{#successRegister}}
+            <div class="alert alert-success d-flex align-items-center justify-content-between shadow-sm rounded-3 p-3 mt-3" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+                    <span class="fw-semibold">{{successRegister}}</span>
+                </div>
+            </div>
+        {{/successRegister}}
+
         {{#error}}
             <div class="alert alert-danger d-flex align-items-center justify-content-between shadow-sm rounded-3 p-3 mt-3" role="alert">
                 <div class="d-flex align-items-center">

@@ -36,7 +36,9 @@ class PerfilController
                 'usuario' => $datosUsuario,
                 'title' => 'Perfil',
                 'rutaQr' => $rutaWebQR,
-                'mostrarUltimasPartidas'=> false
+                'mostrarUltimasPartidas'=> false,
+                'latitud' => $datosUsuario['latitud'],
+                'longitud' => $datosUsuario['longitud']
                 ];
 
             $this->view->render("Perfil", $data);
@@ -104,7 +106,9 @@ class PerfilController
             'es_perfil_ajeno' => $esPerfilAjeno,
             'ultimas_partidas' => array_slice($partidas, -4),
             'rutaQr'=> $rutaWebQR,
-            'mostrarUltimasPartidas'=> true
+            'mostrarUltimasPartidas'=> true,
+            'latitud' => $datosUsuario['latitud'],
+            'longitud' => $datosUsuario['longitud']
         ];
 
         $this->view->render("Perfil", $data);

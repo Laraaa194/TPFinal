@@ -12,7 +12,7 @@ class LoginModel
     public function getUsuario($nombre_usuario)
     {
         $conn = $this->database->getConnection();
-        $stmt = $conn->prepare("SELECT * FROM usuario WHERE nombre_usuario = ?");
+        $stmt = $conn->prepare("SELECT * FROM usuario WHERE nombre_usuario = ? ");
         if (!$stmt) {
             die("Error en prepare: " . $conn->error);
         }
