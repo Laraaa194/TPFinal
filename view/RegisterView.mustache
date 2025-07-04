@@ -9,17 +9,17 @@
 
 
                     <div class="mb-2">
-                        <label for="nombre" class="form-label fw-bold mb-1">Nombre</label>
+                        <label for="nombre" class="form-label fw-semi-bold mb-1">Nombre</label>
                         <input type="text" class="form-control" name="nombre" />
                     </div>
 
                     <div class="mb-2">
-                        <label for="apellido" class="form-label fw-bold mb-1">Apellido</label>
+                        <label for="apellido" class="form-label fw-semi-bold mb-1">Apellido</label>
                         <input type="text" class="form-control" name="apellido" />
                     </div>
 
                     <div class="mb-2">
-                        <label for="anoNacimiento" class="form-label fw-bold mb-1">Año de nacimiento</label>
+                        <label for="anoNacimiento" class="form-label fw-semi-bold mb-1">Año de nacimiento</label>
                         <input
                                 type="text"
                                 class="form-control"
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label class="form-label fw-bold mb-1">Sexo</label>
+                        <label class="form-label fw-semi-bold mb-1">Sexo</label>
                         <div>
                             <div class="btn-group" role="group" aria-label="Selector de sexo">
                                 <input type="radio" class="btn-check" name="sexo" id="sexoF" autocomplete="off" value="Femenino"/>
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="correo" class="form-label fw-bold mb-1">Correo electrónico</label>
+                        <label for="correo" class="form-label fw-semi-bold mb-1">Correo electrónico</label>
                         <input type="email" class="form-control" name="correo" />
                         {{#errors.correo}}
                             <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.correo}}</div>
@@ -55,15 +55,15 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="contrasena" class="form-label fw-bold mb-1">Contraseña</label>
+                        <label for="contrasena" class="form-label fw-semi-bold mb-1">Contraseña</label>
                         <input type="password" class="form-control" name="contrasena" />
                     </div>
 
                     <div class="mb-2">
-                        <label for="repetirContrasena" class="form-label fw-bold mb-1">Repetir contraseña</label>
+                        <label for="repetirContrasena" class="form-label fw-semi-bold mb-1">Repetir contraseña</label>
                         <input type="password" class="form-control" name="repetirContrasena" />
                         {{#errors.contrasena}}
-                            <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.contrasena}}</div>
+                            <div class="small mt-1 fw-semi-bold" style="color:#dd4242">{{errors.contrasena}}</div>
                         {{/errors.contrasena}}
                     </div>
 
@@ -71,14 +71,16 @@
 
             <div class="col-lg-6 d-flex flex-column">
                 <div class="mb-2 mt-5">
-                    <label class="form-label fw-bold mb-2 d-block" >Ubicación</label>
-                    <div id="map" style="height: 250px;"></div>
+                    <label class="form-label fw-semi-bold mb-2 d-block" >Ubicación</label>
+                    <div id="map" style="height: 250px; border-radius: 10px"></div>
                     <input type="hidden" id="lat" name="lat">
                     <input type="hidden" id="lng" name="lng">
+                    <input type="hidden" id="pais" name="pais">
+                    <input type="hidden" id="ciudad" name="ciudad">
                 </div>
 
                 <div class="mb-2">
-                    <label for="nombreUsuario" class="form-label fw-bold mb-1">Nombre de usuario</label>
+                    <label for="nombreUsuario" class="form-label fw-semi-bold mb-1">Nombre de usuario</label>
                     <input type="text" class="form-control" name="nombreUsuario" />
                     {{#errors.nombreUsuario}}
                         <div class="small mt-1 fw-bold" style="color:#dd4242">{{errors.nombreUsuario}}</div>
@@ -86,7 +88,7 @@
                 </div>
 
                 <div class="mb-auto">
-                    <label class="form-label fw-bold mb-3">Foto de perfil</label>
+                    <label class="form-label fw-semi-bold mb-3">Foto de perfil</label>
                     <div class="upload-icon-wrapper">
 
 

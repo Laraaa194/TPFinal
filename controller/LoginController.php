@@ -23,7 +23,7 @@ class LoginController
             $usuarioEncontrado = $this->model->getUsuario($usuario);
 
 
-            if ($usuarioEncontrado['es_valido'] != 1) {
+            if ($usuarioEncontrado['id_tipo'] == 1 && $usuarioEncontrado['es_valido'] != 1) {
                 $_SESSION['error'] = 'Tu cuenta aún no ha sido verificada. Revisá tu correo electrónico.';
                 RedirectHelper::redirectTo("Login/show");
             }

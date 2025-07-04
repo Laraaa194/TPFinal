@@ -1,7 +1,7 @@
 
 <main>
     <div class="container mt-3 fade-in">
-        <h1 class="text-primary text-center fw-semibold text-gradient mb-5">🏆 Ranking</h1>
+        <h1 class="text-center fw-semibold text-gradient mb-5" style="color: #007bff">🏆 Ranking 🏆</h1>
         <form method="POST" class="m-4 text-center">
             <div class="btn-group" role="group" aria-label="Ranking type">
                 <input type="radio" class="btn-check" name="tipo" id="mejor_partida" value="mejor_partida" autocomplete="off"
@@ -16,7 +16,7 @@
 
         <div class="row g-4">
             <div class="col-md-6">
-                <h5 class="text-primary fw-semibold mb-3">Top Jugadores</h5>
+                <h5 class="fw-semibold mb-3" style="color: #007bff">Top Jugadores</h5>
                 <div class="overflow-auto seccion-scrollable">
                     {{#ranking}}
                         <div class="card shadow-sm border-0 mb-3 fade-in delay-{{@index}}">
@@ -40,12 +40,12 @@
             </div>
 
             <div class="col-md-6">
-                <h5 class="text-primary fw-semibold mb-3">Tus partidas</h5>
+                <h5 class="fw-semibold mb-3" style="color: #007bff">Tus partidas</h5>
                 <div class="overflow-auto seccion-scrollable">
                     {{#mis_partidas}}
                         <div class="card shadow-sm border-0 mb-3 fade-in delay-1">
                             <div class="card-body d-flex justify-content-between align-items-center">
-                                <span class="fw-medium text-primary">Tú</span>
+                                <span class="fw-medium" style="color: #007bff">Tú</span>
                                 <span class="badge bg-success-subtle text-success fw-semibold">+{{puntaje_total}} pts</span>
                             </div>
                         </div>
