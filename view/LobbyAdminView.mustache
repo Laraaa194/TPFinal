@@ -50,8 +50,10 @@
             <div class="col">
                 <div class="panel">
                     <h5 class="fs-5 text-success mb-4">Usuarios por país</h5>
-                    <p>🇮🇹 5 &nbsp;&nbsp; 🇧🇷 100</p>
-                    <p>🇪🇸 30 &nbsp;&nbsp; 🇦🇷 500</p>
+                    <script>
+                        window.datosGraficoPorPais = JSON.parse('{{{datosJugadoresPorPaisJSON}}}');
+                    </script>
+                    <div id="grafico-por-pais" style="height: 300px; width: 100%;"></div>
                 </div>
             </div>
             <div class="col">
@@ -140,3 +142,4 @@
 <script src="/public/Js/GraficoPreguntasCreadas.js"></script>
 <script src="/public/Js/GraficosFiltroSelect.js"></script>
 <script src="/public/Js/GenerarPDF.js"></script>
+<script src="/public/Js/GraficoPorPais.js"></script>

@@ -253,5 +253,29 @@ class EstadisticasAdminModel
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function obtenerJugadoresPorPais()
+    {
+        $conn = $this->connect();
+        $sql =  "SELECT 
+        CASE 
+            WHEN latitud BETWEEN -56 AND -20 AND longitud BETWEEN -76 AND -53 THEN 'Argentina'
+            WHEN latitud BETWEEN -36 AND -29 AND longitud BETWEEN -58 AND -53 THEN 'Uruguay'
+            WHEN latitud BETWEEN 35 AND 45 AND longitud BETWEEN -10 AND 5 THEN 'España'
+            WHEN latitud BETWEEN -5 AND 14 AND longitud BETWEEN -80 AND -65 THEN 'Colombia'
+            WHEN latitud BETWEEN -5 AND 3 AND longitud BETWEEN -83 AND -74 THEN 'Ecuador'
+            WHEN latitud BETWEEN 7 AND 10 AND longitud BETWEEN -83 AND -77 THEN 'Panamá'
+            ELSE 'Otro'
+        END AS pais,
+        COUNT(*) AS cantidad
+    FROM usuario
+    GROUP BY pais
+    ORDER BY cantidad DESC";
+
+        $result = $conn->query($sql);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+
 
 }

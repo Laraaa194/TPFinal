@@ -31,7 +31,7 @@ class GraficosHelper
         $formateados = [];
 
         // Formato para preguntas por categoría (sin color)
-        $formatoCategoria = [['Categoría', 'Cantidad']];
+        $formatoCategoria = [['Categoría ', 'Cantidad ']];
         foreach ($datos['por_categoria'] as $fila) {
             $formatoCategoria[] = [$fila['categoria'], (int)$fila['cantidad']];
         }
@@ -49,7 +49,7 @@ class GraficosHelper
 
     public static function formatearParaGraficoPreguntasCreadas($datos): string
     {
-        $formato = [['Categoría', 'Por editor', 'Por jugadores']];
+        $formato = [['Categoría', 'Por editor ', 'Por jugadores ']];
 
         foreach ($datos as $fila) {
             $formato[] = [
@@ -82,7 +82,7 @@ class GraficosHelper
                 $columnaTiempo = 'Periodo';
         }
 
-        $formato = [[$columnaTiempo, 'Cantidad']];
+        $formato = [[$columnaTiempo, 'Cantidad ']];
 
         foreach ($datos as $fila) {
             $formato[] = [$fila['periodo'], (int)$fila['cantidad']];
@@ -110,7 +110,7 @@ class GraficosHelper
                 $columnaTiempo = 'Periodo';
         }
 
-        $resultado = [[$columnaTiempo, 'Cantidad']];
+        $resultado = [[$columnaTiempo, 'Cantidad ']];
 
         foreach ($datos as $fila) {
             $resultado[] = [$fila['periodo'], (int)$fila['cantidad']];
@@ -138,13 +138,27 @@ class GraficosHelper
                 $columnaTiempo = 'Periodo';
         }
 
-        $resultado = [[$columnaTiempo, 'Jugadores Activos']];
+        $resultado = [[$columnaTiempo, 'Jugadores Activos ']];
 
         foreach ($datos as $fila) {
             $resultado[] = [$fila['periodo'], (int)$fila['cantidad']];
         }
 
         return json_encode($resultado);
+    }
+
+    public static function formatearJugadoresPorPaisParaGrafico($datos): string
+    {
+        $formato = [['País', 'Jugadores ']];
+
+        foreach ($datos as $fila) {
+            $formato[] = [
+                $fila['pais'],
+                (int)$fila['cantidad']
+            ];
+        }
+
+        return json_encode($formato);
     }
 
 

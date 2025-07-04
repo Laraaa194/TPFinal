@@ -33,6 +33,8 @@ class LobbyAdminController
 
             'datosPreguntasCreadasJSON' => $this->obtenerPreguntasCreadas()['datosPreguntasCreadasJSON'],
 
+            'datosJugadoresPorPaisJSON' => $this->getJugadoresPorPais()['datosJugadoresPorPaisJSON'],
+
         ];
         if (isset($_SESSION['success'])) {
             $data['success'] = $_SESSION['success'];
@@ -130,6 +132,16 @@ class LobbyAdminController
         $formateado = GraficosHelper::formatearJugadoresActivosParaGrafico($datos,$filtro);
         header('Content-Type: application/json');
         echo $formateado;
+    }
+
+
+    public function  getJugadoresPorPais(){
+        $datos = $this->model->obtenerJugadoresPorPais();
+
+        $datosFormateados = GraficosHelper::formatearJugadoresPorPaisParaGrafico($datos);
+        return [
+            'datosJugadoresPorPaisJSON' => $datosFormateados
+        ];
     }
 
 
