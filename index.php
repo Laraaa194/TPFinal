@@ -11,7 +11,6 @@ $params = $_GET["params"] ?? "";
 $configuration->validateSession($controller);
 $configuration->validateRole($controller);
 
-
 $router->go(
     $controller,
     $method,

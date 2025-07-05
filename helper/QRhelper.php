@@ -7,7 +7,6 @@ class QRhelper
     {
         require_once __DIR__ . '/../vendor/phpqrcode/qrlib.php';
 
-        // Mapear nivel a constante (L, M, Q, H)
         $niveles = [
             'L' => QR_ECLEVEL_L,
             'M' => QR_ECLEVEL_M,

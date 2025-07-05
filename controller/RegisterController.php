@@ -20,6 +20,25 @@ class RegisterController
 
         ];
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
+            if ($_POST['accion'] === 'validarEmail' && isset($_POST['correo'])) {
+                $correo = trim($_POST['correo']);
+                $usuario = $this->model->getCorreoUsuario($correo);
+
+                header('Content-Type: application/json');
+                echo json_encode(['existe' => $usuario !== null]);
+                exit;
+            }
+
+            if ($_POST['accion'] === 'validarNombreUsuario' && isset($_POST['nombreUsuario'])) {
+                $nombreUsuario = trim($_POST['nombreUsuario']);
+                $usuario = $this->model->getUsuario($nombreUsuario);
+
+                header('Content-Type: application/json');
+                echo json_encode(['existe' => $usuario !== null]);
+                exit;
+            }
+        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -135,5 +154,8 @@ class RegisterController
         $dataRegister['title'] = 'Registro';
         $this->view->render("Register", $dataRegister);
     }
+
+
+
 
 }

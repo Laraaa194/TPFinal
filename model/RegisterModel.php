@@ -26,6 +26,7 @@ class RegisterModel
         return $result->fetch_assoc();
     }
 
+
     public function getIdSexos($sexo)
     {
         $Sexo= strtolower($sexo);
