@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3307
--- Tiempo de generación: 23-06-2025 a las 01:05:54
+-- Tiempo de generación: 04-07-2025 a las 22:20:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -49,18 +49,6 @@ INSERT INTO `categoria` (`id`, `nombre`, `color`, `color_fondo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ciudad`
---
-
-CREATE TABLE `ciudad` (
-  `id_ciudad` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `id_pais` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `dificultad`
 --
 
@@ -89,19 +77,21 @@ CREATE TABLE `historial_moderacion` (
   `id_editor` int(11) DEFAULT NULL,
   `tipo_accion` varchar(50) NOT NULL,
   `detalle` text NOT NULL,
-  `fecha` datetime DEFAULT current_timestamp()
+  `fecha` datetime DEFAULT current_timestamp(),
+  `categoria_pregunta` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `pais`
+-- Volcado de datos para la tabla `historial_moderacion`
 --
 
-CREATE TABLE `pais` (
-  `id_pais` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+INSERT INTO `historial_moderacion` (`id`, `id_editor`, `tipo_accion`, `detalle`, `fecha`, `categoria_pregunta`) VALUES
+(68, 100, 'Agregar Pregunta', 'Se agregó una nueva pregunta: \"¿Qué jugador argentino hizo el último penal en la final del mundial 2022?\" y pasa a estar activa.', '2025-06-22 20:20:59', 2),
+(69, 100, 'Aceptar Solicitud', 'Se aceptó la pregunta sugerida: \"¿Cómo se llama el mejor amigo de Harry Potter?\" y se añadió como pregunta activa.', '2025-06-29 14:46:59', 6),
+(71, 100, 'Editar Pregunta', 'Se efectuaron cambios en la pregunta: \"¿Quién pintó la “Mona Lisa”?\".', '2025-06-29 15:35:50', 4),
+(73, 100, 'Aceptar Solicitud', 'Se aceptó la pregunta sugerida: \"¿Cómo se llama el hechizo de Harry Potter que te asesina?\" y se añadió como pregunta activa.', '2025-06-29 15:39:13', 6),
+(74, 100, 'Aceptar Solicitud', 'Se aceptó la pregunta sugerida: \"¿De qué país es originario el Taekwondo?\" y se añadió como pregunta activa.', '2025-06-29 16:04:31', 2),
+(75, 100, 'Agregar Pregunta', 'Se agregó una nueva pregunta: \"¿Quién fue el Libertador de Argentina?\" y pasa a estar activa.', '2025-07-04 16:40:34', 5);
 
 -- --------------------------------------------------------
 
@@ -199,7 +189,10 @@ INSERT INTO `partida` (`id`, `fecha`, `puntaje_total`, `id_jugador`, `esta_activ
 (193, '2025-06-22 16:14:56', 0, 101, 0),
 (194, '2025-06-22 16:15:18', 0, 101, 0),
 (195, '2025-06-22 17:42:22', 0, 101, 0),
-(196, '2025-06-22 17:42:47', 0, 101, 0);
+(196, '2025-06-22 17:42:47', 0, 101, 0),
+(197, '2025-06-23 20:12:41', 0, 1, 0),
+(198, '2025-07-04 15:23:40', 0, 121, 0),
+(199, '2025-07-04 16:09:09', 1, 121, 0);
 
 -- --------------------------------------------------------
 
@@ -225,7 +218,10 @@ INSERT INTO `partida_pregunta` (`id`, `id_partida`, `id_pregunta`, `respondida_c
 (409, 185, 226, 0),
 (410, 186, 427, 0),
 (411, 187, 131, 1),
-(412, 187, 236, 0);
+(412, 187, 236, 0),
+(413, 198, 109, 0),
+(414, 199, 400, 0),
+(415, 199, 118, 1);
 
 -- --------------------------------------------------------
 
@@ -547,7 +543,14 @@ INSERT INTO `pregunta` (`id`, `id_categoria`, `enunciado`, `id_dificultad`) VALU
 (462, 0, '¿Cuál fue la selección campeona del mundo en fútbol masculino en 2014?', 2),
 (463, 0, '¿Quién es el máximo ganador del Balón de Oro (Premio al mejor futbolista del año)?', 2),
 (480, 0, '¿Qué serie popular está ambientada en Hawkins, Indiana?', 2),
-(481, 1, '¿Qué energía se obtiene del sol?', 2);
+(481, 1, '¿Qué energía se obtiene del sol?', 2),
+(482, 2, '¿Qué jugador argentino hizo el último penal en la final del mundial 2022?', 2),
+(483, 0, '¿Cómo se llama el mejor amigo de Harry Potter?', 2),
+(484, 0, '¿Cómo se llama el hechizo de Harry Potter que te asesina?', 2),
+(485, 0, '¿Cómo se llama el hechizo de Harry Potter que te asesina?', 2),
+(486, 6, '¿Cómo se llama el hechizo de Harry Potter que te asesina?', 2),
+(487, 2, '¿De qué país es originario el Taekwondo?', 2),
+(488, 5, '¿Quién fue el Libertador de Argentina?', 2);
 
 -- --------------------------------------------------------
 
@@ -563,6 +566,13 @@ CREATE TABLE `pregunta_reportada` (
   `estaVerificada` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pregunta_reportada`
+--
+
+INSERT INTO `pregunta_reportada` (`id`, `idPregunta`, `idReporteMotivo`, `fechaReporte`, `estaVerificada`) VALUES
+(19, 400, 3, '2025-07-04 21:34:43', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -574,6 +584,13 @@ CREATE TABLE `pregunta_solicitada` (
   `id_categoria` int(11) NOT NULL,
   `enunciado` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pregunta_solicitada`
+--
+
+INSERT INTO `pregunta_solicitada` (`id`, `id_categoria`, `enunciado`) VALUES
+(26, 3, '¿Cuántos continentes hay en el mundo?');
 
 -- --------------------------------------------------------
 
@@ -600,7 +617,10 @@ INSERT INTO `pregunta_usuario` (`id`, `idusuario`, `idpregunta`, `id_respuesta_e
 (226, 1, 226, 901, 0),
 (227, 1, 427, 1706, 0),
 (228, 1, 131, 523, 1),
-(229, 1, 236, 943, 0);
+(229, 1, 236, 943, 0),
+(230, 121, 109, 433, 0),
+(231, 121, 400, 1598, 0),
+(232, 121, 118, 470, 1);
 
 -- --------------------------------------------------------
 
@@ -1905,7 +1925,27 @@ INSERT INTO `respuesta` (`id`, `id_pregunta`, `texto`, `es_correcta`) VALUES
 (1905, 480, 'Stranger Things', 1),
 (1906, 480, 'Breaking Bad', 0),
 (1907, 480, 'The Walking Dead', 0),
-(1908, 480, 'The Witcher', 0);
+(1908, 480, 'The Witcher', 0),
+(1909, 483, 'Drako', 0),
+(1910, 483, 'Ron', 1),
+(1911, 483, 'Severus', 0),
+(1912, 483, 'Sirius', 0),
+(1913, 484, 'Crucio', 0),
+(1914, 484, 'Expelliarmus', 0),
+(1915, 484, 'Expecto Patronum', 0),
+(1916, 484, 'Avada Kedavra', 1),
+(1917, 485, 'Crucio', 0),
+(1918, 485, 'Expelliarmus', 0),
+(1919, 485, 'Expecto Patronum', 0),
+(1920, 485, 'Avada Kedavra', 1),
+(1921, 486, 'Crucio', 0),
+(1922, 486, 'Expelliarmus', 0),
+(1923, 486, 'Expecto Patronum', 0),
+(1924, 486, 'Avada Kedavra', 1),
+(1925, 487, 'China', 0),
+(1926, 487, 'Japon', 0),
+(1927, 487, 'Corea', 1),
+(1928, 487, 'Filipinas', 0);
 
 -- --------------------------------------------------------
 
@@ -1920,6 +1960,16 @@ CREATE TABLE `respuesta_solicitada` (
   `es_correcta` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `respuesta_solicitada`
+--
+
+INSERT INTO `respuesta_solicitada` (`id`, `id_pregunta`, `texto`, `es_correcta`) VALUES
+(98, 26, '13', 0),
+(99, 26, '4', 0),
+(100, 26, '6', 1),
+(101, 26, '2', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -1930,6 +1980,15 @@ CREATE TABLE `sexo` (
   `id_sexo` int(11) NOT NULL,
   `descripcion` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `sexo`
+--
+
+INSERT INTO `sexo` (`id_sexo`, `descripcion`) VALUES
+(1, 'Femenino'),
+(2, 'Masculino'),
+(3, 'No contesta');
 
 -- --------------------------------------------------------
 
@@ -1965,34 +2024,42 @@ CREATE TABLE `usuario` (
   `id_sexo` int(11) DEFAULT NULL,
   `email` varchar(150) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `id_pais` int(11) DEFAULT NULL,
-  `id_ciudad` int(11) DEFAULT NULL,
   `nombre_usuario` varchar(50) NOT NULL,
   `foto_perfil` varchar(255) DEFAULT NULL,
   `preguntas_recibidas` int(11) DEFAULT 0,
   `preguntas_acertadas` int(11) DEFAULT 0,
-  `id_tipo` int(11) DEFAULT NULL
+  `id_tipo` int(11) DEFAULT NULL,
+  `fecha_registro` datetime NOT NULL DEFAULT current_timestamp(),
+  `token` int(11) NOT NULL,
+  `es_valido` tinyint(1) NOT NULL,
+  `latitud` decimal(10,8) DEFAULT NULL,
+  `longitud` decimal(11,8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `anio_nacimiento`, `id_sexo`, `email`, `password`, `id_pais`, `id_ciudad`, `nombre_usuario`, `foto_perfil`, `preguntas_recibidas`, `preguntas_acertadas`, `id_tipo`) VALUES
-(1, 'Usuario', 'Usuario', '2000', NULL, 'usuario@gmail.com', '$2y$10$kV4qh27UFOLq1bO0MrUJm.T54ENvsWU6.lwG2vZyOZ.siWyHCKoh6', NULL, NULL, 'usuario1', 'usuario1_1748618131.png', 118, 87, 1),
-(2, 'Matías', 'Fernández', '1993', NULL, 'matias.fernandez@example.com', '$2b$12$vqzBDPgL6IPvyLlZQEPjL.K7vQDscnvKBZLleDz7jojJa5Mi37fSC', NULL, NULL, 'matefan', NULL, 0, 0, 1),
-(7, 'Lucía', 'Martínez', '1998', NULL, 'lucia.martinez@example.com', '$2b$12$Gsurp6ym/.N3LvZ2/GNHLe3fdN2OsX7WZ.rBRB0RJ3Q4ZtzBtfdp6', NULL, NULL, 'lucia98', NULL, 8, 4, 1),
-(8, 'Tomás', 'Gómez', '2001', NULL, 'tomas.gomez@example.com', '$2b$12$q62pq.RF3NRVMWO/4/WvOugp6enr89thrAd.Od2ZieYAOOJvJG.n.', NULL, NULL, 'tomi2001', NULL, 10, 6, 1),
-(9, 'Julieta', 'Rodríguez', '1995', NULL, 'julieta.rod@example.com', '$2b$12$rOcX/YSw1vJ4Yw.kW4Nq8Ool.5WazBchu3LpijnQD4.rzqcu2xrNO', NULL, NULL, 'julirod', NULL, 35, 14, 1),
-(10, 'Mariano', 'Fernández', '1999', NULL, 'mariano.fer@example.com', '$2b$12$vOX9/4bSg9MjbJKjwT/2KeBu5xz625bC.meysTeQs7QXNeBmV61QW', NULL, NULL, 'marifer99', NULL, 15, 9, 1),
-(11, 'Carla', 'Pérez', '2002', NULL, 'carla.perez@example.com', '$2b$12$HYi2IP.FFTSkkWS.wRAitOOm4guMbcL1G.wmZbf4RhqZaDtEoIw4m', NULL, NULL, 'carli02', NULL, 25, 12, 1),
-(12, 'Nicolás', 'Suárez', '1997', NULL, 'nicolas.suarez@example.com', '$2b$12$WmaYySG9a3OAxbW2cqKcRe6dlus8M3MpoVxRQ4KIzE46ne1xUDxMq', NULL, NULL, 'nicos', NULL, 3, 1, 1),
-(13, 'Agustina', 'López', '2000', NULL, 'agustina.lopez@example.com', '$2b$12$36U7oxtAUoKPWiAFPeXbvu/x7wnMDm4.ElLT0497PNsBt0FyVdqQm', NULL, NULL, 'agus00', NULL, 0, 0, 1),
-(14, 'Sofía', 'Ruiz', '1996', NULL, 'sofia.ruiz@example.com', '$2b$12$Vjlf8TLic5UUov1aICkyw.lgxDiC5pNdMv779Fyx7va47Q1pEMe.2', NULL, NULL, 'sofiruiz', NULL, 0, 0, 1),
-(15, 'Federico', 'Cabrera', '1994', NULL, 'fede.cabrera@example.com', '$2b$12$ks.eaIhZmZXX5Duvy.NLPeMTEztVC49Hx4/h4lrQNCdsxZOPt3NTq', NULL, NULL, 'fede94', NULL, 0, 0, 1),
-(17, 'rocio', 'gonzales', '2000', NULL, 'ro123@gmail.com', '$2y$10$YNsOf.343fz2A6qpv8Q4X.z/g9q6gNGYyCkZDxlZbMR5oaXUG9R6i', NULL, NULL, 'roo12', NULL, 0, 0, 1),
-(100, 'Juan', 'Perez', '1990', NULL, 'juancito@gmail.com', '$2y$10$eOURax3ZVLt1uZrhgoJOt.guEVHYsPMv0f6xUpHmLi7ZcIBGPepiq', NULL, NULL, 'juan', NULL, 0, 0, 2),
-(101, 'facu', 'vare', '1998', NULL, 'facu@unlam.com', '$2y$10$/bIQmTnOmrpsSssIBy2uW.uYIu6uYVCY7lfQUb7v/97REJPa7s0fC', NULL, NULL, 'facu1', NULL, 6, 0, 1);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `anio_nacimiento`, `id_sexo`, `email`, `password`, `nombre_usuario`, `foto_perfil`, `preguntas_recibidas`, `preguntas_acertadas`, `id_tipo`, `fecha_registro`, `token`, `es_valido`, `latitud`, `longitud`) VALUES
+(1, 'Usuario', 'Usuario', '2000', 3, 'usuario@gmail.com', '$2y$10$kV4qh27UFOLq1bO0MrUJm.T54ENvsWU6.lwG2vZyOZ.siWyHCKoh6', 'usuario1', 'usuario1_1748618131.png', 118, 87, 1, '2025-04-01 09:00:00', 0, 0, -35.00000000, -64.00000000),
+(2, 'Matías', 'Fernández', '1993', 2, 'matias.fernandez@example.com', '$2b$12$vqzBDPgL6IPvyLlZQEPjL.K7vQDscnvKBZLleDz7jojJa5Mi37fSC', 'matefan', NULL, 0, 0, 1, '2025-05-02 10:15:00', 0, 0, 40.41677500, -3.70379000),
+(7, 'Lucía', 'Martínez', '1998', 1, 'lucia.martinez@example.com', '$2b$12$Gsurp6ym/.N3LvZ2/GNHLe3fdN2OsX7WZ.rBRB0RJ3Q4ZtzBtfdp6', 'lucia98', NULL, 8, 4, 1, '2025-05-02 11:30:00', 0, 0, 4.71100000, -74.07210000),
+(8, 'Tomás', 'Gómez', '2001', 2, 'tomas.gomez@example.com', '$2b$12$q62pq.RF3NRVMWO/4/WvOugp6enr89thrAd.Od2ZieYAOOJvJG.n.', 'tomi2001', NULL, 10, 6, 1, '2025-05-04 12:45:00', 0, 0, -32.94420000, -60.65050000),
+(9, 'Julieta', 'Rodríguez', '1995', 1, 'julieta.rod@example.com', '$2b$12$rOcX/YSw1vJ4Yw.kW4Nq8Ool.5WazBchu3LpijnQD4.rzqcu2xrNO', 'julirod', NULL, 35, 14, 1, '2025-05-10 14:00:00', 0, 0, -34.90111200, -56.16453100),
+(10, 'Mariano', 'Fernández', '2010', 3, 'mariano.fer@example.com', '$2b$12$vOX9/4bSg9MjbJKjwT/2KeBu5xz625bC.meysTeQs7QXNeBmV61QW', 'marifer99', NULL, 15, 9, 1, '2025-06-20 20:15:00', 0, 0, -38.00550000, -62.27000000),
+(11, 'Carla', 'Pérez', '2002', 1, 'carla.perez@example.com', '$2b$12$HYi2IP.FFTSkkWS.wRAitOOm4guMbcL1G.wmZbf4RhqZaDtEoIw4m', 'carli02', NULL, 25, 12, 1, '2025-06-06 15:15:00', 0, 0, -0.18065300, -78.46783400),
+(12, 'Nicolás', 'Suárez', '1997', 2, 'nicolas.suarez@example.com', '$2b$12$WmaYySG9a3OAxbW2cqKcRe6dlus8M3MpoVxRQ4KIzE46ne1xUDxMq', 'nicos', NULL, 3, 1, 1, '2025-06-15 16:30:00', 0, 0, 39.90420000, 116.40740000),
+(13, 'Agustina', 'López', '2000', 1, 'agustina.lopez@example.com', '$2b$12$36U7oxtAUoKPWiAFPeXbvu/x7wnMDm4.ElLT0497PNsBt0FyVdqQm', 'agus00', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -26.82410000, -65.22260000),
+(14, 'Sofía', 'Ruiz', '1940', 1, 'sofia.ruiz@example.com', '$2b$12$Vjlf8TLic5UUov1aICkyw.lgxDiC5pNdMv779Fyx7va47Q1pEMe.2', 'sofiruiz', NULL, 0, 0, 1, '2025-06-15 19:00:00', 0, 0, -33.29500000, -68.34520000),
+(15, 'Federico', 'Cabrera', '1994', 2, 'fede.cabrera@example.com', '$2b$12$ks.eaIhZmZXX5Duvy.NLPeMTEztVC49Hx4/h4lrQNCdsxZOPt3NTq', 'fede94', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, 6.24420000, -75.58120000),
+(17, 'rocio', 'gonzales', '2000', 3, 'ro123@gmail.com', '$2y$10$YNsOf.343fz2A6qpv8Q4X.z/g9q6gNGYyCkZDxlZbMR5oaXUG9R6i', 'roo12', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -34.88820000, -56.16140000),
+(100, 'Juan', 'Perez', '1990', 2, 'juancito@gmail.com', '$2y$10$eOURax3ZVLt1uZrhgoJOt.guEVHYsPMv0f6xUpHmLi7ZcIBGPepiq', 'juan', NULL, 0, 0, 2, '2025-06-29 17:22:29', 0, 0, -37.32570000, -57.95450000),
+(101, 'facu', 'vare', '1998', 2, 'facu@unlam.com', '$2y$10$/bIQmTnOmrpsSssIBy2uW.uYIu6uYVCY7lfQUb7v/97REJPa7s0fC', 'facu1', NULL, 6, 0, 1, '2025-06-29 17:22:29', 0, 0, -28.46960000, -59.00460000),
+(102, 'María', 'Gómez', '1990', 1, 'maria.gomez@example.com', '$2y$10$o9bj4ZQ3o4HyYoFzEmuPLe5JfWIk3lwdmNgNLld9MMqLcHHrMZq3i', 'maria', NULL, 0, 0, 3, '2025-06-29 17:22:29', 0, 0, -30.94460000, -60.65250000),
+(103, 'Carlos', 'Dominguez', '1980', 2, 'carlos14@gmail.com', '$2y$10$57AvsZ7Xvp9UIJpLCTU5relLEtL6T4KR0N4s8sLEseqzkrZyiFLOC', 'carlos', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -26.40750000, -65.71880000),
+(104, 'Martina', 'Gomez', '2002', 1, 'mar10@gmail.com', '$2y$10$nKl6r/Sm9Uvb3/yoLLpIJOciJlUXQkK12c8uDvEAusA2zvQqwSKo.', 'maaar', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, 41.38740000, 2.16860000),
+(118, 'sdfa', 'Di Nubila', '2000', 2, 'robertosabia01@gmail.com', '$2y$10$Mylp8/c4UzIK0rgu0PXHkOqySVJnAeQm8UjniYFtZ2pV4HrzX0yjG', 'RobertoSabia', NULL, 0, 0, 1, '2025-07-01 23:48:24', 0, 1, -27.79510000, -60.98140000),
+(121, 'Laura', 'Gonzalez', '1990', 1, 'lauritagonzalez12331@gmail.com', '$2y$10$xmhZARWT5Ib7YGGvMfXlX.slrQs9t9WNArXhzd4ee6tujgmuFhEvK', 'Laurita', NULL, 3, 1, 1, '2025-07-04 14:53:54', 0, 1, -34.82550196, -58.39318693);
 
 --
 -- Índices para tablas volcadas
@@ -2005,13 +2072,6 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `ciudad`
---
-ALTER TABLE `ciudad`
-  ADD PRIMARY KEY (`id_ciudad`),
-  ADD KEY `id_pais` (`id_pais`);
-
---
 -- Indices de la tabla `dificultad`
 --
 ALTER TABLE `dificultad`
@@ -2021,13 +2081,8 @@ ALTER TABLE `dificultad`
 -- Indices de la tabla `historial_moderacion`
 --
 ALTER TABLE `historial_moderacion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `pais`
---
-ALTER TABLE `pais`
-  ADD PRIMARY KEY (`id_pais`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_categoria_pregunta` (`categoria_pregunta`);
 
 --
 -- Indices de la tabla `partida`
@@ -2113,8 +2168,6 @@ ALTER TABLE `usuario`
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
   ADD KEY `id_sexo` (`id_sexo`),
-  ADD KEY `id_pais` (`id_pais`),
-  ADD KEY `id_ciudad` (`id_ciudad`),
   ADD KEY `fk_usuario_tipo` (`id_tipo`);
 
 --
@@ -2128,12 +2181,6 @@ ALTER TABLE `categoria`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `ciudad`
---
-ALTER TABLE `ciudad`
-  MODIFY `id_ciudad` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `dificultad`
 --
 ALTER TABLE `dificultad`
@@ -2143,49 +2190,43 @@ ALTER TABLE `dificultad`
 -- AUTO_INCREMENT de la tabla `historial_moderacion`
 --
 ALTER TABLE `historial_moderacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
-
---
--- AUTO_INCREMENT de la tabla `pais`
---
-ALTER TABLE `pais`
-  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT de la tabla `partida_pregunta`
 --
 ALTER TABLE `partida_pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=413;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=416;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=482;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=489;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_reportada`
 --
 ALTER TABLE `pregunta_reportada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_solicitada`
 --
 ALTER TABLE `pregunta_solicitada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_usuario`
 --
 ALTER TABLE `pregunta_usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT de la tabla `reporte_motivo`
@@ -2197,19 +2238,19 @@ ALTER TABLE `reporte_motivo`
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1909;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1929;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta_solicitada`
 --
 ALTER TABLE `respuesta_solicitada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT de la tabla `sexo`
 --
 ALTER TABLE `sexo`
-  MODIFY `id_sexo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sexo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
@@ -2221,17 +2262,17 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `ciudad`
+-- Filtros para la tabla `historial_moderacion`
 --
-ALTER TABLE `ciudad`
-  ADD CONSTRAINT `ciudad_ibfk_1` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`);
+ALTER TABLE `historial_moderacion`
+  ADD CONSTRAINT `fk_categoria_pregunta` FOREIGN KEY (`categoria_pregunta`) REFERENCES `categoria` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `partida`
@@ -2277,9 +2318,7 @@ ALTER TABLE `respuesta_solicitada`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `fk_usuario_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_usuario` (`id`),
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`),
-  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`),
-  ADD CONSTRAINT `usuario_ibfk_3` FOREIGN KEY (`id_ciudad`) REFERENCES `ciudad` (`id_ciudad`);
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
