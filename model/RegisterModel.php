@@ -97,7 +97,22 @@ class RegisterModel
         $stmt->bind_param("i", $idJugador);
         return $stmt->execute();
     }
-    public function generarToken(){
-        return random_int(100000, 999999);
+    private function generarToken(){
+        $token= random_int(100000, 999999);
+        while ($this->existeToken($token)){
+            $token = random_int(100000, 999999);
+        }
+        return $token;
+    }
+
+    private function existeToken($token){
+        $conn = $this->connect();
+
+        $stmt = $conn->prepare("SELECT 1 FROM usuario WHERE token = ? LIMIT 1");
+        $stmt->bind_param("s", $token);
+        $stmt->execute();
+        $stmt->store_result();
+
+        return $stmt->num_rows > 0;
     }
 }
