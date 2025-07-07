@@ -25,7 +25,7 @@ class PreguntaController
     {
 
         $data = $this->obtenerPreguntaDesdeSesion();
-        if ($data) { //si ya hay una pregunta en la sesion mostrarla
+        if ($data) {
             $this->view->render("Pregunta", $data);
             return;
         }
@@ -105,6 +105,10 @@ class PreguntaController
 
             $this->model->setDificultadPregunta($preguntaId);
             RedirectHelper::redirectTo("Resultado/show");
+        }else{
+            $this->checkTiempoLimite((int)$_SESSION['id_pregunta']);
+
+            RedirectHelper::redirectTo("Resultado/show");
         }
     }
 
@@ -174,22 +178,25 @@ class PreguntaController
     private function checkTiempoLimite(int $preguntaId)
     {
         $tiempoActual = time();
-        $tiempoInicio = $_SESSION['tiempo_inicio_pregunta'] ?? 0;
+        $tiempoInicio = $_SESSION['tiempo_inicio_pregunta'];
         $tiempoLimite = 10;
 
+
         if (($tiempoActual - $tiempoInicio) > $tiempoLimite) {
-            $_SESSION['respuesta_correcta'] = false;
+
+            $_SESSION['respuesta_correcta'] = 0;
             $_SESSION['respuesta_correcta_id'] = $this->model->getRespuestaCorrectaId($preguntaId);
             $_SESSION['respuesta_ingresada'] = null;
             $idPartida = $_SESSION['partida']['id'];
 
             $this->partidaPreguntaModel->registrarTurno($idPartida, $preguntaId, false);
+            $this->preguntaUsuarioModel->registrarPreguntaUsuario($_SESSION['usuario']['id'], $preguntaId, $_SESSION['respuesta_ingresada'], $_SESSION['respuesta_correcta']);
 
-            RedirectHelper::redirectTo("Resultado/show");
+
         }
-    }
+    }}
 
 
 
 
-}
+
