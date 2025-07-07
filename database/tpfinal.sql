@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3307
--- Tiempo de generación: 04-07-2025 a las 22:20:23
+-- Tiempo de generación: 07-07-2025 a las 21:34:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -192,7 +192,47 @@ INSERT INTO `partida` (`id`, `fecha`, `puntaje_total`, `id_jugador`, `esta_activ
 (196, '2025-06-22 17:42:47', 0, 101, 0),
 (197, '2025-06-23 20:12:41', 0, 1, 0),
 (198, '2025-07-04 15:23:40', 0, 121, 0),
-(199, '2025-07-04 16:09:09', 1, 121, 0);
+(199, '2025-07-04 16:09:09', 1, 121, 0),
+(200, '2025-07-06 20:07:05', 0, 121, 0),
+(201, '2025-07-06 20:47:24', 0, 121, 0),
+(202, '2025-07-06 20:47:34', 2, 121, 0),
+(203, '2025-07-07 14:08:53', 0, 121, 0),
+(204, '2025-07-07 14:09:08', 3, 121, 0),
+(205, '2025-07-07 14:14:37', 0, 121, 0),
+(206, '2025-07-07 14:15:27', 0, 121, 0),
+(207, '2025-07-07 14:26:48', 0, 121, 0),
+(208, '2025-07-07 14:29:53', 0, 121, 0),
+(209, '2025-07-07 14:34:23', 0, 121, 0),
+(210, '2025-07-07 14:35:29', 0, 121, 0),
+(211, '2025-07-07 14:42:41', 0, 121, 0),
+(212, '2025-07-07 14:44:23', 0, 121, 0),
+(213, '2025-07-07 15:13:56', 0, 121, 0),
+(214, '2025-07-07 15:15:08', 0, 121, 0),
+(215, '2025-07-07 15:17:07', 0, 121, 0),
+(216, '2025-07-07 15:21:32', 0, 121, 0),
+(217, '2025-07-07 15:28:59', 0, 121, 0),
+(218, '2025-07-07 15:29:53', 1, 121, 0),
+(219, '2025-07-07 15:34:10', 0, 121, 0),
+(220, '2025-07-07 15:40:47', 0, 121, 0),
+(221, '2025-07-07 15:45:01', 0, 121, 0),
+(222, '2025-07-07 15:47:01', 0, 121, 0),
+(223, '2025-07-07 15:47:23', 0, 121, 0),
+(224, '2025-07-07 15:51:23', 0, 121, 0),
+(225, '2025-07-07 15:58:21', 0, 121, 0),
+(226, '2025-07-07 15:58:50', 0, 121, 0),
+(227, '2025-07-07 16:04:38', 0, 121, 0),
+(228, '2025-07-07 16:05:18', 0, 121, 0),
+(229, '2025-07-07 16:06:35', 0, 121, 0),
+(230, '2025-07-07 16:07:22', 0, 121, 0),
+(231, '2025-07-07 16:11:41', 0, 121, 0),
+(232, '2025-07-07 16:13:54', 0, 121, 0),
+(233, '2025-07-07 16:15:38', 0, 121, 0),
+(234, '2025-07-07 16:16:05', 0, 121, 0),
+(235, '2025-07-07 16:16:41', 0, 121, 0),
+(236, '2025-07-07 16:17:34', 0, 121, 0),
+(237, '2025-07-07 16:18:23', 0, 121, 0),
+(238, '2025-07-07 16:19:24', 3, 121, 0),
+(239, '2025-07-07 16:29:21', 1, 121, 0);
 
 -- --------------------------------------------------------
 
@@ -221,7 +261,40 @@ INSERT INTO `partida_pregunta` (`id`, `id_partida`, `id_pregunta`, `respondida_c
 (412, 187, 236, 0),
 (413, 198, 109, 0),
 (414, 199, 400, 0),
-(415, 199, 118, 1);
+(415, 199, 118, 1),
+(416, 200, 32, 0),
+(417, 201, 444, 0),
+(418, 202, 30, 1),
+(419, 202, 97, 1),
+(420, 203, 147, 0),
+(421, 204, 181, 1),
+(422, 204, 31, 1),
+(423, 204, 112, 1),
+(424, 204, 399, 0),
+(425, 206, 447, 0),
+(426, 212, 35, 0),
+(427, 212, 35, 0),
+(428, 212, 35, 0),
+(429, 213, 231, 0),
+(430, 214, 345, 0),
+(431, 215, 222, 0),
+(432, 216, 110, 0),
+(433, 217, 1, 0),
+(434, 218, 61, 1),
+(435, 218, 56, 0),
+(436, 228, 90, 0),
+(437, 233, 379, 0),
+(438, 234, 77, 0),
+(439, 235, 92, 0),
+(440, 236, 116, 0),
+(441, 237, 186, 0),
+(442, 238, 277, 0),
+(443, 238, 26, 1),
+(444, 238, 59, 1),
+(445, 238, 94, 1),
+(446, 239, 432, 0),
+(447, 239, 6, 0),
+(448, 239, 93, 1);
 
 -- --------------------------------------------------------
 
@@ -571,7 +644,10 @@ CREATE TABLE `pregunta_reportada` (
 --
 
 INSERT INTO `pregunta_reportada` (`id`, `idPregunta`, `idReporteMotivo`, `fechaReporte`, `estaVerificada`) VALUES
-(19, 400, 3, '2025-07-04 21:34:43', 0);
+(19, 400, 3, '2025-07-04 21:34:43', 0),
+(20, 277, 3, '2025-07-07 21:21:20', 0),
+(21, 6, 4, '2025-07-07 21:30:36', 0),
+(22, 93, 2, '2025-07-07 21:30:58', 0);
 
 -- --------------------------------------------------------
 
@@ -590,7 +666,10 @@ CREATE TABLE `pregunta_solicitada` (
 --
 
 INSERT INTO `pregunta_solicitada` (`id`, `id_categoria`, `enunciado`) VALUES
-(26, 3, '¿Cuántos continentes hay en el mundo?');
+(26, 3, '¿Cuántos continentes hay en el mundo?'),
+(27, 2, '¿De qué material está hecha una pelota de Rugby?'),
+(28, 1, '¿Cuál de las siguientes células no existe?'),
+(29, 4, '¿De qué banda es la canción \"Back in black\"?');
 
 -- --------------------------------------------------------
 
@@ -602,7 +681,7 @@ CREATE TABLE `pregunta_usuario` (
   `id` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idpregunta` bigint(20) UNSIGNED NOT NULL,
-  `id_respuesta_elegida` bigint(20) UNSIGNED NOT NULL,
+  `id_respuesta_elegida` bigint(20) UNSIGNED DEFAULT NULL,
   `es_correcta` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -620,7 +699,38 @@ INSERT INTO `pregunta_usuario` (`id`, `idusuario`, `idpregunta`, `id_respuesta_e
 (229, 1, 236, 943, 0),
 (230, 121, 109, 433, 0),
 (231, 121, 400, 1598, 0),
-(232, 121, 118, 470, 1);
+(232, 121, 118, 470, 1),
+(233, 121, 32, 126, 0),
+(234, 121, 444, 1774, 0),
+(235, 121, 30, 120, 1),
+(236, 121, 97, 385, 1),
+(237, 121, 147, 585, 0),
+(238, 121, 181, 722, 1),
+(239, 121, 31, 122, 1),
+(240, 121, 112, 446, 1),
+(241, 121, 399, 1595, 0),
+(242, 121, 447, 1786, 0),
+(244, 121, 35, NULL, 0),
+(245, 121, 231, NULL, 0),
+(246, 121, 345, NULL, 0),
+(247, 121, 222, NULL, 0),
+(248, 121, 110, NULL, 0),
+(249, 121, 1, NULL, 0),
+(250, 121, 61, 242, 1),
+(251, 121, 56, 221, 0),
+(252, 121, 90, NULL, 0),
+(253, 121, 379, NULL, 0),
+(254, 121, 77, NULL, 0),
+(255, 121, 92, NULL, 0),
+(256, 121, 116, NULL, 0),
+(257, 121, 186, 743, 0),
+(258, 121, 277, 1144, 0),
+(259, 121, 26, 103, 1),
+(260, 121, 59, 234, 1),
+(261, 121, 94, 373, 1),
+(262, 121, 432, NULL, 0),
+(263, 121, 6, 24, 0),
+(264, 121, 93, 369, 1);
 
 -- --------------------------------------------------------
 
@@ -1968,7 +2078,19 @@ INSERT INTO `respuesta_solicitada` (`id`, `id_pregunta`, `texto`, `es_correcta`)
 (98, 26, '13', 0),
 (99, 26, '4', 0),
 (100, 26, '6', 1),
-(101, 26, '2', 0);
+(101, 26, '2', 0),
+(102, 27, 'Madera', 0),
+(103, 27, 'Goma', 0),
+(104, 27, 'Papel', 0),
+(105, 27, 'Cuero', 1),
+(106, 28, 'Procariota', 0),
+(107, 28, 'Eucariota', 0),
+(108, 28, 'Monocariota', 1),
+(109, 28, 'Todas las anteriores existen', 0),
+(110, 29, 'Rolling Stones', 0),
+(111, 29, 'AC/DC', 1),
+(112, 29, 'Led Zeppelin', 0),
+(113, 29, 'Black Sabbath', 0);
 
 -- --------------------------------------------------------
 
@@ -2041,25 +2163,25 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `anio_nacimiento`, `id_sexo`, `email`, `password`, `nombre_usuario`, `foto_perfil`, `preguntas_recibidas`, `preguntas_acertadas`, `id_tipo`, `fecha_registro`, `token`, `es_valido`, `latitud`, `longitud`) VALUES
-(1, 'Usuario', 'Usuario', '2000', 3, 'usuario@gmail.com', '$2y$10$kV4qh27UFOLq1bO0MrUJm.T54ENvsWU6.lwG2vZyOZ.siWyHCKoh6', 'usuario1', 'usuario1_1748618131.png', 118, 87, 1, '2025-04-01 09:00:00', 0, 0, -35.00000000, -64.00000000),
-(2, 'Matías', 'Fernández', '1993', 2, 'matias.fernandez@example.com', '$2b$12$vqzBDPgL6IPvyLlZQEPjL.K7vQDscnvKBZLleDz7jojJa5Mi37fSC', 'matefan', NULL, 0, 0, 1, '2025-05-02 10:15:00', 0, 0, 40.41677500, -3.70379000),
-(7, 'Lucía', 'Martínez', '1998', 1, 'lucia.martinez@example.com', '$2b$12$Gsurp6ym/.N3LvZ2/GNHLe3fdN2OsX7WZ.rBRB0RJ3Q4ZtzBtfdp6', 'lucia98', NULL, 8, 4, 1, '2025-05-02 11:30:00', 0, 0, 4.71100000, -74.07210000),
+(1, 'Usuario', 'Usuario', '2000', 3, 'usuario@gmail.com', '$2y$10$kV4qh27UFOLq1bO0MrUJm.T54ENvsWU6.lwG2vZyOZ.siWyHCKoh6', 'usuario1', 'usuario1_1748618131.png', 118, 87, 1, '2025-04-01 09:00:00', 0, 1, -35.00000000, -64.00000000),
+(2, 'Matías', 'Fernández', '1993', 2, 'matias.fernandez@example.com', '$2b$12$vqzBDPgL6IPvyLlZQEPjL.K7vQDscnvKBZLleDz7jojJa5Mi37fSC', 'matefan', NULL, 0, 0, 1, '2025-05-02 10:15:00', 0, 0, -34.60370000, -58.38160000),
+(7, 'Lucía', 'Martínez', '1998', 1, 'lucia.martinez@example.com', '$2b$12$Gsurp6ym/.N3LvZ2/GNHLe3fdN2OsX7WZ.rBRB0RJ3Q4ZtzBtfdp6', 'lucia98', NULL, 8, 4, 1, '2025-05-02 11:30:00', 0, 0, -31.42010000, -64.18880000),
 (8, 'Tomás', 'Gómez', '2001', 2, 'tomas.gomez@example.com', '$2b$12$q62pq.RF3NRVMWO/4/WvOugp6enr89thrAd.Od2ZieYAOOJvJG.n.', 'tomi2001', NULL, 10, 6, 1, '2025-05-04 12:45:00', 0, 0, -32.94420000, -60.65050000),
-(9, 'Julieta', 'Rodríguez', '1995', 1, 'julieta.rod@example.com', '$2b$12$rOcX/YSw1vJ4Yw.kW4Nq8Ool.5WazBchu3LpijnQD4.rzqcu2xrNO', 'julirod', NULL, 35, 14, 1, '2025-05-10 14:00:00', 0, 0, -34.90111200, -56.16453100),
+(9, 'Julieta', 'Rodríguez', '1995', 1, 'julieta.rod@example.com', '$2b$12$rOcX/YSw1vJ4Yw.kW4Nq8Ool.5WazBchu3LpijnQD4.rzqcu2xrNO', 'julirod', NULL, 35, 14, 1, '2025-05-10 14:00:00', 0, 0, -24.78210000, -65.42320000),
 (10, 'Mariano', 'Fernández', '2010', 3, 'mariano.fer@example.com', '$2b$12$vOX9/4bSg9MjbJKjwT/2KeBu5xz625bC.meysTeQs7QXNeBmV61QW', 'marifer99', NULL, 15, 9, 1, '2025-06-20 20:15:00', 0, 0, -38.00550000, -62.27000000),
-(11, 'Carla', 'Pérez', '2002', 1, 'carla.perez@example.com', '$2b$12$HYi2IP.FFTSkkWS.wRAitOOm4guMbcL1G.wmZbf4RhqZaDtEoIw4m', 'carli02', NULL, 25, 12, 1, '2025-06-06 15:15:00', 0, 0, -0.18065300, -78.46783400),
-(12, 'Nicolás', 'Suárez', '1997', 2, 'nicolas.suarez@example.com', '$2b$12$WmaYySG9a3OAxbW2cqKcRe6dlus8M3MpoVxRQ4KIzE46ne1xUDxMq', 'nicos', NULL, 3, 1, 1, '2025-06-15 16:30:00', 0, 0, 39.90420000, 116.40740000),
+(11, 'Carla', 'Pérez', '2002', 1, 'carla.perez@example.com', '$2b$12$HYi2IP.FFTSkkWS.wRAitOOm4guMbcL1G.wmZbf4RhqZaDtEoIw4m', 'carli02', NULL, 25, 12, 1, '2025-06-06 15:15:00', 0, 0, -27.46060000, -58.57440000),
+(12, 'Nicolás', 'Suárez', '1997', 2, 'nicolas.suarez@example.com', '$2b$12$WmaYySG9a3OAxbW2cqKcRe6dlus8M3MpoVxRQ4KIzE46ne1xUDxMq', 'nicos', NULL, 3, 1, 1, '2025-06-15 16:30:00', 0, 0, -31.53750000, -65.21760000),
 (13, 'Agustina', 'López', '2000', 1, 'agustina.lopez@example.com', '$2b$12$36U7oxtAUoKPWiAFPeXbvu/x7wnMDm4.ElLT0497PNsBt0FyVdqQm', 'agus00', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -26.82410000, -65.22260000),
 (14, 'Sofía', 'Ruiz', '1940', 1, 'sofia.ruiz@example.com', '$2b$12$Vjlf8TLic5UUov1aICkyw.lgxDiC5pNdMv779Fyx7va47Q1pEMe.2', 'sofiruiz', NULL, 0, 0, 1, '2025-06-15 19:00:00', 0, 0, -33.29500000, -68.34520000),
-(15, 'Federico', 'Cabrera', '1994', 2, 'fede.cabrera@example.com', '$2b$12$ks.eaIhZmZXX5Duvy.NLPeMTEztVC49Hx4/h4lrQNCdsxZOPt3NTq', 'fede94', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, 6.24420000, -75.58120000),
-(17, 'rocio', 'gonzales', '2000', 3, 'ro123@gmail.com', '$2y$10$YNsOf.343fz2A6qpv8Q4X.z/g9q6gNGYyCkZDxlZbMR5oaXUG9R6i', 'roo12', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -34.88820000, -56.16140000),
-(100, 'Juan', 'Perez', '1990', 2, 'juancito@gmail.com', '$2y$10$eOURax3ZVLt1uZrhgoJOt.guEVHYsPMv0f6xUpHmLi7ZcIBGPepiq', 'juan', NULL, 0, 0, 2, '2025-06-29 17:22:29', 0, 0, -37.32570000, -57.95450000),
+(15, 'Federico', 'Cabrera', '1994', 2, 'fede.cabrera@example.com', '$2b$12$ks.eaIhZmZXX5Duvy.NLPeMTEztVC49Hx4/h4lrQNCdsxZOPt3NTq', 'fede94', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -29.41310000, -66.85580000),
+(17, 'rocio', 'gonzales', '2000', 3, 'ro123@gmail.com', '$2y$10$YNsOf.343fz2A6qpv8Q4X.z/g9q6gNGYyCkZDxlZbMR5oaXUG9R6i', 'roo12', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -34.92140000, -57.95440000),
+(100, 'Juan', 'Perez', '1990', 2, 'juancito@gmail.com', '$2y$10$eOURax3ZVLt1uZrhgoJOt.guEVHYsPMv0f6xUpHmLi7ZcIBGPepiq', 'juan', NULL, 0, 0, 2, '2025-06-29 17:22:29', 0, 1, -37.32570000, -57.95450000),
 (101, 'facu', 'vare', '1998', 2, 'facu@unlam.com', '$2y$10$/bIQmTnOmrpsSssIBy2uW.uYIu6uYVCY7lfQUb7v/97REJPa7s0fC', 'facu1', NULL, 6, 0, 1, '2025-06-29 17:22:29', 0, 0, -28.46960000, -59.00460000),
-(102, 'María', 'Gómez', '1990', 1, 'maria.gomez@example.com', '$2y$10$o9bj4ZQ3o4HyYoFzEmuPLe5JfWIk3lwdmNgNLld9MMqLcHHrMZq3i', 'maria', NULL, 0, 0, 3, '2025-06-29 17:22:29', 0, 0, -30.94460000, -60.65250000),
+(102, 'María', 'Gómez', '1990', 1, 'maria.gomez@example.com', '$2y$10$o9bj4ZQ3o4HyYoFzEmuPLe5JfWIk3lwdmNgNLld9MMqLcHHrMZq3i', 'maria', NULL, 0, 0, 3, '2025-06-29 17:22:29', 0, 1, -30.94460000, -60.65250000),
 (103, 'Carlos', 'Dominguez', '1980', 2, 'carlos14@gmail.com', '$2y$10$57AvsZ7Xvp9UIJpLCTU5relLEtL6T4KR0N4s8sLEseqzkrZyiFLOC', 'carlos', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -26.40750000, -65.71880000),
-(104, 'Martina', 'Gomez', '2002', 1, 'mar10@gmail.com', '$2y$10$nKl6r/Sm9Uvb3/yoLLpIJOciJlUXQkK12c8uDvEAusA2zvQqwSKo.', 'maaar', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, 41.38740000, 2.16860000),
+(104, 'Martina', 'Gomez', '2002', 1, 'mar10@gmail.com', '$2y$10$nKl6r/Sm9Uvb3/yoLLpIJOciJlUXQkK12c8uDvEAusA2zvQqwSKo.', 'maaar', NULL, 0, 0, 1, '2025-06-29 17:22:29', 0, 0, -34.72650000, -59.10710000),
 (118, 'sdfa', 'Di Nubila', '2000', 2, 'robertosabia01@gmail.com', '$2y$10$Mylp8/c4UzIK0rgu0PXHkOqySVJnAeQm8UjniYFtZ2pV4HrzX0yjG', 'RobertoSabia', NULL, 0, 0, 1, '2025-07-01 23:48:24', 0, 1, -27.79510000, -60.98140000),
-(121, 'Laura', 'Gonzalez', '1990', 1, 'lauritagonzalez12331@gmail.com', '$2y$10$xmhZARWT5Ib7YGGvMfXlX.slrQs9t9WNArXhzd4ee6tujgmuFhEvK', 'Laurita', NULL, 3, 1, 1, '2025-07-04 14:53:54', 0, 1, -34.82550196, -58.39318693);
+(121, 'Laura', 'Gonzalez', '1990', 1, 'lauritagonzalez12331@gmail.com', '$2y$10$xmhZARWT5Ib7YGGvMfXlX.slrQs9t9WNArXhzd4ee6tujgmuFhEvK', 'Laurita', NULL, 51, 11, 1, '2025-07-04 14:53:54', 0, 1, -34.82550196, -58.39318693);
 
 --
 -- Índices para tablas volcadas
@@ -2196,13 +2318,13 @@ ALTER TABLE `historial_moderacion`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
 --
 -- AUTO_INCREMENT de la tabla `partida_pregunta`
 --
 ALTER TABLE `partida_pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=416;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=449;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -2214,19 +2336,19 @@ ALTER TABLE `pregunta`
 -- AUTO_INCREMENT de la tabla `pregunta_reportada`
 --
 ALTER TABLE `pregunta_reportada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_solicitada`
 --
 ALTER TABLE `pregunta_solicitada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_usuario`
 --
 ALTER TABLE `pregunta_usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT de la tabla `reporte_motivo`
@@ -2244,7 +2366,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `respuesta_solicitada`
 --
 ALTER TABLE `respuesta_solicitada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `sexo`
