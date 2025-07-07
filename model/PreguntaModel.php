@@ -160,7 +160,7 @@ public function getCategorias(): array
             $intentos++;
         } while (
             $this->preguntaUsuarioModel->getPreguntaRepetida($idUsuario, $pregunta['id']) !== null
-            && $intentos < $maxIntentos // 2 < 2
+            && $intentos < $maxIntentos
         );
 
         if ($intentos >= $maxIntentos) {
@@ -232,7 +232,6 @@ public function getCategorias(): array
     {
         $conn = $this->connect();
 
-        // Paso 1: contar total de respuestas
         $stmtTotal = $conn->prepare("SELECT COUNT(*) as total FROM partida_pregunta WHERE id_pregunta = ?");
         $stmtTotal->bind_param("i", $idPregunta);
         $stmtTotal->execute();
@@ -240,12 +239,11 @@ public function getCategorias(): array
         $total = $resultTotal->fetch_assoc()['total'];
         $stmtTotal->close();
 
-        // Ignorar si hay menos de 10 respuestas
+
         if ($total < 10) {
             return;
         }
 
-        // Paso 2: contar respuestas correctas
         $stmtCorrectas = $conn->prepare("SELECT COUNT(*) as correctas FROM partida_pregunta WHERE id_pregunta = ? AND respondida_correctamente = 1");
         $stmtCorrectas->bind_param("i", $idPregunta);
         $stmtCorrectas->execute();
@@ -253,10 +251,10 @@ public function getCategorias(): array
         $correctas = $resultCorrectas->fetch_assoc()['correctas'];
         $stmtCorrectas->close();
 
-        // Paso 3: calcular porcentaje
+
         $porcentaje = ($correctas / $total) * 100;
 
-        // Paso 4: determinar dificultad
+
         if ($porcentaje >= 70) {
             $idDificultad = 1; // fácil
         } elseif ($porcentaje >= 30) {
@@ -265,7 +263,7 @@ public function getCategorias(): array
             $idDificultad = 3; // difícil
         }
 
-        // Paso 5: actualizar pregunta
+
         $stmtUpdate = $conn->prepare("UPDATE pregunta SET id_dificultad = ? WHERE id = ?");
         $stmtUpdate->bind_param("ii", $idDificultad, $idPregunta);
         $stmtUpdate->execute();

@@ -25,7 +25,7 @@ class PreguntaController
     {
 
         $data = $this->obtenerPreguntaDesdeSesion();
-        if ($data) { //si ya hay una pregunta en la sesion mostrarla
+        if ($data) {
             $this->view->render("Pregunta", $data);
             return;
         }

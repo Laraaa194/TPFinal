@@ -11,7 +11,7 @@ class ResultadoController
 
     public function show()
     {
-//        $this->unsetDatos();
+
 
         $timeout = isset($_GET['timeout']) && $_GET['timeout'] == 1;
         if ($timeout) {
@@ -75,56 +75,6 @@ class ResultadoController
     }
 
 
-//    private function getResultadoDeSesion()
-//    {
-//        if (!isset($_SESSION['pregunta'], $_SESSION['respuestas'], $_SESSION['id_pregunta'], $_SESSION['categoria_elegida'])) {
-//            return null;
-//        }
-//        return [
-//            'pregunta' => $_SESSION['pregunta'],
-//            'respuestas' => $_SESSION['respuestas'],
-//            'respuesta_id' => $_SESSION['respuesta_ingresada'],
-//            'nombre_boton' => $_SESSION['nombre_boton'],
-//            'botonRedirect' =>  $_SESSION['boton_redirect'],
-//            'esCorrecta' => $_SESSION['respuesta_correcta'],
-//            'categoria' => $_SESSION['categoria_elegida']['nombre'],
-//            'color_pregunta' => $_SESSION['categoria_elegida']['color'],
-//            'color_fondo' => $_SESSION['categoria_elegida']['color_fondo'],
-//            'id_pregunta' => $_SESSION['id_pregunta'],
-//            'mensaje'=> $_SESSION['mensaje_resultado']
-//        ];
-//    }
-
-//    private function unsetDatos()
-//    {
-//        if (isset($_SESSION['resultado_mostrado']) && $_SESSION['resultado_mostrado'] === true) {
-//
-//            $nombreBoton = $_SESSION['nombre_boton'] ?? '';
-//
-//            unset(
-//                $_SESSION['pregunta'],
-//                $_SESSION['respuestas'],
-//                $_SESSION['id_pregunta'],
-//                $_SESSION['respuesta_correcta'],
-//                $_SESSION['respuesta_correcta_id'],
-//                $_SESSION['respuesta_ingresada'],
-//                $_SESSION['tiempo_inicio_pregunta'],
-//                $_SESSION['mensaje_resultado'],
-//                $_SESSION['nombre_boton'],
-//                $_SESSION['boton_redirect'],
-//                $_SESSION['resultado_mostrado']
-//            );
-//
-//            if ($nombreBoton === 'Continuar') {
-//                RedirectHelper::redirectTo('Partida/show');
-//            } else {
-//                RedirectHelper::redirectTo('Partida/terminarPartida');
-//            }
-//
-//            return;
-//        }
-//
-//    }
 
 
 }
